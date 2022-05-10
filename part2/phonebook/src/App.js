@@ -18,6 +18,12 @@ const App = () => {
 			.then(newPerson => setPersons(persons.concat(newPerson)))
 	}
 
+	const deletePerson = person => {
+		if (window.confirm(`Delete ${person.name}`))
+		service.deletePersonById(person.id)
+			.then(data => setPersons(persons.filter(p => p.id !== person.id)))
+	}
+
 	return (
 		<div>
 			<h2>Phonebook</h2>
@@ -25,7 +31,7 @@ const App = () => {
 			<h2>Add a new</h2>
 			<AddNewForm persons={persons} addNewPerson={addNewPerson}/>
 			<h2>Numbers</h2>
-			<PersonList persons={persons}/>
+			<PersonList persons={persons} deletePerson={deletePerson}/>
 		</div>
 	)
 }

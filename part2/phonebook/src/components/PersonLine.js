@@ -1,5 +1,11 @@
-const PersonLine = ({person}) => (
-	<p key={person.name}>{person.name} {person.number}</p>
-)
+const PersonLine = ({person, deletePerson}) => 
+{
+	return (
+		<p key={person.name}>
+			{person.name} {person.number}
+			<button onClick={() => deletePerson(person)}>delete</button>
+		</p>
+	)
+}
 
 export default PersonLine
