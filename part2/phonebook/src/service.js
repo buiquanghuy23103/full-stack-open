@@ -5,6 +5,12 @@ const getAll = () => {
 			.then(response => response.data)
 }
 
+const addNewPerson = newPerson => {
+	return axios.post('http://localhost:3001/persons', newPerson)
+		.then(response => response.data)
+}
+
 export default {
-	getAll
+	getAll,
+	addNewPerson
 }

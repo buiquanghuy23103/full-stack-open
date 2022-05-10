@@ -14,7 +14,8 @@ const App = () => {
 	
 
 	const addNewPerson = (newPerson) => {
-		setPersons(persons.concat(newPerson))
+		service.addNewPerson(newPerson)
+			.then(newPerson => setPersons(persons.concat(newPerson)))
 	}
 
 	return (

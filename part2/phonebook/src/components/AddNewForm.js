@@ -21,7 +21,7 @@ const AddNewForm = ({persons, addNewPerson}) => {
 			const newPerson = {
 				name: newName,
 				number: newNumber,
-				id: persons.length
+				id: Math.random()
 			}
 			addNewPerson(newPerson)
 		}
