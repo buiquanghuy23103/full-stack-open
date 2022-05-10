@@ -26,16 +26,16 @@ const CountryDetail = ({country}) => {
 			<p>Area: {country.area}</p>
 			<h2>Languages</h2>
 			{languages}
-			<img src={country.flags.png}/>
+			<img alt={country.name.common} src={country.flags.png}/>
 		</>
 	)
 }
 
 const FilterResult = ({countries}) => {
 	const length = countries.length
-	if (length == 0)
+	if (length === 0)
 		return (<p>No countries found.</p>)
-	if (length == 1)
+	if (length === 1)
 		return (<CountryDetail country={countries[0]}/>)
 	if (length <= 10)
 		return (<Countries countries={countries}/>)
