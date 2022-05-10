@@ -1,14 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
-const Country = ({country}) => {
-	return (
-		<>
-			<p>{country.name.common}</p>
-		</>
-	)
-}
-
 const CountryDetail = ({country}) => {
 	const languages = Object.entries(country.languages).map(
 		entry => <p>{entry[1]}</p>
