@@ -9,12 +9,6 @@ const Country = ({country}) => {
 	)
 }
 
-const Countries = ({countries}) => {
-	return countries.map(country =>
-		<Country key={country.name.common} country={country}/>
-	)
-}
-
 const CountryDetail = ({country}) => {
 	const languages = Object.entries(country.languages).map(
 		entry => <p>{entry[1]}</p>
@@ -28,6 +22,35 @@ const CountryDetail = ({country}) => {
 			{languages}
 			<img alt={country.name.common} src={country.flags.png}/>
 		</>
+	)
+}
+
+const CountryOverview = ({country}) => {
+	const [show, setShow] = useState(false)
+
+	const showCountryDetail = () => setShow(true)
+	const hideCountryDetail = () => setShow(false)
+
+	if (show)
+		return (
+			<>
+				<CountryDetail country={country}/>
+				<br/>
+				<button onClick={hideCountryDetail}>hide</button>
+			</>
+		)
+
+	return (
+		<p>
+			{country.name.common}
+			<button onClick={showCountryDetail}>show</button>
+		</p>
+	)
+}
+
+const Countries = ({countries}) => {
+	return countries.map(country =>
+		<CountryOverview key={country.name.common} country={country}/>
 	)
 }
 
