@@ -3,9 +3,11 @@ import service from './service'
 import Filter from './components/Filter'
 import PersonList from './components/PersonList'
 import AddNewForm from './components/AddNewForm'
+import Notification from './components/Notification'
 
 const App = () => {
 	const [persons, setPersons] = useState([])
+	const [message, setMessage] = useState(null)
 
 	useEffect(() => {
 		service.getAll()
@@ -15,6 +17,10 @@ const App = () => {
 	const addNewPerson = (newPerson) => {
 		service.addNewPerson(newPerson)
 			.then(newPerson => setPersons(persons.concat(newPerson)))
+		setMessage(`Added ${newPerson.name}`)
+		setTimeout(() => {
+			setMessage(null)
+		}, 2000);
 	}
 
 	const updatePerson = (person) => {
@@ -39,6 +45,7 @@ const App = () => {
 			<h2>Phonebook</h2>
 			<Filter persons={persons}/>
 			<h2>Add a new</h2>
+			<Notification message={message}/>
 			<AddNewForm
 				persons={persons}
 				addNewPerson={addNewPerson}
