@@ -17,7 +17,10 @@ const App = () => {
 	const addNewPerson = (newPerson) => {
 		service.addNewPerson(newPerson)
 			.then(newPerson => setPersons(persons.concat(newPerson)))
-		setMessage(`Added ${newPerson.name}`)
+		setMessage({
+			type: 'success',
+			content: `Added ${newPerson.name}`
+		})
 		setTimeout(() => {
 			setMessage(null)
 		}, 2000);
@@ -35,8 +38,17 @@ const App = () => {
 	const deletePerson = person => {
 		if (window.confirm(`Delete ${person.name}`))
 		{
-			service.deletePersonById(person.id)
+			service.deletePerson(person)
 				.then(_ => setPersons(persons.filter(p => p.id !== person.id)))
+				.catch(error => {
+					const message = { type: 'error', content: 'Error'}
+					if (error.code === 'ERR_BAD_REQUEST')
+					{
+						message.content = `Information of ${person.name} has`
+						+ ` already been removed from server`
+						setMessage(message)
+					}
+				})
 		}
 	}
 

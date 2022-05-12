@@ -12,8 +12,8 @@ const addNewPerson = newPerson => {
 		.then(response => response.data)
 }
 
-const deletePersonById = id => {
-	return axios.delete(`${baseUrl}/persons/${id}`)
+const deletePerson = person => {
+	return axios.delete(`${baseUrl}/persons/${person.id}`)
 		.then(response => response.data)
 }
 
@@ -25,6 +25,6 @@ const updatePerson = person => {
 export default {
 	getAll,
 	addNewPerson,
-	deletePersonById,
+	deletePerson,
 	updatePerson
 }
