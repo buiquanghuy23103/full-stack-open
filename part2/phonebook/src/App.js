@@ -17,6 +17,7 @@ const App = () => {
 	const addNewPerson = (newPerson) => {
 		service.addNewPerson(newPerson)
 			.then(newPerson => {
+				setPersons(persons.concat(newPerson))
 				setMessage({
 					type: 'success',
 					content: `Added ${newPerson.name}`
