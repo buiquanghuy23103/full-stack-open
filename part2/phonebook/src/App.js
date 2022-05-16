@@ -16,14 +16,25 @@ const App = () => {
 
 	const addNewPerson = (newPerson) => {
 		service.addNewPerson(newPerson)
-			.then(newPerson => setPersons(persons.concat(newPerson)))
-		setMessage({
-			type: 'success',
-			content: `Added ${newPerson.name}`
-		})
-		setTimeout(() => {
-			setMessage(null)
-		}, 2000);
+			.then(newPerson => {
+				setMessage({
+					type: 'success',
+					content: `Added ${newPerson.name}`
+				})
+				setTimeout(() => {
+					setMessage(null)
+				}, 2000);
+			})
+			.catch(error => {
+				console.log(error)
+				setMessage({
+					type: 'error',
+					content: error.response.data.error
+				})
+				setTimeout(() => {
+					setMessage(null)
+				}, 2000);
+			})
 	}
 
 	const updatePerson = (person) => {
@@ -32,6 +43,16 @@ const App = () => {
 				setPersons(persons.map(p =>
 					p.id === person.id ? updatedPerson : p
 				))
+			})
+			.catch(error => {
+				console.log(error)
+				setMessage({
+					type: 'error',
+					content: error.response.data.error
+				})
+				setTimeout(() => {
+					setMessage(null)
+				}, 2000);
 			})
 	}
 
@@ -47,6 +68,9 @@ const App = () => {
 						message.content = `Information of ${person.name} has`
 						+ ` already been removed from server`
 						setMessage(message)
+						setTimeout(() => {
+							setMessage(null)
+						}, 2000);
 					}
 				})
 		}
