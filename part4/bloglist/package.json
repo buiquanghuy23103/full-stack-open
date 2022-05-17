@@ -20,5 +20,8 @@
     "eslint": "^8.15.0",
     "jest": "^28.1.0",
     "nodemon": "^2.0.16"
+  },
+  "jest": {
+	  "testEnvironment": "node"
   }
 }
