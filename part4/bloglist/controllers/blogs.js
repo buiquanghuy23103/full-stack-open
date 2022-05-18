@@ -25,6 +25,7 @@ blogRouter.get('/:id', async (request, response, next) => {
 		const foundBlog = await Blog.findById(id)
 		if (!foundBlog)
 			return response.status(404).end()
+		return response.status(200).json(foundBlog)
 	} catch (error) {
 		next(error)
 	}
