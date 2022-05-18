@@ -4,10 +4,10 @@
   "description": "allows users to save information about interesting blogs they have stumbled across on the internet",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --runInBand",
-	"start": "NODE_ENV=production node index.js",
+    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit",
+    "start": "NODE_ENV=production node index.js",
     "dev": "NODE_ENV=development nodemon index.js",
-	"lint": "eslint ."
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
@@ -22,7 +22,8 @@
   "devDependencies": {
     "eslint": "^8.15.0",
     "jest": "^28.1.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "supertest": "^6.2.3"
   },
   "jest": {
     "testEnvironment": "node"
