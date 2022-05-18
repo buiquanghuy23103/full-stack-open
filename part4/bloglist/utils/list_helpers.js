@@ -16,11 +16,7 @@ const favoriteBlog = (blogs) => {
 const mostBlog = (blogs) => {
 	const authorBlog = _.countBy(blogs, 'author')
 	const arr = Object.entries(authorBlog)
-	let max = arr[0]
-	for (const item of arr) {
-		if (item[1] > max[1])
-			max = item
-	}
+	const max = _.maxBy(arr, item => item[1])
 	return {
 		author: max[0],
 		blogs: max[1]
