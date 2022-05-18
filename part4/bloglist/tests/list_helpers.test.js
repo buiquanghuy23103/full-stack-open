@@ -1,4 +1,4 @@
-const { dummy, totalLikes, favoriteBlog } = require('../utils/list_helpers')
+const { dummy, totalLikes, favoriteBlog, mostBlog } = require('../utils/list_helpers')
 
 test('dummy return one', () => {
 	const blogs = []
@@ -102,5 +102,11 @@ describe('optional tests', () => {
 				__v: 0
 			}
 		)
+	})
+	test('mostBlog', () => {
+		expect(mostBlog(blogs)).toEqual({
+			author: 'Robert C. Martin',
+			blogs: 3
+		})
 	})
 })
