@@ -66,13 +66,32 @@ test('dont add blog if author is missing', async () => {
 test('a blog can be deleted by id', async () => {
 	const blogsAtStart = await blogsInDb()
 	const firstBlog = blogsAtStart[0]
-	const id = firstBlog._id.toString()
+	const id = firstBlog.id
 	await api
 		.delete(`/api/blogs/${id}`)
 		.expect(204)
 	const blogsAtEnd = await blogsInDb()
 	console.log(blogsAtEnd)
 	expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
+})
+
+test('a blog can be fetched by id', async () => {
+	const blogs = await blogsInDb()
+	const firstBlog = blogs[0]
+	const id = firstBlog.id
+	const result = await api
+		.get(`/api/blogs/${id}`)
+		.expect(200)
+		.expect('Content-Type', /application\/json/)
+	const body = result.body
+	const processedBlog = JSON.parse(JSON.stringify(firstBlog))
+	expect(body).toEqual(processedBlog)
+})
+
+test('unique identifier property of the blog posts is named id', async () => {
+	const blogs = await blogsInDb()
+	const firstBlog = blogs[0]
+	expect(firstBlog.id).toBeDefined()
 })
 
 afterAll(() => {
