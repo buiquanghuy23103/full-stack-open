@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { initialBlogs, blogsInDb } = require('./test_helpers')
+const { initialBlogs, blogsInDb, nonExistingId, } = require('./test_helpers')
 
 const api = supertest(app)
 
@@ -50,6 +50,20 @@ describe('Viewing a specific blog', () => {
 		const blogs = await blogsInDb()
 		const firstBlog = blogs[0]
 		expect(firstBlog.id).toBeDefined()
+	})
+
+	test('return status 404 if blog does not exist', async () => {
+		const ghostBlogId = await nonExistingId()
+		await api
+			.get(`/api/blogs/${ghostBlogId}`)
+			.expect(404)
+	})
+
+	test('return 400 if id is invalid', async () => {
+		const invalidId = 'abcde12345'
+		await api
+			.get(`/api/blogs/${invalidId}`)
+			.expect(400)
 	})
 })
 
@@ -132,7 +146,8 @@ describe('Delete a blog', () => {
 			.delete(`/api/blogs/${id}`)
 			.expect(204)
 		const blogsAtEnd = await blogsInDb()
-		expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
+		expect(blogsAtEnd).not.toContainEqual(firstBlog)
 	})
 
 })
