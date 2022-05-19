@@ -63,6 +63,18 @@ test('dont add blog if author is missing', async () => {
 	expect(blogs.length).toBe(initialBlogs.length)
 })
 
+test('a blog can be deleted by id', async () => {
+	const blogsAtStart = await blogsInDb()
+	const firstBlog = blogsAtStart[0]
+	const id = firstBlog._id.toString()
+	await api
+		.delete(`/api/blogs/${id}`)
+		.expect(204)
+	const blogsAtEnd = await blogsInDb()
+	console.log(blogsAtEnd)
+	expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
+})
+
 afterAll(() => {
 	mongoose.connection.close()
 })
