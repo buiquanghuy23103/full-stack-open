@@ -47,10 +47,11 @@ test('a valid blog can be added', async () => {
 	expect(blogs.length).toBe(initialBlogs.length + 1)
 })
 
-test('dont add blog if author is missing', async () => {
+test('dont add blog if title is missing', async () => {
 	const newBlog = {
-		title: 'Android vs iOS',
-		url: 'https://abcde.com'
+		author: 'John Doe',
+		url: 'https://abcde.com',
+		likes: 2
 	}
 
 	await api
@@ -62,6 +63,25 @@ test('dont add blog if author is missing', async () => {
 	const blogs = await blogsInDb()
 	expect(blogs.length).toBe(initialBlogs.length)
 })
+
+test('dont add blog if url is missing', async () => {
+	const newBlog = {
+		title: 'Title 1',
+		author: 'John Doe',
+		likes: 2
+	}
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(400)
+		.expect('Content-Type', /application\/json/)
+
+	const blogs = await blogsInDb()
+	expect(blogs.length).toBe(initialBlogs.length)
+})
+
+
 
 test('a blog can be deleted by id', async () => {
 	const blogsAtStart = await blogsInDb()
