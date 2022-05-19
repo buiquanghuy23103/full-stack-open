@@ -152,6 +152,34 @@ describe('Delete a blog', () => {
 
 })
 
+describe('Update a blog', () => { 
+	test('a blog can be updated by id', async () => {
+		const blogsAtStart = await blogsInDb()
+		const firstBlog = blogsAtStart[0]
+		const id = firstBlog.id
+		const update = {
+			author: 'Huy Bui'
+		}
+		const result = await api
+			.put(`/api/blogs/${id}`)
+			.send(update)
+			.expect(200)
+			.expect('Content-Type', /application\/json/)
+		expect(result.body.author).toBe(update.author)
+	})
+
+	test('return status 404 if update unexisting blog', async () => {
+		const ghostBlogId = await nonExistingId()
+		const update = {
+			author: 'Huy Bui'
+		}
+		await api
+			.put(`/api/blogs/${ghostBlogId}`)
+			.send(update)
+			.expect(404)
+	})
+})
+
 afterAll(() => {
 	mongoose.connection.close()
 })
