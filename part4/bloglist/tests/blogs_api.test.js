@@ -81,8 +81,6 @@ test('dont add blog if url is missing', async () => {
 	expect(blogs.length).toBe(initialBlogs.length)
 })
 
-
-
 test('a blog can be deleted by id', async () => {
 	const blogsAtStart = await blogsInDb()
 	const firstBlog = blogsAtStart[0]
@@ -91,7 +89,6 @@ test('a blog can be deleted by id', async () => {
 		.delete(`/api/blogs/${id}`)
 		.expect(204)
 	const blogsAtEnd = await blogsInDb()
-	console.log(blogsAtEnd)
 	expect(blogsAtEnd.length).toBe(blogsAtStart.length - 1)
 })
 
