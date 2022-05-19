@@ -158,14 +158,15 @@ describe('Update a blog', () => {
 		const firstBlog = blogsAtStart[0]
 		const id = firstBlog.id
 		const update = {
-			author: 'Huy Bui'
+			likes: 10
 		}
 		const result = await api
 			.put(`/api/blogs/${id}`)
 			.send(update)
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
-		expect(result.body.author).toBe(update.author)
+		const expected = { ...firstBlog, likes: 10 }
+		expect(result.body).toEqual(expected)
 	})
 
 	test('return status 404 if update unexisting blog', async () => {
