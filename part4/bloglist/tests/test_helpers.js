@@ -50,12 +50,6 @@ const usersInDb = async () => {
 	return users.map(u => u.toJSON())
 }
 
-const dummyUser = {
-	username: 'jdoe',
-	name: 'John Doe',
-	password: 'pa55word'
-}
-
 const nonExistingId = async () => {
 	const ghost = new Blog({
 		title: 'abcdelee',
@@ -72,8 +66,7 @@ const helper = {
 	initialBlogs,
 	blogsInDb,
 	usersInDb,
-	nonExistingId,
-	dummyUser
+	nonExistingId
 }
 
 module.exports = helper
