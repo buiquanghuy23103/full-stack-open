@@ -39,6 +39,24 @@ describe('When there is one user in db', () => {
 		const usernames = usersAtEnd.map(u => u.username)
 		expect(usernames).toContain(dummyUser.username)
 	})
+
+	test('dont add duplicate username', async () => {
+		const usersAtStart = await usersInDb()
+		const duplicateUser = {
+			username: 'dummy',
+			name: 'Dum My',
+			password: 'secret'
+		}
+		const result = await api
+			.post('/api/users')
+			.send(duplicateUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toBe('username must be unique')
+		const usersAtEnd = await usersInDb()
+		expect(usersAtEnd).toEqual(usersAtStart)
+	})
 })
 
 afterAll(() => {

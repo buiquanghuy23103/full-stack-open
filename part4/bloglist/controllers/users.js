@@ -9,6 +9,9 @@ const generateHash = async (password) => {
 
 userRouter.post('/', async (request, response) => {
 	const { username, name, password } = request.body
+	const duplicateUser = await User.find({ username: username })
+	if (duplicateUser.length > 0)
+		return response.status(400).json({ error: 'username must be unique' })
 	const passwordHash = await generateHash(password)
 
 	const user = new User({
