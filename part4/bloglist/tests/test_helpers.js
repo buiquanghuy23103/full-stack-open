@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 
 const initDb = async () => {
 	await User.deleteMany({})
+	await Blog.deleteMany({})
 	const passwordHash = await bcrypt.hash('pa55word', 10)
 	const users = await User.create([
 		{
