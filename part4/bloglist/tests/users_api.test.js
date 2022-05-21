@@ -1,23 +1,11 @@
-const User = require('../models/user')
-const bcrypt = require('bcrypt')
-const { usersInDb } = require('./test_helpers')
+const { usersInDb, initDb } = require('./test_helpers')
 const supertest = require('supertest')
 const app = require('../app')
 const { default: mongoose } = require('mongoose')
 const api = supertest(app)
 
 describe('When there is one user in db', () => {
-	beforeEach(async () => {
-		await User.deleteMany({})
-		const hash = await bcrypt.hash('konfidensal', 10)
-		const data = {
-			username: 'dummy',
-			name: 'Dum My',
-			passwordHash: hash
-		}
-		const user = new User(data)
-		await user.save()
-	})
+	beforeEach(async () => initDb())
 
 	test('create a user if request succeeds', async () => {
 		const usersAtStart = await usersInDb()
@@ -43,8 +31,8 @@ describe('When there is one user in db', () => {
 	test('dont add duplicate username', async () => {
 		const usersAtStart = await usersInDb()
 		const duplicateUser = {
-			username: 'dummy',
-			name: 'Dum My',
+			username: usersAtStart[0].username,
+			name: 'Duplicate User',
 			password: 'secret'
 		}
 		const result = await api
