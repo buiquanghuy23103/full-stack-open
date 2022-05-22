@@ -64,7 +64,7 @@ describe('Viewing a specific blog', () => {
 	})
 })
 
-describe('Add a new blog', () => { 
+describe('Add a new blog', () => {
 	test('a valid blog can be added', async () => {
 		const blogsAtStart = await blogsInDb()
 		const authorId = await validUserObjectId()
@@ -199,6 +199,30 @@ describe('Update a blog', () => {
 			.put(`/api/blogs/${ghostBlogId}`)
 			.send(update)
 			.expect(404)
+	})
+})
+
+describe('Authentication', () => {
+	test('invalid token', async () => {
+		const blogsAtStart = await blogsInDb()
+		const authorId = await validUserObjectId()
+		const newBlog = {
+			title: 'Title 1',
+			author: authorId,
+			likes: 2
+		}
+		const token = 'this is an invalid token'
+		const authString = `bearer ${token}`
+		const result = await api
+			.post('/api/blogs')
+			.set('Authorization', authString)
+			.send(newBlog)
+			.expect(401)
+			.expect('Content-Type', /application\/json/)
+
+		expect(result.body.error).toBe('invalid token')
+		const blogsAtEnd = await blogsInDb()
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
 	})
 })
 
