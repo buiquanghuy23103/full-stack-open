@@ -2,9 +2,11 @@ const { usersInDb, initDb } = require('./test_helpers')
 const supertest = require('supertest')
 const app = require('../app')
 const { default: mongoose } = require('mongoose')
+const User = require('../models/user')
 const api = supertest(app)
 
 describe('When there are no users in db', () => {
+	beforeEach(async () => await User.deleteMany({}))
 	test('create a user if request succeeds', async () => {
 		const usersAtStart = await usersInDb()
 		const dummyUser = {
