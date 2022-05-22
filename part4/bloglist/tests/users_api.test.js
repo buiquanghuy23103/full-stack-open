@@ -47,6 +47,24 @@ describe('When there are no users in db', () => {
 		const usersAtEnd = await usersInDb()
 		expect(usersAtEnd).toHaveLength(usersAtStart.length)
 	})
+
+	test('username must be at least 3 characters', async () => {
+		const usersAtStart = await usersInDb()
+		const dummyUser = {
+			username: 'ab',
+			name: 'John Doe',
+			password: 'pa55word'
+		}
+
+		await api
+			.post('/api/users')
+			.send(dummyUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+
+		const usersAtEnd = await usersInDb()
+		expect(usersAtEnd).toHaveLength(usersAtStart.length)
+	})
 })
 
 describe('When there are users in db', () => {
