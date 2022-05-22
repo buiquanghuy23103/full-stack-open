@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { initDb, blogsInDb, nonExistingId, validUserObjectId } = require('./test_helpers')
+const { initDb, blogsInDb, nonExistingId, validUserObjectId, validToken } = require('./test_helpers')
 
 const api = supertest(app)
 
@@ -73,13 +73,16 @@ describe('Add a new blog', () => {
 			title: 'Android vs iOS',
 			url: 'https://abcde.com'
 		}
-	
+		const token = await validToken()
+		const authString = `bearer ${token}`
 		await api
 			.post('/api/blogs')
 			.send(newBlog)
+			.auth('mchan', 'pa55word')
+			.set('Authorization', authString)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
-	
+
 		const blogsAtEnd = await blogsInDb()
 		expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
 	})
@@ -92,9 +95,11 @@ describe('Add a new blog', () => {
 			url: 'https://abcde.com',
 			likes: 2
 		}
-	
+		const token = await validToken()
+		const authString = `bearer ${token}`
 		await api
 			.post('/api/blogs')
+			.set('Authorization', authString)
 			.send(newBlog)
 			.expect(400)
 			.expect('Content-Type', /application\/json/)
@@ -111,9 +116,11 @@ describe('Add a new blog', () => {
 			author: authorId,
 			likes: 2
 		}
-	
+		const token = await validToken()
+		const authString = `bearer ${token}`
 		await api
 			.post('/api/blogs')
+			.set('Authorization', authString)
 			.send(newBlog)
 			.expect(400)
 			.expect('Content-Type', /application\/json/)
@@ -130,9 +137,11 @@ describe('Add a new blog', () => {
 			author: authorId,
 			url: 'http://abc.com'
 		}
-
+		const token = await validToken()
+		const authString = `bearer ${token}`
 		const result = await api
 			.post('/api/blogs')
+			.set('Authorization', authString)
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)

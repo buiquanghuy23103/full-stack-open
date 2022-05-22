@@ -1,6 +1,8 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+const { SECRET } = require('../utils/config')
 
 const initDb = async () => {
 	await User.deleteMany({})
@@ -105,13 +107,23 @@ const nonExistingId = async () => {
 	return ghost._id.toString()
 }
 
+const validToken = async () => {
+	const firstAuthor = await User.findOne({})
+	const usersForToken = {
+		username: firstAuthor.username,
+		id: firstAuthor._id
+	}
+	return jwt.sign(usersForToken, SECRET)
+}
+
 const helper = {
 	initDb,
 	blogsInDb,
 	usersInDb,
 	nonExistingId,
 	validUserObjectId,
-	validBlogObjectId
+	validBlogObjectId,
+	validToken
 }
 
 module.exports = helper
