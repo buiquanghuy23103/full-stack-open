@@ -27,6 +27,26 @@ describe('When there are no users in db', () => {
 		const usernames = usersAtEnd.map(u => u.username)
 		expect(usernames).toContain(dummyUser.username)
 	})
+
+	test('password must be at least 3 characters', async () => {
+		const usersAtStart = await usersInDb()
+		const dummyUser = {
+			username: 'jdoe',
+			name: 'John Doe',
+			password: '12'
+		}
+
+		const result = await api
+			.post('/api/users')
+			.send(dummyUser)
+			.expect(412)
+			.expect('Content-Type', /application\/json/)
+		
+		expect(result.body.error).toBe('password must be at least 3 characters')
+
+		const usersAtEnd = await usersInDb()
+		expect(usersAtEnd).toHaveLength(usersAtStart.length)
+	})
 })
 
 describe('When there are users in db', () => {

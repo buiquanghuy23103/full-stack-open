@@ -9,6 +9,10 @@ const generateHash = async (password) => {
 
 userRouter.post('/', async (request, response) => {
 	const { username, name, password } = request.body
+	if (password.length < 3)
+		return response.status(412).json({
+			error: 'password must be at least 3 characters'
+		})
 	const duplicateUser = await User.find({ username: username })
 	if (duplicateUser.length > 0)
 		return response.status(400).json({ error: 'username must be unique' })
