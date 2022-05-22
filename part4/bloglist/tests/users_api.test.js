@@ -4,9 +4,7 @@ const app = require('../app')
 const { default: mongoose } = require('mongoose')
 const api = supertest(app)
 
-describe('When there is one user in db', () => {
-	beforeEach(async () => initDb())
-
+describe('When there are no users in db', () => {
 	test('create a user if request succeeds', async () => {
 		const usersAtStart = await usersInDb()
 		const dummyUser = {
@@ -27,6 +25,10 @@ describe('When there is one user in db', () => {
 		const usernames = usersAtEnd.map(u => u.username)
 		expect(usernames).toContain(dummyUser.username)
 	})
+})
+
+describe('When there are users in db', () => {
+	beforeEach(async () => initDb())
 
 	test('dont add duplicate username', async () => {
 		const usersAtStart = await usersInDb()
