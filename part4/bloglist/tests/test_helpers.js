@@ -82,10 +82,21 @@ const usersInDb = async () => {
 	return users.map(u => u.toJSON())
 }
 
+const validUserObjectId = async () => {
+	const firstAuthor = await User.findOne({})
+	return firstAuthor._id
+}
+
+const validBlogObjectId = async () => {
+	const firstBlog = await Blog.findOne({})
+	return firstBlog._id
+}
+
 const nonExistingId = async () => {
+	const authorId = await validUserObjectId()
 	const ghost = new Blog({
 		title: 'abcdelee',
-		author: 'author2',
+		author: authorId,
 		url: 'http://hdjdjdd.com',
 		likes: 3
 	})
@@ -98,7 +109,9 @@ const helper = {
 	initDb,
 	blogsInDb,
 	usersInDb,
-	nonExistingId
+	nonExistingId,
+	validUserObjectId,
+	validBlogObjectId
 }
 
 module.exports = helper

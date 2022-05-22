@@ -2,17 +2,13 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { initialBlogs, blogsInDb, nonExistingId, } = require('./test_helpers')
+const { initDb, blogsInDb, nonExistingId, validUserObjectId, validBlogObjectId, } = require('./test_helpers')
 
 const api = supertest(app)
 
+beforeEach(async () => initDb())
 
-beforeEach(async () => {
-	await Blog.deleteMany({})
-	await Blog.insertMany(initialBlogs)
-})
-
-describe('When there are some blogs saved', () => { 
+describe('When there are some blogs saved', () => {
 	test('blogs are returned as json', async () => {
 		await api
 			.get('/api/blogs')
@@ -22,13 +18,14 @@ describe('When there are some blogs saved', () => {
 	
 	test('all blogs are returned', async () => {
 		const response = await api.get('/api/blogs')
-		expect(response.body).toHaveLength(initialBlogs.length)
+		const allBlogs = await Blog.find({})
+		expect(response.body).toHaveLength(allBlogs.length)
 	})
 	
 	test('a specific blog within the response', async () => {
 		const response = await api.get('/api/blogs')
-		const authors = response.body.map(p => p.author)
-		expect(authors).toContain('Edsger W. Dijkstra')
+		const titles = response.body.map(p => p.title)
+		expect(titles).toContain('React patterns')
 	})
 })
 
@@ -69,8 +66,10 @@ describe('Viewing a specific blog', () => {
 
 describe('Add a new blog', () => { 
 	test('a valid blog can be added', async () => {
+		const blogsAtStart = await blogsInDb()
+		const authorId = await validUserObjectId()
 		const newBlog = {
-			author: 'Huy Bui',
+			author: authorId,
 			title: 'Android vs iOS',
 			url: 'https://abcde.com'
 		}
@@ -81,13 +80,15 @@ describe('Add a new blog', () => {
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
 	
-		const blogs = await blogsInDb()
-		expect(blogs.length).toBe(initialBlogs.length + 1)
+		const blogsAtEnd = await blogsInDb()
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
 	})
 
 	test('dont add blog if title is missing', async () => {
+		const blogsAtStart = await blogsInDb()
+		const authorId = await validUserObjectId()
 		const newBlog = {
-			author: 'John Doe',
+			author: authorId,
 			url: 'https://abcde.com',
 			likes: 2
 		}
@@ -98,14 +99,16 @@ describe('Add a new blog', () => {
 			.expect(400)
 			.expect('Content-Type', /application\/json/)
 	
-		const blogs = await blogsInDb()
-		expect(blogs.length).toBe(initialBlogs.length)
+		const blogsAtEnd = await blogsInDb()
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
 	})
 	
 	test('dont add blog if url is missing', async () => {
+		const blogsAtStart = await blogsInDb()
+		const authorId = await validUserObjectId()
 		const newBlog = {
 			title: 'Title 1',
-			author: 'John Doe',
+			author: authorId,
 			likes: 2
 		}
 	
@@ -115,14 +118,16 @@ describe('Add a new blog', () => {
 			.expect(400)
 			.expect('Content-Type', /application\/json/)
 	
-		const blogs = await blogsInDb()
-		expect(blogs.length).toBe(initialBlogs.length)
+		const blogsAtEnd = await blogsInDb()
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
 	})
 
 	test('if request.body.likes missing, default to 0', async () => {
+		const blogsAtStart = await blogsInDb()
+		const authorId = await validUserObjectId()
 		const newBlog = {
 			title: 'Title 1',
-			author: 'John Doe',
+			author: authorId,
 			url: 'http://abc.com'
 		}
 
@@ -131,6 +136,10 @@ describe('Add a new blog', () => {
 			.send(newBlog)
 			.expect(201)
 			.expect('Content-Type', /application\/json/)
+
+		const blogsAtEnd = await blogsInDb()
+		expect(blogsAtEnd).toHaveLength(blogsAtStart.length + 1)
+
 		const body = result.body
 		expect(body.likes).toBeDefined()
 		expect(body.likes).toBe(0)
@@ -154,25 +163,28 @@ describe('Delete a blog', () => {
 
 describe('Update a blog', () => { 
 	test('a blog can be updated by id', async () => {
-		const blogsAtStart = await blogsInDb()
-		const firstBlog = blogsAtStart[0]
-		const id = firstBlog.id
+		const blog = await Blog.findOne({})
+		const processedBlog = blog.toJSON()
 		const update = {
 			likes: 10
 		}
 		const result = await api
-			.put(`/api/blogs/${id}`)
+			.put(`/api/blogs/${processedBlog.id}`)
 			.send(update)
 			.expect(200)
 			.expect('Content-Type', /application\/json/)
-		const expected = { ...firstBlog, likes: 10 }
+		const expected = { ...processedBlog, likes: 10 }
+		const body = result.body
+		// No need to compare author id
+		delete expected.author
+		delete body.author
 		expect(result.body).toEqual(expected)
 	})
 
 	test('return status 404 if update unexisting blog', async () => {
 		const ghostBlogId = await nonExistingId()
 		const update = {
-			author: 'Huy Bui'
+			title: 'New title'
 		}
 		await api
 			.put(`/api/blogs/${ghostBlogId}`)
