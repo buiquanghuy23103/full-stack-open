@@ -22,7 +22,8 @@ userRouter.post('/', async (request, response, next) => {
 		const user = new User({
 			name,
 			username,
-			passwordHash
+			passwordHash,
+			blogs: []
 		})
 	
 		const savedUser = await user.save()
@@ -33,7 +34,7 @@ userRouter.post('/', async (request, response, next) => {
 })
 
 userRouter.get('/', async (request, response) => {
-	const users = await User.find({})
+	const users = await User.find({}).populate('blogs')
 	return response.status(200).json(users)
 })
 
