@@ -15,9 +15,22 @@ const unknownEndpoint = (request, response) => {
 	return response.status(404).json({ error: 'Unknown endpoint' })
 }
 
+const getTokenFrom = (request) => {
+	const auth = request.get('authorization')
+	const bearer = auth && auth.toLowerCase().startsWith('bearer')
+	return (bearer ? auth.substring(7) : null)
+}
+
+const tokenExtractor = (request, response, next) => {
+	const token = getTokenFrom(request)
+	request.token = token
+	next()
+}
+
 const middleware = {
 	errorHandler,
-	unknownEndpoint
+	unknownEndpoint,
+	tokenExtractor
 }
 
 module.exports = middleware
