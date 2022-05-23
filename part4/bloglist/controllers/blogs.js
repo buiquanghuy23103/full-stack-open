@@ -26,6 +26,10 @@ blogRouter.post('/', async (request, response, next) => {
 				error: 'token is invalid'
 			})
 		const author = await User.findById(decodedToken.id)
+		if (!author)
+			return response.status(404).json({
+				error: 'user not found'
+			})
 		const { title, url, likes } = request.body
 		const newBlog = {
 			title,
@@ -56,8 +60,30 @@ blogRouter.get('/:id', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
 	try {
+		if (!request.token)
+			return response.status(401).json({
+				error: 'token is missing'
+			})
+		const decodedToken = jwt.verify(request.token, SECRET)
+		if (!decodedToken || !decodedToken.id)
+			return response.status(401).json({
+				error: 'token is invalid'
+			})
+		const author = await User.findById(decodedToken.id)
+		if (!author)
+			return response.status(404).json({
+				error: 'user not found'
+			})
+		const ownBlogs = author.blogs.map(objectId => objectId.toString())
 		const id = request.params.id
+		if (!ownBlogs.includes(id))
+			return response.status(401).json({
+				error: 'unauthorized to delete the blog'
+			})
 		const result = await Blog.findByIdAndDelete(id)
+		author.blogs = author.blogs.filter(objectId =>
+			objectId.toString() !== id
+		)
 		if (!result)
 			return response.status(404).end()
 		return response.status(204).end()
