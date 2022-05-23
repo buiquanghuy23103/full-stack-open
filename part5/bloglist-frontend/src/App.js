@@ -16,9 +16,15 @@ const App = () => {
 		setBlogs(blogs)
 	}
 
+	const getCachedUserCredentials = () => {
+		const credentials = window.localStorage.getItem('user')
+		setUser(credentials)
+	}
+
 	useEffect(() => {
 		fetchBlogs()
 			.catch(console.log)
+		getCachedUserCredentials()
 	}, [])
 
 	const loginForm = () => {
@@ -27,7 +33,7 @@ const App = () => {
 				event.preventDefault()
 				const response = await loginService.login({ username, password })
 				setUser(response)
-				window.localStorage.setItem('token', response.token)
+				window.localStorage.setItem('user', JSON.stringify(response))
 				setUsername('')
 				setPassword('')
 			} catch (error) {
@@ -94,6 +100,8 @@ const App = () => {
 			</form>
 		)
 	}
+
+	console.log(user)
 
 	return (
 		<div>
