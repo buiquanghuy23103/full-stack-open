@@ -93,6 +93,7 @@ const App = () => {
 	return (
 		<div>
 		<h2>blogs</h2>
+		{ user && <p>{user.name} logged in</p> }
 		{ user ? blogForm() : loginForm() }
 		{blogs.map(blog =>
 			<Blog key={blog.id} blog={blog} />
