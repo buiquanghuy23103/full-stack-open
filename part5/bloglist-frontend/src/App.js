@@ -9,6 +9,7 @@ const App = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [errorMessage, setErrorMessage] = useState('')
+	const [newBlog, setNewBlog] = useState({ title: '', url: '' })
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -62,10 +63,37 @@ const App = () => {
 		</form>
 	}
 
+	const blogForm = () => {
+		const submitForm = (event) => {
+			event.preventDefault()
+		}
+		const { title, url } = newBlog
+		return (
+			<form onSubmit={submitForm}>
+				<div>
+					title
+					<input
+						value={title}
+						onChange={({ target }) =>
+						setNewBlog({...newBlog, title: target.value})
+					}
+					/>
+				</div>
+				url
+				<input
+					value={url}
+					onChange={({ target }) =>
+						setNewBlog({...newBlog, url: target.value})
+					}
+				/>
+			</form>
+		)
+	}
+
 	return (
 		<div>
 		<h2>blogs</h2>
-		{ !user && loginForm() }
+		{ user ? blogForm() : loginForm() }
 		{blogs.map(blog =>
 			<Blog key={blog.id} blog={blog} />
 		)}
