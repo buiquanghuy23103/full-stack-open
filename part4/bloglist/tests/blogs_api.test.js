@@ -157,7 +157,7 @@ describe('Add a new blog', () => {
 })
 
 describe('Delete a blog', () => { 
-	test.only('a blog can be deleted by id', async () => {
+	test('a blog can be deleted by id', async () => {
 		const blogsAtStart = await blogsInDb()
 		const firstAuthor = await User.findOne({}).populate('blogs')
 		const blog = await Blog.findById(firstAuthor.blogs[0])
