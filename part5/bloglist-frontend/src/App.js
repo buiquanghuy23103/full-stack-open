@@ -5,7 +5,7 @@ import loginService from './services/login'
 
 const App = () => {
 	const [blogs, setBlogs] = useState([])
-	const [token, setToken] = useState('')
+	const [user, setUser] = useState(null)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [errorMessage, setErrorMessage] = useState('')
@@ -15,15 +15,9 @@ const App = () => {
 		setBlogs(blogs)
 	}
 
-	const getCachedToken = () => {
-		const cachedToken = window.localStorage.getItem('token')
-		setToken(cachedToken)
-	}
-
 	useEffect(() => {
 		fetchBlogs()
 			.catch(console.log)
-		getCachedToken()
 	}, [])
 
 	const loginForm = () => {
@@ -31,17 +25,16 @@ const App = () => {
 			try {
 				event.preventDefault()
 				const response = await loginService.login({ username, password })
+				setUser(response)
 				window.localStorage.setItem('token', response.token)
-				setToken(response.token)
+				setUsername('')
+				setPassword('')
 			} catch (error) {
 				console.error(error)
 				setErrorMessage('Wrong credentials')
 				setTimeout(() => {
 					setErrorMessage('')
 				}, 5000);
-			} finally {
-				setUsername('')
-				setPassword('')
 			}
 		}
 	
@@ -72,7 +65,7 @@ const App = () => {
 	return (
 		<div>
 		<h2>blogs</h2>
-		{ !token && loginForm() }
+		{ !user && loginForm() }
 		{blogs.map(blog =>
 			<Blog key={blog.id} blog={blog} />
 		)}
