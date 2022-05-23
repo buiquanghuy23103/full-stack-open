@@ -4,6 +4,7 @@ import blogs from "../services/blogs"
 const LoginForm = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+	const [errorMessage, setErrorMessage] = useState('')
 
 	const handleSubmit = async (event) => {
 		try {
@@ -12,6 +13,13 @@ const LoginForm = () => {
 			console.log(response)
 		} catch (error) {
 			console.error(error)
+			setErrorMessage('Wrong credentials')
+			setTimeout(() => {
+				setErrorMessage('')
+			}, 5000);
+		} finally {
+			setUsername('')
+			setPassword('')
 		}
 	}
 
@@ -34,6 +42,7 @@ const LoginForm = () => {
 				onChange={e => setPassword(e.target.value)}
 			/>
 		</div>
+		{ errorMessage && (<p>{errorMessage}</p>) }
 		<button type="submit">submit</button>
 	</form>
 }
