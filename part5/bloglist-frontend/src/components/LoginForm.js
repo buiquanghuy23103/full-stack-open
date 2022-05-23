@@ -10,7 +10,7 @@ const LoginForm = () => {
 		try {
 			event.preventDefault()
 			const response = await blogs.login({ username, password })
-			console.log(response)
+			window.localStorage.setItem('token', response.token)
 		} catch (error) {
 			console.error(error)
 			setErrorMessage('Wrong credentials')
