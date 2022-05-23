@@ -15,7 +15,6 @@ blogRouter.get('/', async (request, response, next) => {
 
 blogRouter.post('/', async (request, response, next) => {
 	try {
-		console.log('token=', request.token)
 		if (!request.token)
 			return response.status(401).json({
 				error: 'token is missing'
