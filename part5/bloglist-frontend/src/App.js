@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import loginService from './services/login'
 
 const App = () => {
 	const [blogs, setBlogs] = useState([])
@@ -29,7 +30,7 @@ const App = () => {
 		const handleSubmit = async (event) => {
 			try {
 				event.preventDefault()
-				const response = await blogs.login({ username, password })
+				const response = await loginService.login({ username, password })
 				window.localStorage.setItem('token', response.token)
 				setToken(response.token)
 			} catch (error) {
