@@ -5,4 +5,14 @@ const getAll = async () => {
 	return response.data
 }
 
-export default { getAll }
+const create = async (token, newBlog) => {
+	const config = {
+		headers: {
+			Authorization: `bearer ${token}`
+		}
+	}
+	const response = await axios.post('/api/blogs', newBlog, config)
+	return response.data
+}
+
+export default { getAll, create }

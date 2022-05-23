@@ -64,8 +64,11 @@ const App = () => {
 	}
 
 	const blogForm = () => {
-		const submitForm = (event) => {
+		const submitForm = async (event) => {
 			event.preventDefault()
+			console.log(user)
+			const response = await blogService.create(user.token, newBlog)
+			console.log(response)
 		}
 		const { title, url } = newBlog
 		return (
@@ -79,13 +82,16 @@ const App = () => {
 					}
 					/>
 				</div>
-				url
-				<input
-					value={url}
-					onChange={({ target }) =>
-						setNewBlog({...newBlog, url: target.value})
-					}
-				/>
+				<div>
+					url
+					<input
+						value={url}
+						onChange={({ target }) =>
+							setNewBlog({...newBlog, url: target.value})
+						}
+					/>
+				</div>
+				<button type="submit">save</button>
 			</form>
 		)
 	}
