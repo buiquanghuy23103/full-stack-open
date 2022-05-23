@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -46,27 +47,13 @@ const App = () => {
 			}
 		}
 	
-		return <form onSubmit={handleSubmit}>
-			<div>
-				username
-				<input
-					type="text"
-					value={username}
-					name="username"
-					onChange={e => setUsername(e.target.value)}
-				/>
-			</div>
-			<div>
-				password
-				<input
-					type="password"
-					name="password"
-					value={password}
-					onChange={e => setPassword(e.target.value)}
-				/>
-			</div>
-			<button type="submit">submit</button>
-		</form>
+		return <LoginForm
+			handleSubmit={handleSubmit}
+			username={username}
+			password={password}
+			onPasswordChange={e => setPassword(e.target.value)}
+			onUsernameChange={e => setUsername(e.target.value)}
+			/>
 	}
 
 	const blogForm = () => {
