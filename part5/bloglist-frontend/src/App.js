@@ -73,6 +73,7 @@ const App = () => {
 		const submitForm = async (event) => {
 			event.preventDefault()
 			const response = await blogService.create(user.token, newBlog)
+			console.log(response)
 			setBlogs(blogs.concat(response))
 		}
 		const { title, url } = newBlog

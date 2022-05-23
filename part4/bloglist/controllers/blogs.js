@@ -22,9 +22,10 @@ blogRouter.post('/', userExtractor, async (request, response, next) => {
 			likes: likes ? likes : 0
 		}
 		const savedBlog = await Blog.create(newBlog)
+		const populatedBlog = await Blog.populate(savedBlog, { path: 'author' })
 		author.blogs = author.blogs.concat(savedBlog._id)
 		author.save()
-		return response.status(201).json(savedBlog)
+		return response.status(201).json(populatedBlog)
 	} catch (error) {
 		next(error)
 	}
