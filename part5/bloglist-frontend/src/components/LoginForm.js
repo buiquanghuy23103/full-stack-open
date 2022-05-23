@@ -1,13 +1,18 @@
 import { useState } from "react"
+import blogs from "../services/blogs"
 
 const LoginForm = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 
-	const handleSubmit = (event) => {
-		event.preventDefault()
-		console.log('username: ', username)
-		console.log('password: ', password)
+	const handleSubmit = async (event) => {
+		try {
+			event.preventDefault()
+			const response = await blogs.login({ username, password })
+			console.log(response)
+		} catch (error) {
+			console.error(error)
+		}
 	}
 
 	return <form onSubmit={handleSubmit}>
