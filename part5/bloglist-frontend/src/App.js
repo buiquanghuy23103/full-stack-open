@@ -18,7 +18,7 @@ const App = () => {
 
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
-		setUser(credentials)
+		setUser(JSON.parse(credentials))
 	}
 
 	useEffect(() => {
