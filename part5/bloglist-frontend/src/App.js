@@ -68,7 +68,7 @@ const App = () => {
 			event.preventDefault()
 			console.log(user)
 			const response = await blogService.create(user.token, newBlog)
-			console.log(response)
+			setBlogs(blogs.concat(response))
 		}
 		const { title, url } = newBlog
 		return (
