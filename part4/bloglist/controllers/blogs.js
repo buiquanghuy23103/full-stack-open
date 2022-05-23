@@ -3,6 +3,7 @@ const Blog = require('../models/blog')
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../utils/config')
 const User = require('../models/user')
+const { userExtractor } = require('../utils/middleware')
 
 blogRouter.get('/', async (request, response, next) => {
 	try {
@@ -13,22 +14,9 @@ blogRouter.get('/', async (request, response, next) => {
 	}
 })
 
-blogRouter.post('/', async (request, response, next) => {
+blogRouter.post('/', userExtractor, async (request, response, next) => {
 	try {
-		if (!request.token)
-			return response.status(401).json({
-				error: 'token is missing'
-			})
-		const decodedToken = jwt.verify(request.token, SECRET)
-		if (!decodedToken || !decodedToken.id)
-			return response.status(401).json({
-				error: 'token is invalid'
-			})
-		const author = await User.findById(decodedToken.id)
-		if (!author)
-			return response.status(404).json({
-				error: 'user not found'
-			})
+		const author = request.user
 		const { title, url, likes } = request.body
 		const newBlog = {
 			title,
@@ -57,22 +45,9 @@ blogRouter.get('/:id', async (request, response, next) => {
 	}
 })
 
-blogRouter.delete('/:id', async (request, response, next) => {
+blogRouter.delete('/:id', userExtractor, async (request, response, next) => {
 	try {
-		if (!request.token)
-			return response.status(401).json({
-				error: 'token is missing'
-			})
-		const decodedToken = jwt.verify(request.token, SECRET)
-		if (!decodedToken || !decodedToken.id)
-			return response.status(401).json({
-				error: 'token is invalid'
-			})
-		const author = await User.findById(decodedToken.id)
-		if (!author)
-			return response.status(404).json({
-				error: 'user not found'
-			})
+		const author = request.user
 		const ownBlogs = author.blogs.map(objectId => objectId.toString())
 		const id = request.params.id
 		if (!ownBlogs.includes(id))
