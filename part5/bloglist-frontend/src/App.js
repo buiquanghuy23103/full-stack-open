@@ -101,12 +101,23 @@ const App = () => {
 		)
 	}
 
-	console.log(user)
+	const userInfo = () => {
+		const logout = () => {
+			setUser(null)
+			window.localStorage.removeItem('user')
+		}
+		return (
+			<>
+			<p>{user.name} logged in</p>
+			<button onClick={logout}>logout</button>
+			</>
+		)
+	}
 
 	return (
 		<div>
 		<h2>blogs</h2>
-		{ user && <p>{user.name} logged in</p> }
+		{ user && userInfo() }
 		{ user ? blogForm() : loginForm() }
 		{blogs.map(blog =>
 			<Blog key={blog.id} blog={blog} />
