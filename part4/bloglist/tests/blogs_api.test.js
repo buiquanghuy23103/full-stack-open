@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const { initDb, blogsInDb, nonExistingId, validUserObjectId, validToken } = require('./test_helpers')
 
 const api = supertest(app)
@@ -156,16 +157,20 @@ describe('Add a new blog', () => {
 })
 
 describe('Delete a blog', () => { 
-	test('a blog can be deleted by id', async () => {
+	test.only('a blog can be deleted by id', async () => {
 		const blogsAtStart = await blogsInDb()
-		const firstBlog = blogsAtStart[0]
-		const id = firstBlog.id
+		const firstAuthor = await User.findOne({}).populate('blogs')
+		const blog = await Blog.findById(firstAuthor.blogs[0])
+		const id = blog.id
+		const token = await validToken()
+		const authString = `bearer ${token}`
 		await api
 			.delete(`/api/blogs/${id}`)
+			.set('Authorization', authString)
 			.expect(204)
 		const blogsAtEnd = await blogsInDb()
 		expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
-		expect(blogsAtEnd).not.toContainEqual(firstBlog)
+		expect(blogsAtEnd).not.toContainEqual(blog)
 	})
 
 })
