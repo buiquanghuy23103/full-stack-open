@@ -14,7 +14,11 @@ const BlogForm = forwardRef(({
 		setUrl('')
 	}
 	return (
-		<Toggable buttonLabel="create a new blog" ref={ref}>
+		<Toggable
+			openButtonLabel="create a new blog"
+			closeButtonLabel="cancel"
+			ref={ref}
+		>
 			<h2>Create a new blog</h2>
 			<form onSubmit={handleSubmit}>
 				<div>

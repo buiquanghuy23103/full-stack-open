@@ -15,7 +15,7 @@ const LoginForm = ({
 	}
 
 	return (
-		<Toggable buttonLabel="login">
+		<Toggable openButtonLabel="login" closeButtonLabel="cancel">
 			<form onSubmit={handleSubmit}>
 				<div>
 					username

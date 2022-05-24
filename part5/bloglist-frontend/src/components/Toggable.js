@@ -1,6 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from "react"
 
-const Toggable = forwardRef(({ children, buttonLabel }, ref) => {
+const Toggable = forwardRef(({ children, openButtonLabel, closeButtonLabel }, ref) => {
 	const [visible, setVisible] = useState(false)
 
 	const toggleVisible = () => setVisible(!visible)
@@ -13,12 +13,12 @@ const Toggable = forwardRef(({ children, buttonLabel }, ref) => {
 		return (
 			<div>
 				{ children }
-				<button onClick={toggleVisible}>cancel</button>
+				<button onClick={toggleVisible}>{ closeButtonLabel }</button>
 			</div>
 		)
 
 	return (
-		<button onClick={toggleVisible}>{ buttonLabel }</button>
+		<button onClick={toggleVisible}>{ openButtonLabel }</button>
 	)
 })
 
