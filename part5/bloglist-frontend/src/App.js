@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
+import Toggable from './components/Toggable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -14,7 +15,6 @@ const App = () => {
 	const [message, setMessage] = useState('')
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
-	const [loginVisible, setLoginVisible] = useState(false)
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -31,20 +31,6 @@ const App = () => {
 			.catch(console.log)
 		getCachedUserCredentials()
 	}, [])
-
-	const toggleLoginVisible = () => {
-		setLoginVisible(!loginVisible)
-	}
-
-	const loginFormController = () => {
-		if (user)
-			return null
-		return (
-			<button onClick={ toggleLoginVisible }>
-				{loginVisible ? 'cancel' : 'login'}
-			</button>
-		)
-	}
 
 	const loginForm = () => {
 		const handleSubmit = async (event) => {
@@ -64,13 +50,17 @@ const App = () => {
 			}
 		}
 	
-		return <LoginForm
-			handleSubmit={handleSubmit}
-			username={username}
-			password={password}
-			onPasswordChange={e => setPassword(e.target.value)}
-			onUsernameChange={e => setUsername(e.target.value)}
-			/>
+		return (
+			<Toggable buttonLabel="login">
+				<LoginForm
+					handleSubmit={handleSubmit}
+					username={username}
+					password={password}
+					onPasswordChange={e => setPassword(e.target.value)}
+					onUsernameChange={e => setUsername(e.target.value)}
+					/>
+			</Toggable>
+		)
 	}
 
 	const blogForm = () => {
@@ -113,9 +103,9 @@ const App = () => {
 		<div>
 			<h2>blogs</h2>
 			<NotificationMessage message={message} />
-			{ user && userInfo() && blogForm()}
-			{ !user && loginVisible && loginForm() }
-			{ loginFormController() }
+			{ user && userInfo() }
+			{ user && blogForm() }
+			{ !user && loginForm() }
 			{ blogList }
 		</div>
 	)
