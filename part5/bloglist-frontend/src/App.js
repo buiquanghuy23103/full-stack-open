@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
+import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import blogService from './services/blogs'
@@ -78,13 +79,6 @@ const App = () => {
 		)
 	}
 
-	const blogList = blogs.map(blog =>
-		<Blog
-			key={blog.id}
-			blog={blog}
-			incrementLike={() => incrementLike(blog)}
-		/>)
-
 	return (
 		<div>
 			<h2>blogs</h2>
@@ -98,7 +92,7 @@ const App = () => {
 				/> 
 			}
 			{ !user && <LoginForm login={login} /> }
-			{ blogList }
+			<BlogList blogs={ blogs } incrementLike={incrementLike} />
 		</div>
 	)
 }
