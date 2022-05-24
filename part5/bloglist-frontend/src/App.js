@@ -3,15 +3,12 @@ import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import Toggable from './components/Toggable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
 	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
 	const [message, setMessage] = useState('')
 
 	const fetchBlogs = async () => {
@@ -30,44 +27,28 @@ const App = () => {
 		getCachedUserCredentials()
 	}, [])
 
-	const loginForm = () => {
-		const handleSubmit = async (event) => {
-			try {
-				event.preventDefault()
-				const response = await loginService.login({ username, password })
-				setUser(response)
-				window.localStorage.setItem('user', JSON.stringify(response))
-				setUsername('')
-				setPassword('')
-			} catch (error) {
-				console.error(error)
-				setMessage('Wrong credentials')
-				setTimeout(() => {
-					setMessage('')
-				}, 5000);
-			}
-		}
-	
-		return (
-			<Toggable buttonLabel="login">
-				<LoginForm
-					handleSubmit={handleSubmit}
-					username={username}
-					password={password}
-					onPasswordChange={e => setPassword(e.target.value)}
-					onUsernameChange={e => setUsername(e.target.value)}
-					/>
-			</Toggable>
-		)
+	const notify = message => {
+		setMessage(message)
+		setTimeout(() => {
+			setMessage('')
+		}, 5000);
 	}
 
 	const addNewBlog = async newBlog => {
 		const response = await blogService.create(user.token, newBlog)
 		setBlogs(blogs.concat(response))
-		setMessage(`A new blog ${response.title} by ${user.name} added`)
-		setTimeout(() => {
-			setMessage('')
-		}, 5000);
+		notify(`A new blog ${response.title} by ${user.name} added`)
+	}
+
+	const login = async credentials => {
+		try {
+			const response = await loginService.login(credentials)
+			setUser(response)
+			window.localStorage.setItem('user', JSON.stringify(response))
+		} catch (error) {
+			console.log(error)
+			notify('Wrong username or password')
+		}
 	}
 
 	const userInfo = () => {
@@ -77,8 +58,8 @@ const App = () => {
 		}
 		return (
 			<>
-			<p>{user.name} logged in</p>
-			<button onClick={logout}>logout</button>
+				<p>{user.name} logged in</p>
+				<button onClick={logout}>logout</button>
 			</>
 		)
 	}
@@ -91,7 +72,7 @@ const App = () => {
 			<NotificationMessage message={message} />
 			{ user && userInfo() }
 			{ user && <BlogForm addNewBlog={addNewBlog} /> }
-			{ !user && loginForm() }
+			{ !user && <LoginForm login={login} /> }
 			{ blogList }
 		</div>
 	)
