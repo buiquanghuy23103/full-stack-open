@@ -2,7 +2,8 @@ import { useState } from "react"
 import Toggable from "./Toggable"
 
 const BlogForm = ({
-	addNewBlog
+	addNewBlog,
+	author
 }) => {
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
@@ -14,6 +15,7 @@ const BlogForm = ({
 	}
 	return (
 		<Toggable buttonLabel="create a new blog">
+			<h2>Create a new blog</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
 					title
@@ -28,6 +30,9 @@ const BlogForm = ({
 						value={url}
 						onChange={e => setUrl(e.target.value)}
 					/>
+				</div>
+				<div>
+					author: { author }
 				</div>
 				<button type="submit">save</button>
 			</form>

@@ -71,7 +71,7 @@ const App = () => {
 			<h2>blogs</h2>
 			<NotificationMessage message={message} />
 			{ user && userInfo() }
-			{ user && <BlogForm addNewBlog={addNewBlog} /> }
+			{ user && <BlogForm addNewBlog={addNewBlog} author={user.name} /> }
 			{ !user && <LoginForm login={login} /> }
 			{ blogList }
 		</div>
