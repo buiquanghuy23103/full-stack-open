@@ -13,8 +13,6 @@ const App = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [message, setMessage] = useState('')
-	const [title, setTitle] = useState('')
-	const [url, setUrl] = useState('')
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -63,29 +61,13 @@ const App = () => {
 		)
 	}
 
-	const blogForm = () => {
-		const handleSubmit = async (event) => {
-			event.preventDefault()
-			const response = await blogService.create(user.token, { title, url })
-			setTitle('')
-			setUrl('')
-			setBlogs(blogs.concat(response))
-			setMessage(`A new blog ${response.title} by ${user.name} added`)
-			setTimeout(() => {
-				setMessage('')
-			}, 5000);
-		}
-		return (
-			<Toggable buttonLabel="create new blog">
-				<BlogForm
-					handleSubmit={handleSubmit}
-					title={title}
-					url={url}
-					onTitleChange={e => setTitle(e.target.value)}
-					onUrlChange={e => setUrl(e.target.value)}
-				/>
-			</Toggable>
-		)
+	const addNewBlog = async newBlog => {
+		const response = await blogService.create(user.token, newBlog)
+		setBlogs(blogs.concat(response))
+		setMessage(`A new blog ${response.title} by ${user.name} added`)
+		setTimeout(() => {
+			setMessage('')
+		}, 5000);
 	}
 
 	const userInfo = () => {
@@ -108,7 +90,7 @@ const App = () => {
 			<h2>blogs</h2>
 			<NotificationMessage message={message} />
 			{ user && userInfo() }
-			{ user && blogForm() }
+			{ user && <BlogForm addNewBlog={addNewBlog} /> }
 			{ !user && loginForm() }
 			{ blogList }
 		</div>
