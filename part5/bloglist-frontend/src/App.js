@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import blogService from './services/blogs'
@@ -11,7 +12,8 @@ const App = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const [message, setMessage] = useState('')
-	const [newBlog, setNewBlog] = useState({ title: '', url: '' })
+	const [title, setTitle] = useState('')
+	const [url, setUrl] = useState('')
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -57,40 +59,24 @@ const App = () => {
 	}
 
 	const blogForm = () => {
-		const submitForm = async (event) => {
+		const handleSubmit = async (event) => {
 			event.preventDefault()
-			const response = await blogService.create(user.token, newBlog)
-			setNewBlog({ title: '', url: '' })
+			const response = await blogService.create(user.token, { title, url })
+			setTitle('')
+			setUrl('')
 			setBlogs(blogs.concat(response))
 			setMessage(`A new blog ${response.title} by ${user.name} added`)
 			setTimeout(() => {
 				setMessage('')
 			}, 5000);
 		}
-		const { title, url } = newBlog
-		return (
-			<form onSubmit={submitForm}>
-				<div>
-					title
-					<input
-						value={title}
-						onChange={({ target }) =>
-						setNewBlog({...newBlog, title: target.value})
-					}
-					/>
-				</div>
-				<div>
-					url
-					<input
-						value={url}
-						onChange={({ target }) =>
-							setNewBlog({...newBlog, url: target.value})
-						}
-					/>
-				</div>
-				<button type="submit">save</button>
-			</form>
-		)
+		return <BlogForm
+			handleSubmit={handleSubmit}
+			title={title}
+			url={url}
+			onTitleChange={e => setTitle(e.target.value)}
+			onUrlChange={e => setUrl(e.target.value)}
+		/>
 	}
 
 	const userInfo = () => {
