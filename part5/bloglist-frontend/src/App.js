@@ -42,6 +42,18 @@ const App = () => {
 		notify(`A new blog ${response.title} by ${user.name} added`)
 	}
 
+	const incrementLike = async (blog) => {
+		try {
+			const { token } = user
+			const updatedBlog = { ...blog, likes: blog.likes + 1 }
+			const response = await blogService.update(token, updatedBlog)
+			console.log(response)
+			setBlogs(blogs.map(b => b.id === response.id ? response : b))
+		} catch (error) {
+			notify(error.response.data.error)
+		}
+	}
+
 	const login = async credentials => {
 		try {
 			const response = await loginService.login(credentials)
@@ -66,7 +78,12 @@ const App = () => {
 		)
 	}
 
-	const blogList = blogs.map(blog => <Blog key={blog.id} blog={blog} />)
+	const blogList = blogs.map(blog =>
+		<Blog
+			key={blog.id}
+			blog={blog}
+			incrementLike={() => incrementLike(blog)}
+		/>)
 
 	return (
 		<div>
@@ -77,7 +94,8 @@ const App = () => {
 				<BlogForm
 					addNewBlog={addNewBlog}
 					author={user.name}
-					ref={toggableRef} /> 
+					ref={toggableRef}
+				/> 
 			}
 			{ !user && <LoginForm login={login} /> }
 			{ blogList }

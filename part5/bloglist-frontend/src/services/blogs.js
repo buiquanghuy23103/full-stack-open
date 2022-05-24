@@ -15,4 +15,20 @@ const create = async (token, newBlog) => {
 	return response.data
 }
 
-export default { getAll, create }
+const update = async (token, updatedBlog) => {
+	const config = {
+		headers: {
+			Authorization: `bearer ${token}`
+		}
+	}
+	// blog.author produces type error in NodeJS
+	delete updatedBlog.author
+	const response = await axios.put(
+		`/api/blogs/${updatedBlog.id}`,
+		updatedBlog,
+		config
+	)
+	return response.data
+}
+
+export default { getAll, create, update }

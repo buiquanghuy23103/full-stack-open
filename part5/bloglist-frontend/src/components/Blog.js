@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({blog}) => {
+const Blog = ({ blog, incrementLike }) => {
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleDetailsView = () => setShowDetails(!showDetails)
@@ -20,7 +20,7 @@ const Blog = ({blog}) => {
 				<p>Url: {blog.url}</p>
 				<div>
 					Likes: {blog.likes}
-					<button>like</button>
+					<button onClick={incrementLike}>like</button>
 				</div>
 			</div>
 		</div>
