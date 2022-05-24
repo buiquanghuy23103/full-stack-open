@@ -14,6 +14,7 @@ const App = () => {
 	const [message, setMessage] = useState('')
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
+	const [loginVisible, setLoginVisible] = useState(false)
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -30,6 +31,20 @@ const App = () => {
 			.catch(console.log)
 		getCachedUserCredentials()
 	}, [])
+
+	const toggleLoginVisible = () => {
+		setLoginVisible(!loginVisible)
+	}
+
+	const loginFormController = () => {
+		if (user)
+			return null
+		return (
+			<button onClick={ toggleLoginVisible }>
+				{loginVisible ? 'cancel' : 'login'}
+			</button>
+		)
+	}
 
 	const loginForm = () => {
 		const handleSubmit = async (event) => {
@@ -92,15 +107,16 @@ const App = () => {
 		)
 	}
 
+	const blogList = blogs.map(blog => <Blog key={blog.id} blog={blog} />)
+
 	return (
 		<div>
 			<h2>blogs</h2>
 			<NotificationMessage message={message} />
-			{ user && userInfo() }
-			{ user ? blogForm() : loginForm() }
-			{blogs.map(blog =>
-				<Blog key={blog.id} blog={blog} />
-			)}
+			{ user && userInfo() && blogForm()}
+			{ !user && loginVisible && loginForm() }
+			{ loginFormController() }
+			{ blogList }
 		</div>
 	)
 }
