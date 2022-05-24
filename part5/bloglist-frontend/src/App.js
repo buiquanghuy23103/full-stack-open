@@ -75,13 +75,17 @@ const App = () => {
 				setMessage('')
 			}, 5000);
 		}
-		return <BlogForm
-			handleSubmit={handleSubmit}
-			title={title}
-			url={url}
-			onTitleChange={e => setTitle(e.target.value)}
-			onUrlChange={e => setUrl(e.target.value)}
-		/>
+		return (
+			<Toggable buttonLabel="create new blog">
+				<BlogForm
+					handleSubmit={handleSubmit}
+					title={title}
+					url={url}
+					onTitleChange={e => setTitle(e.target.value)}
+					onUrlChange={e => setUrl(e.target.value)}
+				/>
+			</Toggable>
+		)
 	}
 
 	const userInfo = () => {
