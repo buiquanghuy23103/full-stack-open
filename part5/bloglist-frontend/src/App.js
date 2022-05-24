@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
@@ -10,6 +10,7 @@ const App = () => {
 	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
 	const [message, setMessage] = useState('')
+	const toggableRef = useRef(null)
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
@@ -37,6 +38,7 @@ const App = () => {
 	const addNewBlog = async newBlog => {
 		const response = await blogService.create(user.token, newBlog)
 		setBlogs(blogs.concat(response))
+		toggableRef.current.toggleVisible()
 		notify(`A new blog ${response.title} by ${user.name} added`)
 	}
 
@@ -71,7 +73,12 @@ const App = () => {
 			<h2>blogs</h2>
 			<NotificationMessage message={message} />
 			{ user && userInfo() }
-			{ user && <BlogForm addNewBlog={addNewBlog} author={user.name} /> }
+			{ user &&
+				<BlogForm
+					addNewBlog={addNewBlog}
+					author={user.name}
+					ref={toggableRef} /> 
+			}
 			{ !user && <LoginForm login={login} /> }
 			{ blogList }
 		</div>

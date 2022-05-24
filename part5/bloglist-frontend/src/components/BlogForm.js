@@ -1,10 +1,10 @@
-import { useState } from "react"
+import { forwardRef, useState } from "react"
 import Toggable from "./Toggable"
 
-const BlogForm = ({
+const BlogForm = forwardRef(({
 	addNewBlog,
 	author
-}) => {
+}, ref) => {
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
 	const handleSubmit = async e => {
@@ -14,7 +14,7 @@ const BlogForm = ({
 		setUrl('')
 	}
 	return (
-		<Toggable buttonLabel="create a new blog">
+		<Toggable buttonLabel="create a new blog" ref={ref}>
 			<h2>Create a new blog</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
@@ -38,6 +38,6 @@ const BlogForm = ({
 			</form>
 		</Toggable>
 	)
-}
+})
 
 export default BlogForm
