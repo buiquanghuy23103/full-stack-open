@@ -1,4 +1,4 @@
-const NotificationMessage = ({message}) => {
+const NotificationMessage = ({ message }) => {
 	if (!message)
 		return null
 	return (<div className="notification">

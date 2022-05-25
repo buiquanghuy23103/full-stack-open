@@ -1,4 +1,4 @@
-import Blog from "./Blog"
+import Blog from './Blog'
 
 const BlogList = ({ blogs, incrementLike, showDeleteButton, deleteBlog }) => {
 	const sortedList = [ ...blogs ]
