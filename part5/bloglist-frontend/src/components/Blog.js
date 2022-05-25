@@ -9,6 +9,16 @@ const Blog = ({ blog, incrementLike }) => {
 		display: showDetails ? '' : 'none'
 	}
 
+	const showDeleteButton = () => {
+		const cachedData = window.localStorage.getItem('user')
+		const user = JSON.parse(cachedData)
+		return user.username === blog.author.username
+	}
+
+	const deleteButtonStyle = {
+		display: showDeleteButton() ? '' : 'none'
+	}
+
 	return (
 		<div className="blog">
 			{blog.title}
@@ -22,6 +32,7 @@ const Blog = ({ blog, incrementLike }) => {
 					Likes: {blog.likes}
 					<button onClick={incrementLike}>like</button>
 				</div>
+				<button style={deleteButtonStyle}>remove</button>
 			</div>
 		</div>
 	)
