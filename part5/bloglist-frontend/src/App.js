@@ -32,7 +32,7 @@ const App = () => {
 		setMessage(message)
 		setTimeout(() => {
 			setMessage('')
-		}, 5000);
+		}, 5000)
 	}
 
 	const addNewBlog = async newBlog => {
@@ -81,8 +81,8 @@ const App = () => {
 	const deleteBlog = async (blog) => {
 		try {
 			if (!window.confirm(
-					`Remove blog ${blog.title} by ${blog.author.name}`))
-				return ;
+				`Remove blog ${blog.title} by ${blog.author.name}`))
+				return
 			await blogService.deleteBlog(user.token, blog)
 			setBlogs(blogs.filter(b => b.id !== blog.id))
 		} catch (error) {
@@ -102,7 +102,7 @@ const App = () => {
 					addNewBlog={addNewBlog}
 					author={user.name}
 					ref={toggableRef}
-				/> 
+				/>
 			}
 			{ !user && <LoginForm login={login} /> }
 			<BlogList

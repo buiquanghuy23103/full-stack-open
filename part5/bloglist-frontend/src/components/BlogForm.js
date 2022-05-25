@@ -1,11 +1,11 @@
-import { forwardRef, useState } from "react"
-import Toggable from "./Toggable"
+import { forwardRef, useState } from 'react'
+import Toggable from './Toggable'
 import PropTypes from 'prop-types'
 
-const BlogForm = forwardRef(({
-	addNewBlog,
-	author
-}, ref) => {
+const BlogForm = forwardRef((
+	{ addNewBlog, author },
+	ref
+) => {
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
 	const handleSubmit = async e => {
@@ -44,6 +44,8 @@ const BlogForm = forwardRef(({
 		</Toggable>
 	)
 })
+
+BlogForm.displayName = 'BlogForm'
 
 BlogForm.propTypes = {
 	addNewBlog: PropTypes.func.isRequired,
