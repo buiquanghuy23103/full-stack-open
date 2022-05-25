@@ -1,5 +1,6 @@
 import { forwardRef, useState } from "react"
 import Toggable from "./Toggable"
+import PropTypes from 'prop-types'
 
 const BlogForm = forwardRef(({
 	addNewBlog,
@@ -43,5 +44,10 @@ const BlogForm = forwardRef(({
 		</Toggable>
 	)
 })
+
+BlogForm.propTypes = {
+	addNewBlog: PropTypes.func.isRequired,
+	author: PropTypes.string.isRequired
+}
 
 export default BlogForm

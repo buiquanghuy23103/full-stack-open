@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Toggable from "./Toggable"
+import PropTypes from 'prop-types'
 
 const LoginForm = ({
 	login
@@ -39,6 +40,10 @@ const LoginForm = ({
 			</form>
 		</Toggable>
 	)
+}
+
+LoginForm.propTypes = {
+	login: PropTypes.func.isRequired
 }
 
 export default LoginForm
