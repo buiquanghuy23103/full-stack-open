@@ -80,6 +80,9 @@ const App = () => {
 
 	const deleteBlog = async (blog) => {
 		try {
+			if (!window.confirm(
+					`Remove blog ${blog.title} by ${blog.author.name}`))
+				return ;
 			await blogService.deleteBlog(user.token, blog)
 			setBlogs(blogs.filter(b => b.id !== blog.id))
 		} catch (error) {
