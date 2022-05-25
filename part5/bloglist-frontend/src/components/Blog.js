@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Blog = ({ blog, incrementLike }) => {
+const Blog = ({ blog, incrementLike, showDeleteButton, deleteBlog }) => {
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleDetailsView = () => setShowDetails(!showDetails)
@@ -9,14 +9,8 @@ const Blog = ({ blog, incrementLike }) => {
 		display: showDetails ? '' : 'none'
 	}
 
-	const showDeleteButton = () => {
-		const cachedData = window.localStorage.getItem('user')
-		const user = JSON.parse(cachedData)
-		return user.username === blog.author.username
-	}
-
 	const deleteButtonStyle = {
-		display: showDeleteButton() ? '' : 'none'
+		display: showDeleteButton ? '' : 'none'
 	}
 
 	return (
@@ -32,7 +26,12 @@ const Blog = ({ blog, incrementLike }) => {
 					Likes: {blog.likes}
 					<button onClick={incrementLike}>like</button>
 				</div>
-				<button style={deleteButtonStyle}>remove</button>
+				<button
+					onClick={deleteBlog}
+					style={deleteButtonStyle}
+				>
+					remove
+				</button>
 			</div>
 		</div>
 	)

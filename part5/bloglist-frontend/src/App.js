@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
@@ -79,6 +78,17 @@ const App = () => {
 		)
 	}
 
+	const deleteBlog = async (blog) => {
+		try {
+			await blogService.deleteBlog(user.token, blog)
+			setBlogs(blogs.filter(b => b.id !== blog.id))
+		} catch (error) {
+			console.log(error)
+		}
+	}
+
+	const showDeleteButton = (blog) => user.username === blog.author.username
+
 	return (
 		<div>
 			<h2>blogs</h2>
@@ -92,7 +102,12 @@ const App = () => {
 				/> 
 			}
 			{ !user && <LoginForm login={login} /> }
-			<BlogList blogs={ blogs } incrementLike={incrementLike} />
+			<BlogList
+				blogs={ blogs }
+				incrementLike={ incrementLike }
+				showDeleteButton= { showDeleteButton }
+				deleteBlog={ deleteBlog }
+			/>
 		</div>
 	)
 }
