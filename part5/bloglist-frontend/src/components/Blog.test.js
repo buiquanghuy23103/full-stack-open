@@ -34,7 +34,8 @@ describe('Default blog display', () => {
 
 describe('when blog details are shown', () => {
 	let blog
-	beforeEach(() => {
+	const incrementLike = jest.fn()
+	beforeEach(async () => {
 		blog = {
 			title: 'React patterns',
 			author: {
@@ -45,14 +46,23 @@ describe('when blog details are shown', () => {
 			likes: 7
 		}
 
-		render(<Blog blog={blog} />)
+		render(<Blog blog={blog} incrementLike={incrementLike} />)
 		const user = userEvent.setup()
 		const viewButton = screen.getByRole('button', { name: /view/ })
-		user.click(viewButton)
+		await user.click(viewButton)
 	})
 
 	test('should show likes and url', () => {
 		screen.getByText(blog.url, { exact: false })
 		screen.getByText(blog.likes, { exact: false })
+	})
+
+	test('should increment likes twice if like button is clicked twice', async () => {
+		const likeButton = screen.getByRole('button', { name: /like/ })
+		const user = userEvent.setup()
+		await user.click(likeButton)
+		await user.click(likeButton)
+
+		expect(incrementLike.mock.calls).toHaveLength(2)
 	})
 })
