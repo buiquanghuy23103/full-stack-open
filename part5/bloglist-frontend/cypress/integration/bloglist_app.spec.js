@@ -1,4 +1,4 @@
-describe('Blog list app', function() {
+describe('When not logged in', function() {
 	beforeEach(function () {
 		cy.visit('http://localhost:3000')
 	})
@@ -17,5 +17,23 @@ describe('Blog list app', function() {
 		cy.get('#password').type('pa55word')
 		cy.get('#login-button').click()
 		cy.contains('Michael Chan logged in')
+	})
+})
+
+describe('When logged in', () => {
+	beforeEach(function () {
+		cy.visit('http://localhost:3000')
+		cy.contains('login').click()
+		cy.get('#username').type('mchan')
+		cy.get('#password').type('pa55word')
+		cy.get('#login-button').click()
+	})
+
+	it('a blog can be created', function () {
+		cy.contains('create').click()
+		cy.get('#blog-title').type('Test title')
+		cy.get('#blog-url').type('Test url')
+		cy.get('#blog-save-button').click()
+		cy.contains('Test title')
 	})
 })

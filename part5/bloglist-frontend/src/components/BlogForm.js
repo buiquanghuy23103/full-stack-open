@@ -16,7 +16,7 @@ const BlogForm = forwardRef((
 	}
 	return (
 		<Toggable
-			openButtonLabel="create a new blog"
+			openButtonLabel="create"
 			closeButtonLabel="cancel"
 			ref={ref}
 		>
@@ -25,6 +25,7 @@ const BlogForm = forwardRef((
 				<div>
 					title
 					<input
+						id='blog-title'
 						value={title}
 						onChange={e => setTitle(e.target.value)}
 						placeholder='title of the blog'
@@ -33,6 +34,7 @@ const BlogForm = forwardRef((
 				<div>
 					url
 					<input
+						id='blog-url'
 						value={url}
 						onChange={e => setUrl(e.target.value)}
 						placeholder='url of the blog'
@@ -41,7 +43,7 @@ const BlogForm = forwardRef((
 				<div>
 					author: { author }
 				</div>
-				<button type="submit">save</button>
+				<button id='blog-save-button' type="submit">save</button>
 			</form>
 		</Toggable>
 	)
