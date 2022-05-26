@@ -90,7 +90,10 @@ const App = () => {
 		}
 	}
 
-	const showDeleteButton = (blog) => user.username === blog.author.username
+	console.log('user', user)
+
+	const showDeleteButton = blog =>
+		user && user.username === blog.author.username
 
 	return (
 		<div>
