@@ -21,6 +21,7 @@ const LoginForm = ({
 				<div>
 					username
 					<input
+						id='username'
 						type="text"
 						value={username}
 						name="username"
@@ -30,13 +31,14 @@ const LoginForm = ({
 				<div>
 					password
 					<input
+						id='password'
 						type="password"
 						name="password"
 						value={password}
 						onChange={e => setPassword(e.target.value)}
 					/>
 				</div>
-				<button type="submit">submit</button>
+				<button id='login-button' type="submit">submit</button>
 			</form>
 		</Toggable>
 	)
