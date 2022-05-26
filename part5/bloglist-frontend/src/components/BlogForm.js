@@ -27,6 +27,7 @@ const BlogForm = forwardRef((
 					<input
 						value={title}
 						onChange={e => setTitle(e.target.value)}
+						placeholder='title of the blog'
 					/>
 				</div>
 				<div>
@@ -34,6 +35,7 @@ const BlogForm = forwardRef((
 					<input
 						value={url}
 						onChange={e => setUrl(e.target.value)}
+						placeholder='url of the blog'
 					/>
 				</div>
 				<div>
