@@ -36,7 +36,7 @@ describe('Blog app', function() {
 
 	describe('When logged in', () => {
 		beforeEach(function () {
-			cy.login()
+			cy.login('mchan', 'Michael Chan')
 		})
 
 		it('a blog can be created', function () {
@@ -66,5 +66,7 @@ describe('Blog app', function() {
 			cy.get('#blog-view-button').click()
 			cy.get('#blog-delete-button').click()
 		})
+
+
 	})
 })

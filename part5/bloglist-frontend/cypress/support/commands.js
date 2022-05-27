@@ -24,10 +24,10 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add('login', function () {
+Cypress.Commands.add('login', function (username, name) {
 	const credentials = {
-		username: 'mchan',
-		name: 'Michael Chan',
+		username: username,
+		name: name,
 		password: 'pa55word'
 	}
 	cy.request('POST', 'http://localhost:3001/api/users', credentials)
