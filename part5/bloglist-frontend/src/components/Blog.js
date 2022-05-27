@@ -26,6 +26,7 @@ const Blog = ({ blog, incrementLike, showDeleteButton, deleteBlog }) => {
 					<button id='blog-like-button' onClick={incrementLike}>like</button>
 				</div>
 				<button
+					id='blog-delete-button'
 					onClick={deleteBlog}
 					style={deleteButtonStyle}
 				>

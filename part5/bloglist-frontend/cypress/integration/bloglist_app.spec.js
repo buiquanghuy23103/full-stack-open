@@ -46,7 +46,7 @@ describe('Blog app', function() {
 			cy.contains('Test title by Michael Chan')
 		})
 
-		it.only('users can like a blog', function () {
+		it('users can like a blog', function () {
 			cy.createBlog({
 				title: 'A new blog title',
 				url: 'https://example.com',
@@ -55,6 +55,16 @@ describe('Blog app', function() {
 			cy.get('#blog-view-button').click()
 			cy.get('#blog-like-button').click()
 			cy.contains('Likes: 2')
+		})
+
+		it('users can delete their own blogs', function() {
+			cy.createBlog({
+				title: 'A new blog title',
+				url: 'https://example.com',
+				likes: 1
+			})
+			cy.get('#blog-view-button').click()
+			cy.get('#blog-delete-button').click()
 		})
 	})
 })
