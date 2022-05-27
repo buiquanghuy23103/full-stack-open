@@ -33,18 +33,17 @@ describe('Blog app', function() {
 			cy.contains(`${credentials.name} logged in`)
 		})
 	})
-})
 
-describe('When logged in', () => {
-	beforeEach(function () {
-		cy.login()
-	})
+	describe('When logged in', () => {
+		beforeEach(function () {
+			cy.login()
+		})
 
-	it('a blog can be created', function () {
-		cy.contains('create').click()
-		cy.get('#blog-title').type('Test title')
-		cy.get('#blog-url').type('Test url')
-		cy.get('#blog-save-button').click()
-		cy.contains('Test title')
+		it.only('a blog can be created', function () {
+			cy.get('#blog-title').type('Test title')
+			cy.get('#blog-url').type('Test url')
+			cy.get('#blog-save-button').click()
+			cy.contains('Test title by Michael Chan')
+		})
 	})
 })

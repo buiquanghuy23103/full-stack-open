@@ -27,8 +27,10 @@
 Cypress.Commands.add('login', function () {
 	const credentials = {
 		username: 'mchan',
+		name: 'Michael Chan',
 		password: 'pa55word'
 	}
+	cy.request('POST', 'http://localhost:3001/api/users', credentials)
 	cy.request('POST', 'http://localhost:3001/api/login', credentials)
 		.then(({ body }) => {
 			localStorage.setItem('user', JSON.stringify(body))
