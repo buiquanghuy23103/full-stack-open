@@ -59,13 +59,15 @@ describe('Blog app', function() {
 		})
 
 		it('users can delete their own blogs', function() {
-			cy.createBlog({
+			const blog = {
 				title: 'A new blog title',
 				url: 'https://example.com',
 				likes: 1
-			})
+			}
+			cy.createBlog(blog)
 			cy.get('#blog-view-button').click()
 			cy.get('#blog-delete-button').click()
+			cy.contains(blog.title).should('not.exist')
 		})
 
 		it('unauthorized users cannot delete blog', function() {
@@ -84,7 +86,7 @@ describe('Blog app', function() {
 				.should('not.be.visible')
 		})
 
-		it.only('blog list is in ascending order', function() {
+		it('blog list is in ascending order', function() {
 			cy.createBlog({
 				title: 'Worst likes',
 				url: 'https://example.com'
