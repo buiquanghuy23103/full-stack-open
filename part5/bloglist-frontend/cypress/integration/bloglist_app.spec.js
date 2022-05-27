@@ -8,8 +8,30 @@ describe('Blog app', function() {
 		cy.contains('blogs')
 	})
 
-	it.only('Login form is shown', function () {
+	it('Login form is shown', function () {
 		cy.get('#username')
+	})
+
+	describe('Login', () => {
+		it('fails with wrong credentials', function () {
+			cy.get('#username').type('abcde')
+			cy.get('#password').type('abcdefghijklm')
+			cy.get('#login-button').click()
+			cy.contains('Wrong username or password')
+		})
+
+		it('succeeds with correct credentials', function () {
+			const credentials = {
+				username: 'mchan',
+				name: 'Michael Chan',
+				password: 'pa55word'
+			}
+			cy.request('POST', 'http://localhost:3001/api/users', credentials)
+			cy.get('#username').type(credentials.username)
+			cy.get('#password').type(credentials.password)
+			cy.get('#login-button').click()
+			cy.contains(`${credentials.name} logged in`)
+		})
 	})
 })
 
