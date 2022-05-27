@@ -36,7 +36,8 @@ describe('Blog app', function() {
 
 	describe('When logged in', () => {
 		beforeEach(function () {
-			cy.login('mchan', 'Michael Chan')
+			cy.createUser('mchan', 'Michael Chan')
+			cy.login('mchan')
 		})
 
 		it('a blog can be created', function () {
@@ -67,6 +68,21 @@ describe('Blog app', function() {
 			cy.get('#blog-delete-button').click()
 		})
 
+		it.only('unauthorized users cannot delete blog', function() {
+			cy.createUser('user1', 'User One')
+			cy.login('user1')
+			const newBlog = {
+				title: 'A new blog',
+				url: 'https://example2.com'
+			}
+			cy.createBlog(newBlog)
+			cy.get('#logout-button').click()
+			cy.login('mchan')
+			cy.get('#blog-view-button').click()
+			cy.contains(newBlog.title)
+				.get('#blog-delete-button')
+				.should('not.be.visible')
 
+		})
 	})
 })

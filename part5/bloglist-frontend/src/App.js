@@ -73,7 +73,7 @@ const App = () => {
 		return (
 			<>
 				<p>{user.name} logged in</p>
-				<button onClick={logout}>logout</button>
+				<button id='logout-button' onClick={logout}>logout</button>
 			</>
 		)
 	}
