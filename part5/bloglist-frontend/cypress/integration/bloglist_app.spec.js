@@ -22,11 +22,7 @@ describe('When not logged in', function() {
 
 describe('When logged in', () => {
 	beforeEach(function () {
-		cy.visit('http://localhost:3000')
-		cy.contains('login').click()
-		cy.get('#username').type('mchan')
-		cy.get('#password').type('pa55word')
-		cy.get('#login-button').click()
+		cy.login()
 	})
 
 	it('a blog can be created', function () {
