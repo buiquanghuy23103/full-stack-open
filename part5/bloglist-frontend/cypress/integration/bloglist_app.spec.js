@@ -68,7 +68,7 @@ describe('Blog app', function() {
 			cy.get('#blog-delete-button').click()
 		})
 
-		it.only('unauthorized users cannot delete blog', function() {
+		it('unauthorized users cannot delete blog', function() {
 			cy.createUser('user1', 'User One')
 			cy.login('user1')
 			const newBlog = {
@@ -82,7 +82,43 @@ describe('Blog app', function() {
 			cy.contains(newBlog.title)
 				.get('#blog-delete-button')
 				.should('not.be.visible')
+		})
 
+		it.only('blog list is in ascending order', function() {
+			cy.createBlog({
+				title: 'Worst likes',
+				url: 'https://example.com'
+			})
+			cy.createBlog({
+				title: 'Most likes',
+				url: 'https://example.com'
+			})
+			cy.createBlog({
+				title: 'Second most likes',
+				url: 'https://example.com'
+			})
+
+			cy.contains('Most likes')
+				.contains('view')
+				.click()
+			cy.contains('Most likes')
+				.contains('like')
+				.as('hot-button')
+			cy.get('@hot-button').click()
+			cy.get('@hot-button').click()
+			cy.get('@hot-button').click()
+
+			cy.contains('Second most likes')
+				.contains('view')
+				.click()
+			cy.contains('Second most likes')
+				.contains('like')
+				.as('normal-button')
+			cy.get('@normal-button').click()
+			cy.get('@normal-button').click()
+
+			cy.get('.blog').eq(0).should('contain', 'Most likes')
+			cy.get('.blog').eq(1).should('contain', 'Second most likes')
 		})
 	})
 })
