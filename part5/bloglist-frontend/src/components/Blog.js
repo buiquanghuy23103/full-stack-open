@@ -16,14 +16,14 @@ const Blog = ({ blog, incrementLike, showDeleteButton, deleteBlog }) => {
 	return (
 		<div className="blog">
 			{ blog.title } by { blog.author.name }
-			<button onClick={toggleDetailsView}>
+			<button id='blog-view-button' onClick={toggleDetailsView}>
 				{ showDetails ? 'hide' : 'view' }
 			</button>
 			<div style={displaySettings}>
 				<p>Url: {blog.url}</p>
 				<div>
 					Likes: {blog.likes}
-					<button onClick={incrementLike}>like</button>
+					<button id='blog-like-button' onClick={incrementLike}>like</button>
 				</div>
 				<button
 					onClick={deleteBlog}
