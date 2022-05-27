@@ -1,5 +1,6 @@
-describe('When not logged in', function() {
+describe('Blog app', function() {
 	beforeEach(function () {
+		cy.request('POST', 'http://localhost:3001/api/testing/reset')
 		cy.visit('http://localhost:3000')
 	})
 
@@ -7,16 +8,8 @@ describe('When not logged in', function() {
 		cy.contains('blogs')
 	})
 
-	it('login form can be opened', function() {
-		cy.contains('login').click()
-	})
-
-	it('user can login', function () {
-		cy.contains('login').click()
-		cy.get('#username').type('mchan')
-		cy.get('#password').type('pa55word')
-		cy.get('#login-button').click()
-		cy.contains('Michael Chan logged in')
+	it.only('Login form is shown', function () {
+		cy.get('#username')
 	})
 })
 

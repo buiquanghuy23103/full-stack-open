@@ -5,7 +5,7 @@ const Toggable = forwardRef((
 	{ children, openButtonLabel, closeButtonLabel },
 	ref
 ) => {
-	const [visible, setVisible] = useState(false)
+	const [visible, setVisible] = useState(true)
 
 	const toggleVisible = () => setVisible(!visible)
 
