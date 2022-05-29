@@ -26,11 +26,22 @@ const incrementVote = (state, action) => {
 	return state.map(a => a.id === id ? changedAnecdote : a)
 }
 
+const addAnecdote = (state, action) => {
+	const newNote = {
+		id: getId(),
+		content: action.data.content,
+		votes: 0
+	}
+	return state.concat(newNote)
+}
+
 const reducer = (state = initialState, action) => {
 	switch (action.type)
 	{
 		case 'INCREMENT_VOTE':
 			return incrementVote(state, action)
+		case 'ADD_ANECDOTE':
+			return addAnecdote(state, action)
 		default: return state
 	}
 }

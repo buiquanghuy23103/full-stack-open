@@ -9,6 +9,14 @@ const App = () => {
     dispatch(anecdoteActionCreators.incrementVote(id))
   }
 
+  const addAnecdote = (event) => {
+	  event.preventDefault()
+	  const newAnecdote = {
+		  content: event.target.anecdote.value
+	  }
+	  dispatch(anecdoteActionCreators.addAnecdote(newAnecdote))
+  }
+
   return (
     <div>
       <h2>Anecdotes</h2>
@@ -24,9 +32,9 @@ const App = () => {
         </div>
       )}
       <h2>create new</h2>
-      <form>
-        <div><input /></div>
-        <button>create</button>
+      <form onSubmit={addAnecdote}>
+        <div><input name='anecdote' /></div>
+        <button type='submit'>create</button>
       </form>
     </div>
   )

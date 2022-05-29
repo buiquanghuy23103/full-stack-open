@@ -3,8 +3,14 @@ const incrementVote = (id) => ({
 	data: { id }
 })
 
+const addAnecdote = (newNote) => ({
+	type: 'ADD_ANECDOTE',
+	data: newNote
+})
+
 const anecdoteActionCreators = {
-	incrementVote
+	incrementVote,
+	addAnecdote
 }
 
 export default anecdoteActionCreators
