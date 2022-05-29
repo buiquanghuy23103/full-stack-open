@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux"
-import anecdoteActionCreators from "../actionCreators/anecdoteActionCreators"
+import { anecdoteActionCreators } from "../reducers/anecdoteReducer"
 
 const Anecdote = ({ anecdote }) => {
 	const dispatch = useDispatch()
@@ -7,6 +7,7 @@ const Anecdote = ({ anecdote }) => {
 	const vote = (id) => {
 	  dispatch(anecdoteActionCreators.incrementVote(id))
 	}
+
 	return (
 		<div key={anecdote.id}>
 			<div>
