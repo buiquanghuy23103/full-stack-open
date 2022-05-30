@@ -26,12 +26,12 @@ const incrementVote = (state, action) => {
 }
 
 const addAnecdote = (state, action) => {
-	const newNote = {
+	const newAnecdote = {
 		id: getId(),
 		content: action.payload.content,
 		votes: 0
 	}
-	return state.concat(newNote)
+	state.push(newAnecdote)
 }
 
 const initialState = anecdotesAtStart.map(asObject)
