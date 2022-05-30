@@ -47,6 +47,6 @@ const anecdoteSlice = createSlice({
 
 const anecdoteReducer = anecdoteSlice.reducer
 
-export const anecdoteActionCreators = anecdoteSlice.actions
+export const anecdoteActions = anecdoteSlice.actions
 
 export default anecdoteReducer
