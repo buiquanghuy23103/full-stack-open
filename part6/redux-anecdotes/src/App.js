@@ -12,7 +12,7 @@ const App = () => {
 	useEffect(() => {
 		service.getAll()
 			.then(response => dispatch(anecdoteActions.setAnecdotes(response)))
-	}, [])
+	}, [dispatch])
   return (
 	<div>
 	<h2>Anecdotes</h2>
