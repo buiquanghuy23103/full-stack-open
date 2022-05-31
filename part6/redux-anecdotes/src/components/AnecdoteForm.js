@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { anecdoteActions } from '../reducers/anecdoteReducer'
 import { notificationActions } from '../reducers/notificationReducer'
+import service from '../service'
 
 const AnecdoteForm = () => {
 	const dispatch = useDispatch()
@@ -11,6 +12,7 @@ const AnecdoteForm = () => {
 			content: event.target.anecdote.value
 		}
 		dispatch(anecdoteActions.addAnecdote(newAnecdote))
+		service.createNew(newAnecdote)
 		dispatch(notificationActions.vote(newAnecdote))
 		setTimeout(() => dispatch(notificationActions.clear()), 2000)
 	}
