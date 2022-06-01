@@ -41,8 +41,13 @@ export const fetchAnecdotes = () => {
 }
 
 export const createNew = anecdote => {
+	const newAnecdote = {
+		votes: 0,
+		content: anecdote.content,
+		id: getId()
+	}
 	return async dispatch => {
-		const response = await service.createNew(anecdote)
+		const response = await service.createNew(newAnecdote)
 		dispatch(anecdoteActions.addAnecdote(response))
 	}
 }
