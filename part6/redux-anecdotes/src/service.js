@@ -13,8 +13,16 @@ const createNew = async (anecdote) => {
 	return response.data
 }
 
+const update = async updatedAnecdote => {
+	const response = await axios.put(
+		`http://localhost:3001/anecdotes/${updatedAnecdote.id}`,
+		updatedAnecdote
+	)
+	return response.data
+}
+
 const service = {
-	getAll, createNew
+	getAll, createNew, update
 }
 
 export default service

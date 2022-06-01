@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux"
-import { anecdoteActions } from "../reducers/anecdoteReducer"
+import { voteMore } from "../reducers/anecdoteReducer"
 
 const Anecdote = ({ anecdote }) => {
 	const dispatch = useDispatch()
   
 	const vote = (id) => {
-	  dispatch(anecdoteActions.incrementVote(id))
+	  dispatch(voteMore(id))
 	}
 
 	return (
