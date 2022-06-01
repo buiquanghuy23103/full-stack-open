@@ -21,5 +21,14 @@ const notificationSlice = createSlice({
 
 export const notificationActions = notificationSlice.actions
 
+export const setNotification = (message, timeSec) => {
+	return async dispatch => {
+		dispatch(notificationActions.vote(message))
+		setTimeout(() => {
+			dispatch(notificationActions.clear())
+		}, timeSec * 1000)
+	}
+}
+
 const notificationReducer = notificationSlice.reducer
 export default notificationReducer

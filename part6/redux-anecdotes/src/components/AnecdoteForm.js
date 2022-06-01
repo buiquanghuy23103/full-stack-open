@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { createNew } from '../reducers/anecdoteReducer'
-import { notificationActions } from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
 	const dispatch = useDispatch()
@@ -11,8 +11,7 @@ const AnecdoteForm = () => {
 			content: event.target.anecdote.value
 		}
 		dispatch(createNew(newAnecdote))
-		dispatch(notificationActions.vote(newAnecdote))
-		setTimeout(() => dispatch(notificationActions.clear()), 2000)
+		dispatch(setNotification(`you voted '${newAnecdote.content}'`, 3))
 	}
 	return (
 		<div>
