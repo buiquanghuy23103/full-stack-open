@@ -55,7 +55,6 @@ export const createNew = anecdote => {
 export const voteMore = id => {
 	return async (dispatch, getState) => {
 		const { anecdotes } = getState()
-		console.log('state.anecdotes', anecdotes);
 		const changedAnecdote = { ...anecdotes.find(a => a.id === id) }
 		changedAnecdote.votes++
 		await service.update(changedAnecdote)
