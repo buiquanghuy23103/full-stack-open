@@ -14,6 +14,16 @@ const Anecdote = ({ anecdote }) => {
 	)
 }
 
+const Notification = ({message}) => {
+	if (!message) return null
+
+	return (
+		<>
+			<p>{message}</p>
+		</>
+	)
+}
+
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -128,13 +138,20 @@ const App = () => {
   ) : null
   const [notification, setNotification] = useState('')
 
+  const showNotification = (anecdoteContent) => {
+	setNotification(anecdoteContent)
+	setTimeout(() => setNotification(''), 5000)
+}
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+	showNotification(`a new anecdote: ${anecdote.content}`)
   }
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
+
+
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -150,7 +167,8 @@ const App = () => {
   return (
     <div>
       <h1>Software anecdotes</h1>
-      <Menu />
+		<Menu />
+		<Notification message={notification} />
 		<Routes>
 			<Route path='/' element={<AnecdoteList anecdotes={anecdotes} />} />
 			<Route path='/create' element={<CreateNew addNew={addNew} />} />
