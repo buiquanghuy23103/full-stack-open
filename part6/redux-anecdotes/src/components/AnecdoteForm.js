@@ -1,15 +1,13 @@
 import { connect } from 'react-redux'
 import { createNew } from '../reducers/anecdoteReducer'
-import { setNotification } from '../reducers/notificationReducer'
 
-const AnecdoteForm = ({ createNew, setNotification }) => {
+const AnecdoteForm = ({ createNew }) => {
 	const addAnecdote = (event) => {
 		event.preventDefault()
 		const newAnecdote = {
 			content: event.target.anecdote.value
 		}
 		createNew(newAnecdote)
-		setNotification(`you voted '${newAnecdote.content}'`, 3)
 	}
 	return (
 		<div>
@@ -22,6 +20,6 @@ const AnecdoteForm = ({ createNew, setNotification }) => {
 	)
 }
 
-const mapDispatchToProps = { createNew, setNotification }
+const mapDispatchToProps = { createNew }
 
 export default connect(null, mapDispatchToProps)(AnecdoteForm)

@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = ''
 
 const vote = (state, action) => {
-	return `you voted '${action.payload.content}'`
+	return action.payload
 }
 
 const clear = (state, action) => {

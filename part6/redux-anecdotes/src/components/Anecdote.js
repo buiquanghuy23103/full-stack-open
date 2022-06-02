@@ -1,9 +1,12 @@
 import { connect } from "react-redux"
 import { voteMore } from "../reducers/anecdoteReducer"
+import { setNotification } from "../reducers/notificationReducer"
 
-const Anecdote = ({ anecdote, voteMore }) => {
-	const vote = (id) => {
-	  voteMore(id)
+const Anecdote = ({ anecdote, voteMore, setNotification }) => {
+	const vote = () => {
+		voteMore(anecdote.id)
+		const message = `you voted ${anecdote.content}`
+		setNotification(message, 3)
 	}
 
 	return (
@@ -19,6 +22,6 @@ const Anecdote = ({ anecdote, voteMore }) => {
 	)
 }
 
-const mapDispatchToProps = { voteMore }
+const mapDispatchToProps = { voteMore, setNotification }
 
 export default connect(null, mapDispatchToProps)(Anecdote)
