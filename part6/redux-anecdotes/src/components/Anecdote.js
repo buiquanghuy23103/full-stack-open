@@ -1,11 +1,9 @@
-import { useDispatch } from "react-redux"
+import { connect } from "react-redux"
 import { voteMore } from "../reducers/anecdoteReducer"
 
-const Anecdote = ({ anecdote }) => {
-	const dispatch = useDispatch()
-  
+const Anecdote = ({ anecdote, voteMore }) => {
 	const vote = (id) => {
-	  dispatch(voteMore(id))
+	  voteMore(id)
 	}
 
 	return (
@@ -21,4 +19,6 @@ const Anecdote = ({ anecdote }) => {
 	)
 }
 
-export default Anecdote
+const mapDispatchToProps = { voteMore }
+
+export default connect(null, mapDispatchToProps)(Anecdote)
