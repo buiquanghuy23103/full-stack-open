@@ -6,7 +6,7 @@ const Anecdote = ({ anecdote, voteMore, setNotification }) => {
 	const vote = () => {
 		voteMore(anecdote.id)
 		const message = `you voted ${anecdote.content}`
-		setNotification(message, 3)
+		setNotification(message, 5)
 	}
 
 	return (
