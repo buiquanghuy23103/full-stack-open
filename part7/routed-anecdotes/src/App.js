@@ -79,6 +79,7 @@ const CreateNew = (props) => {
   const content = useField('content', 'text')
   const author = useField('author', 'text')
   const info = useField('info', 'text')
+  const getInput = ({reset, ...input}) => input
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
@@ -103,15 +104,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input { ...content } />
+          <input { ...getInput(content) } />
         </div>
         <div>
           author
-          <input {...author} />
+          <input {...getInput(author)} />
         </div>
         <div>
           url for more info
-          <input {...info} />
+          <input {...getInput(info)} />
         </div>
         <button type='submit'>create</button>
       </form>
