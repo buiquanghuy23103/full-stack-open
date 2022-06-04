@@ -8,8 +8,8 @@ const getAll = async () => {
 const create = async (token, newBlog) => {
 	const config = {
 		headers: {
-			Authorization: `bearer ${token}`
-		}
+			Authorization: `bearer ${token}`,
+		},
 	}
 	const response = await axios.post('/api/blogs', newBlog, config)
 	return response.data
@@ -18,8 +18,8 @@ const create = async (token, newBlog) => {
 const update = async (token, updatedBlog) => {
 	const config = {
 		headers: {
-			Authorization: `bearer ${token}`
-		}
+			Authorization: `bearer ${token}`,
+		},
 	}
 	// blog.author produces type error in NodeJS
 	delete updatedBlog.author
@@ -34,8 +34,8 @@ const update = async (token, updatedBlog) => {
 const deleteBlog = async (token, deleteBlog) => {
 	const config = {
 		headers: {
-			Authorization: `bearer ${token}`
-		}
+			Authorization: `bearer ${token}`,
+		},
 	}
 	const response = await axios.delete(`/api/blogs/${deleteBlog.id}`, config)
 	return response.data

@@ -10,13 +10,13 @@ describe('default blog form', () => {
 		const user = userEvent.setup()
 		const newBlog = {
 			title: 'React pattern',
-			url: 'https://hello.com'
+			url: 'https://hello.com',
 		}
 
-		render(<BlogForm addNewBlog={ addNewBlog } author={ author } />)
+		render(<BlogForm addNewBlog={addNewBlog} author={author} />)
 
 		const createBlogButton = screen.getByRole('button', {
-			name: /create a new blog/
+			name: /create a new blog/,
 		})
 		await user.click(createBlogButton)
 
@@ -27,7 +27,7 @@ describe('default blog form', () => {
 		await user.type(urlInput, newBlog.url)
 
 		const saveButton = screen.getByRole('button', {
-			name: /save/
+			name: /save/,
 		})
 		await user.click(saveButton)
 

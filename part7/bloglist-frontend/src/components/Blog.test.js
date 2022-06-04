@@ -10,10 +10,10 @@ describe('Default blog display', () => {
 			title: 'React patterns',
 			author: {
 				username: 'edijkstra',
-				name: 'Edsger W. Dijkstra'
+				name: 'Edsger W. Dijkstra',
 			},
 			url: 'https://reactpatterns.com/',
-			likes: 7
+			likes: 7,
 		}
 
 		render(<Blog blog={blog} />)
@@ -40,10 +40,10 @@ describe('when blog details are shown', () => {
 			title: 'React patterns',
 			author: {
 				username: 'edijkstra',
-				name: 'Edsger W. Dijkstra'
+				name: 'Edsger W. Dijkstra',
 			},
 			url: 'https://reactpatterns.com/',
-			likes: 7
+			likes: 7,
 		}
 
 		render(<Blog blog={blog} incrementLike={incrementLike} />)
