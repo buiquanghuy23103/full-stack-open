@@ -1,12 +1,24 @@
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { deleteBlogById } from '../reducers/blogReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { deleteBlogById, incrementLike } from '../reducers/blogReducer'
+import { notify } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, incrementLike, showDeleteButton, token }) => {
+const Blog = ({ blog, showDeleteButton, token }) => {
 	const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleDetailsView = () => setShowDetails(!showDetails)
+
+	const like = () => {
+		if (!user)
+			dispatch(notify('Please login to like a post'))
+		try {
+			dispatch(incrementLike(user.token, blog))
+		} catch (error) {
+			dispatch(notify(error.toString()))
+		}
+	}
 
 	const deleteBlog = () => {
 		try {
@@ -36,7 +48,7 @@ const Blog = ({ blog, incrementLike, showDeleteButton, token }) => {
 				<p>Url: {blog.url}</p>
 				<div>
 					Likes: {blog.likes}
-					<button id="blog-like-button" onClick={incrementLike}>
+					<button id="blog-like-button" onClick={like}>
 						like
 					</button>
 				</div>

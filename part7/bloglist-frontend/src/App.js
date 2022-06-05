@@ -5,8 +5,7 @@ import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import UserInfo from './components/UserInfo'
-import { fetchBlogs, incrementLike } from './reducers/blogReducer'
-import { notify } from './reducers/notificationReducer'
+import { fetchBlogs } from './reducers/blogReducer'
 import { userActions } from './reducers/userReducer'
 
 const App = () => {
@@ -16,14 +15,6 @@ const App = () => {
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
 		dispatch(userActions.setUser(JSON.parse(credentials)))
-	}
-
-	const like = (blog) => {
-		try {
-			dispatch(incrementLike(user.token, blog))
-		} catch (error) {
-			dispatch(notify(error.toString()))
-		}
 	}
 
 	useEffect(() => {
@@ -42,7 +33,6 @@ const App = () => {
 			<BlogForm  />
 			<LoginForm />
 			<BlogList
-				incrementLike={like}
 				showDeleteButton={showDeleteButton}
 				token={user ? user.token : null}
 			/>
