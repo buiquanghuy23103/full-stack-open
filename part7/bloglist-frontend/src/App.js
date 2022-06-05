@@ -4,6 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
+import UserInfo from './components/UserInfo'
 import { fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import { userActions } from './reducers/userReducer'
@@ -42,21 +43,6 @@ const App = () => {
 		}
 	}
 
-	const userInfo = () => {
-		const logout = () => {
-			dispatch(userActions.removeUser())
-			window.localStorage.removeItem('user')
-		}
-		return (
-			<>
-				<p>{user.name} logged in</p>
-				<button id="logout-button" onClick={logout}>
-					logout
-				</button>
-			</>
-		)
-	}
-
 	const showDeleteButton = (blog) =>
 		user && user.username === blog.author.username
 
@@ -64,7 +50,7 @@ const App = () => {
 		<div>
 			<h2>blogs</h2>
 			<NotificationMessage />
-			{user && userInfo()}
+			<UserInfo />
 			{user && (
 				<BlogForm author={user.name} token={user.token} />
 			)}
