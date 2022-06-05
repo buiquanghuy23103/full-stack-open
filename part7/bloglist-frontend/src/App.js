@@ -4,19 +4,20 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
+import { blogActions } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
 	const dispatch = useDispatch()
-	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
 	const toggableRef = useRef(null)
 
 	const fetchBlogs = async () => {
 		const blogs = await blogService.getAll()
-		setBlogs(blogs)
+		console.log('blogs', blogs)
+		dispatch(blogActions.setBlogs(blogs))
 	}
 
 	const getCachedUserCredentials = () => {
@@ -31,7 +32,7 @@ const App = () => {
 
 	const addNewBlog = async (newBlog) => {
 		const response = await blogService.create(user.token, newBlog)
-		setBlogs(blogs.concat(response))
+		dispatch(blogActions.addBlog(response))
 		toggableRef.current.toggleVisible()
 		dispatch(notify(`A new blog ${response.title} by ${user.name} added`))
 	}
@@ -42,7 +43,7 @@ const App = () => {
 			const updatedBlog = { ...blog, likes: blog.likes + 1 }
 			const response = await blogService.update(token, updatedBlog)
 			console.log(response)
-			setBlogs(blogs.map((b) => (b.id === response.id ? response : b)))
+			dispatch(blogActions.incrementLike(blog.id))
 		} catch (error) {
 			dispatch(notify(error.response.data.error))
 		}
@@ -79,13 +80,11 @@ const App = () => {
 			if (!window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`))
 				return
 			await blogService.deleteBlog(user.token, blog)
-			setBlogs(blogs.filter((b) => b.id !== blog.id))
+			dispatch(blogActions.deleteBlogById(blog.id))
 		} catch (error) {
 			console.log(error)
 		}
 	}
-
-	console.log('user', user)
 
 	const showDeleteButton = (blog) =>
 		user && user.username === blog.author.username
@@ -104,7 +103,6 @@ const App = () => {
 			)}
 			{!user && <LoginForm login={login} />}
 			<BlogList
-				blogs={blogs}
 				incrementLike={incrementLike}
 				showDeleteButton={showDeleteButton}
 				deleteBlog={deleteBlog}

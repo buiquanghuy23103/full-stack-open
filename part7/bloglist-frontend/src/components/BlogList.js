@@ -1,6 +1,11 @@
+import { useSelector } from 'react-redux'
 import Blog from './Blog'
 
-const BlogList = ({ blogs, incrementLike, showDeleteButton, deleteBlog }) => {
+const BlogList = ({ incrementLike, showDeleteButton, deleteBlog }) => {
+	const blogs = useSelector(state => {
+		console.log(state)
+		return state.blogs
+	})
 	const sortedList = [...blogs]
 	sortedList.sort((a, b) => b.likes - a.likes)
 	return sortedList.map((blog) => (

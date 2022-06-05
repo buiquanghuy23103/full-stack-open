@@ -13,6 +13,11 @@ const slice = createSlice({
 		deleteBlogById(state, action) {
 			const id = action.payload
 			return state.filter(blog => blog.id === id)
+		},
+		incrementLike(state, action) {
+			const id = action.payload
+			const blog = state.find(a => a.id === id)
+			blog.likes++
 		}
 	}
 })
