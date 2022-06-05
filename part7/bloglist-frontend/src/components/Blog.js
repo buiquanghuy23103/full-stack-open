@@ -1,9 +1,22 @@
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { deleteBlogById } from '../reducers/blogReducer'
 
-const Blog = ({ blog, incrementLike, showDeleteButton, deleteBlog }) => {
+const Blog = ({ blog, incrementLike, showDeleteButton, token }) => {
+	const dispatch = useDispatch()
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleDetailsView = () => setShowDetails(!showDetails)
+
+	const deleteBlog = () => {
+		try {
+			if (!window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`))
+				return
+			dispatch(deleteBlogById(token, blog.id))
+		} catch (error) {
+			console.log(error)
+		}
+	}
 
 	const displaySettings = {
 		display: showDetails ? '' : 'none',

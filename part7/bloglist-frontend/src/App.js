@@ -4,7 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { deleteBlogById, fetchBlogs, incrementLike } from './reducers/blogReducer'
+import { fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import loginService from './services/login'
 
@@ -56,16 +56,6 @@ const App = () => {
 		)
 	}
 
-	const deleteBlog = async (blog) => {
-		try {
-			if (!window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`))
-				return
-			dispatch(deleteBlogById(user.token, blog.id))
-		} catch (error) {
-			console.log(error)
-		}
-	}
-
 	const showDeleteButton = (blog) =>
 		user && user.username === blog.author.username
 
@@ -81,7 +71,7 @@ const App = () => {
 			<BlogList
 				incrementLike={like}
 				showDeleteButton={showDeleteButton}
-				deleteBlog={deleteBlog}
+				token={user ? user.token : null}
 			/>
 		</div>
 	)
