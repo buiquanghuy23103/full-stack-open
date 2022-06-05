@@ -13,7 +13,7 @@ const slice = createSlice({
 		},
 		deleteBlogById(state, action) {
 			const id = action.payload
-			return state.filter(blog => blog.id === id)
+			return state.filter(blog => blog.id !== id)
 		},
 		incrementLike(state, action) {
 			const id = action.payload
