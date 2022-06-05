@@ -4,7 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { notificationActions } from './reducers/notificationReducer'
+import { notify } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -29,18 +29,11 @@ const App = () => {
 		getCachedUserCredentials()
 	}, [])
 
-	const notify = (message) => {
-		dispatch(notificationActions.set(message))
-		setTimeout(() => {
-			dispatch(notificationActions.clear())
-		}, 5000)
-	}
-
 	const addNewBlog = async (newBlog) => {
 		const response = await blogService.create(user.token, newBlog)
 		setBlogs(blogs.concat(response))
 		toggableRef.current.toggleVisible()
-		notify(`A new blog ${response.title} by ${user.name} added`)
+		dispatch(notify(`A new blog ${response.title} by ${user.name} added`))
 	}
 
 	const incrementLike = async (blog) => {
@@ -51,7 +44,7 @@ const App = () => {
 			console.log(response)
 			setBlogs(blogs.map((b) => (b.id === response.id ? response : b)))
 		} catch (error) {
-			notify(error.response.data.error)
+			dispatch(notify(error.response.data.error))
 		}
 	}
 
@@ -62,7 +55,7 @@ const App = () => {
 			window.localStorage.setItem('user', JSON.stringify(response))
 		} catch (error) {
 			console.log(error)
-			notify('Wrong username or password')
+			dispatch(notify('Wrong username or password'))
 		}
 	}
 
