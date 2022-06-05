@@ -47,5 +47,12 @@ export const incrementLike = (token, blog) => {
 	}
 }
 
+export const deleteBlogById = (token, id) => {
+	return async dispatch => {
+		await blogService.deleteBlog(token, id)
+		dispatch(blogActions.deleteBlogById(id))
+	}
+}
+
 const blogReducer = slice.reducer
 export default blogReducer

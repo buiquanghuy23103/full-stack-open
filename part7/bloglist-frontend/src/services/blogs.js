@@ -31,13 +31,13 @@ const update = async (token, updatedBlog) => {
 	return response.data
 }
 
-const deleteBlog = async (token, deleteBlog) => {
+const deleteBlog = async (token, deleteBlogId) => {
 	const config = {
 		headers: {
 			Authorization: `bearer ${token}`,
 		},
 	}
-	const response = await axios.delete(`/api/blogs/${deleteBlog.id}`, config)
+	const response = await axios.delete(`/api/blogs/${deleteBlogId}`, config)
 	return response.data
 }
 

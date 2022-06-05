@@ -4,9 +4,8 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { blogActions, createBlog, fetchBlogs, incrementLike } from './reducers/blogReducer'
+import { createBlog, deleteBlogById, fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
-import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
@@ -68,8 +67,7 @@ const App = () => {
 		try {
 			if (!window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`))
 				return
-			await blogService.deleteBlog(user.token, blog)
-			dispatch(blogActions.deleteBlogById(blog.id))
+			dispatch(deleteBlogById(user.token, blog.id))
 		} catch (error) {
 			console.log(error)
 		}
