@@ -4,7 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { blogActions, createBlog, fetchBlogs } from './reducers/blogReducer'
+import { blogActions, createBlog, fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -19,6 +19,10 @@ const App = () => {
 		setUser(JSON.parse(credentials))
 	}
 
+	const like = (blog) => {
+		dispatch(incrementLike(user.token, blog))
+	}
+
 	useEffect(() => {
 		dispatch(fetchBlogs())
 		getCachedUserCredentials()
@@ -28,18 +32,6 @@ const App = () => {
 		dispatch(createBlog(user.token, newBlog))
 		toggableRef.current.toggleVisible()
 		dispatch(notify(`A new blog ${newBlog.title} by ${user.name} added`))
-	}
-
-	const incrementLike = async (blog) => {
-		try {
-			const { token } = user
-			const updatedBlog = { ...blog, likes: blog.likes + 1 }
-			const response = await blogService.update(token, updatedBlog)
-			console.log(response)
-			dispatch(blogActions.incrementLike(blog.id))
-		} catch (error) {
-			dispatch(notify(error.response.data.error))
-		}
 	}
 
 	const login = async (credentials) => {
@@ -96,7 +88,7 @@ const App = () => {
 			)}
 			{!user && <LoginForm login={login} />}
 			<BlogList
-				incrementLike={incrementLike}
+				incrementLike={like}
 				showDeleteButton={showDeleteButton}
 				deleteBlog={deleteBlog}
 			/>
