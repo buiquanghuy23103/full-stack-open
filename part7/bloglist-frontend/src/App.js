@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
@@ -10,7 +10,6 @@ import { userActions } from './reducers/userReducer'
 
 const App = () => {
 	const dispatch = useDispatch()
-	const user = useSelector(state => state.user)
 
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
@@ -22,9 +21,6 @@ const App = () => {
 		getCachedUserCredentials()
 	}, [])
 
-	const showDeleteButton = (blog) =>
-		user && user.username === blog.author.username
-
 	return (
 		<div>
 			<h2>blogs</h2>
@@ -32,10 +28,7 @@ const App = () => {
 			<UserInfo />
 			<BlogForm  />
 			<LoginForm />
-			<BlogList
-				showDeleteButton={showDeleteButton}
-				token={user ? user.token : null}
-			/>
+			<BlogList />
 		</div>
 	)
 }
