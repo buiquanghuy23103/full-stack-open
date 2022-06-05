@@ -4,7 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { blogActions, fetchBlogs } from './reducers/blogReducer'
+import { blogActions, createBlog, fetchBlogs } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -25,10 +25,9 @@ const App = () => {
 	}, [])
 
 	const addNewBlog = async (newBlog) => {
-		const response = await blogService.create(user.token, newBlog)
-		dispatch(blogActions.addBlog(response))
+		dispatch(createBlog(user.token, newBlog))
 		toggableRef.current.toggleVisible()
-		dispatch(notify(`A new blog ${response.title} by ${user.name} added`))
+		dispatch(notify(`A new blog ${newBlog.title} by ${user.name} added`))
 	}
 
 	const incrementLike = async (blog) => {

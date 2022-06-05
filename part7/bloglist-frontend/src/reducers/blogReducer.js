@@ -32,5 +32,12 @@ export const fetchBlogs = () => {
 	}
 }
 
+export const createBlog = (token, newBlog) => {
+	return async dispatch => {
+		const response = await blogService.create(token, newBlog)
+		dispatch(blogActions.addBlog(response))
+	}
+}
+
 const blogReducer = slice.reducer
 export default blogReducer
