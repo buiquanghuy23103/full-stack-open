@@ -8,10 +8,22 @@ const UserBlogCounts = () => {
 		return Object.entries(statistic)
 	})
 	return (
-		<>
-			{counts.map(([author, blogCount]) =>
-				<p key={author}>{author}: {blogCount} </p>)}
-		</>
+		<table>
+			<thead>
+				<tr>
+					<th>Author</th>
+					<th>Blog counts</th>
+				</tr>
+			</thead>
+			<tbody>
+				{counts.map(([author, blogCount]) =>
+					<tr key={author}>
+						<td>{author}</td>
+						<td>{blogCount}</td>
+					</tr>
+				)}
+			</tbody>
+		</table>
 	)
 }
 
