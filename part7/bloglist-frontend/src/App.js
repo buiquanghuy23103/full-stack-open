@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import NotificationMessage from './components/NotificationMessage'
-import UserInfo from './components/UserInfo'
 import Home from './pages/Home'
 import Users from './pages/Users'
 import { fetchBlogs } from './reducers/blogReducer'
@@ -25,7 +24,6 @@ const App = () => {
 		<div>
 			<h2>blogs</h2>
 			<NotificationMessage />
-			<UserInfo />
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/users' element={<Users/>} />
