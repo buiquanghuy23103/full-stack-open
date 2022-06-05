@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from 'react'
+import { useDispatch } from 'react-redux'
 import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
+import { notificationActions } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
+	const dispatch = useDispatch()
 	const [blogs, setBlogs] = useState([])
 	const [user, setUser] = useState(null)
-	const [message, setMessage] = useState('')
 	const toggableRef = useRef(null)
 
 	const fetchBlogs = async () => {
@@ -28,9 +30,9 @@ const App = () => {
 	}, [])
 
 	const notify = (message) => {
-		setMessage(message)
+		dispatch(notificationActions.set(message))
 		setTimeout(() => {
-			setMessage('')
+			dispatch(notificationActions.clear())
 		}, 5000)
 	}
 
@@ -98,7 +100,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>blogs</h2>
-			<NotificationMessage message={message} />
+			<NotificationMessage />
 			{user && userInfo()}
 			{user && (
 				<BlogForm
