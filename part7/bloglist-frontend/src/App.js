@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import NotificationMessage from './components/NotificationMessage'
 import Home from './pages/Home'
+import User from './pages/User'
 import Users from './pages/Users'
 import { fetchBlogs } from './reducers/blogReducer'
 import { userActions } from './reducers/userReducer'
@@ -26,7 +27,8 @@ const App = () => {
 			<NotificationMessage />
 			<Routes>
 				<Route path='/' element={<Home />} />
-				<Route path='/users' element={<Users/>} />
+				<Route path='/users' element={<Users />} />
+				<Route path='/users/:id' element={<User/>} />
 			</Routes>
 		</div>
 	)
