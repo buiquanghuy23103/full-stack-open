@@ -4,7 +4,7 @@ import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { blogActions } from './reducers/blogReducer'
+import { blogActions, fetchBlogs } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -14,19 +14,13 @@ const App = () => {
 	const [user, setUser] = useState(null)
 	const toggableRef = useRef(null)
 
-	const fetchBlogs = async () => {
-		const blogs = await blogService.getAll()
-		console.log('blogs', blogs)
-		dispatch(blogActions.setBlogs(blogs))
-	}
-
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
 		setUser(JSON.parse(credentials))
 	}
 
 	useEffect(() => {
-		fetchBlogs().catch(console.log)
+		dispatch(fetchBlogs())
 		getCachedUserCredentials()
 	}, [])
 
