@@ -51,9 +51,7 @@ const App = () => {
 			<h2>blogs</h2>
 			<NotificationMessage />
 			<UserInfo />
-			{user && (
-				<BlogForm author={user.name} token={user.token} />
-			)}
+			<BlogForm  />
 			{!user && <LoginForm login={login} />}
 			<BlogList
 				incrementLike={like}
