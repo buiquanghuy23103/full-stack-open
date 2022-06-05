@@ -1,10 +1,28 @@
 import { useState } from 'react'
 import Toggable from './Toggable'
-import PropTypes from 'prop-types'
+import loginService from '../services/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { userActions } from '../reducers/userReducer'
+import { notify } from '../reducers/notificationReducer'
 
-const LoginForm = ({ login }) => {
+const LoginForm = () => {
+	const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
+
+	if (user) return null
+
+	const login = async (credentials) => {
+		try {
+			const response = await loginService.login(credentials)
+			dispatch(userActions.setUser(response))
+			window.localStorage.setItem('user', JSON.stringify(response))
+		} catch (error) {
+			console.log(error)
+			dispatch(notify('Wrong username or password'))
+		}
+	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
@@ -42,10 +60,6 @@ const LoginForm = ({ login }) => {
 			</form>
 		</Toggable>
 	)
-}
-
-LoginForm.propTypes = {
-	login: PropTypes.func.isRequired,
 }
 
 export default LoginForm

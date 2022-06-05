@@ -8,7 +8,6 @@ import UserInfo from './components/UserInfo'
 import { fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import { userActions } from './reducers/userReducer'
-import loginService from './services/login'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -32,17 +31,6 @@ const App = () => {
 		getCachedUserCredentials()
 	}, [])
 
-	const login = async (credentials) => {
-		try {
-			const response = await loginService.login(credentials)
-			dispatch(userActions.setUser(response))
-			window.localStorage.setItem('user', JSON.stringify(response))
-		} catch (error) {
-			console.log(error)
-			dispatch(notify('Wrong username or password'))
-		}
-	}
-
 	const showDeleteButton = (blog) =>
 		user && user.username === blog.author.username
 
@@ -52,7 +40,7 @@ const App = () => {
 			<NotificationMessage />
 			<UserInfo />
 			<BlogForm  />
-			{!user && <LoginForm login={login} />}
+			<LoginForm />
 			<BlogList
 				incrementLike={like}
 				showDeleteButton={showDeleteButton}
