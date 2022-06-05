@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
-import BlogForm from './components/BlogForm'
-import BlogList from './components/BlogList'
-import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import UserInfo from './components/UserInfo'
+import Home from './pages/Home'
 import Users from './pages/Users'
 import { fetchBlogs } from './reducers/blogReducer'
 import { userActions } from './reducers/userReducer'
@@ -28,10 +26,8 @@ const App = () => {
 			<h2>blogs</h2>
 			<NotificationMessage />
 			<UserInfo />
-			<BlogForm  />
-			<LoginForm />
-			<BlogList />
 			<Routes>
+				<Route path='/' element={<Home />} />
 				<Route path='/users' element={<Users/>} />
 			</Routes>
 		</div>
