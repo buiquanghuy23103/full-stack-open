@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
 import { fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
+import { userActions } from './reducers/userReducer'
 import loginService from './services/login'
 
 const App = () => {
 	const dispatch = useDispatch()
-	const [user, setUser] = useState(null)
+	const user = useSelector(state => state.user)
 
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
-		setUser(JSON.parse(credentials))
+		dispatch(userActions.setUser(JSON.parse(credentials)))
 	}
 
 	const like = (blog) => {
@@ -33,7 +34,7 @@ const App = () => {
 	const login = async (credentials) => {
 		try {
 			const response = await loginService.login(credentials)
-			setUser(response)
+			dispatch(userActions.setUser(response))
 			window.localStorage.setItem('user', JSON.stringify(response))
 		} catch (error) {
 			console.log(error)
@@ -43,7 +44,7 @@ const App = () => {
 
 	const userInfo = () => {
 		const logout = () => {
-			setUser(null)
+			dispatch(userActions.removeUser())
 			window.localStorage.removeItem('user')
 		}
 		return (
