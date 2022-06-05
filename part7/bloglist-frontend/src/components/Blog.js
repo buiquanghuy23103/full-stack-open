@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteBlogById, incrementLike } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, token }) => {
+const Blog = ({ blog }) => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
 	const [showDetails, setShowDetails] = useState(false)
@@ -26,7 +26,7 @@ const Blog = ({ blog, token }) => {
 		try {
 			if (!window.confirm(`Remove blog ${blog.title} by ${blog.author.name}`))
 				return
-			dispatch(deleteBlogById(token, blog.id))
+			dispatch(deleteBlogById(user.token, blog.id))
 		} catch (error) {
 			console.log(error)
 		}
