@@ -20,7 +20,11 @@ const App = () => {
 	}
 
 	const like = (blog) => {
-		dispatch(incrementLike(user.token, blog))
+		try {
+			dispatch(incrementLike(user.token, blog))
+		} catch (error) {
+			dispatch(notify(error.toString()))
+		}
 	}
 
 	useEffect(() => {
