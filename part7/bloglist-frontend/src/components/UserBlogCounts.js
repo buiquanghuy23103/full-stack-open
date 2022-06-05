@@ -1,12 +1,24 @@
-import { useSelector } from 'react-redux'
-import lodash from 'lodash'
+import userService from '../services/users'
+import { useEffect, useState } from 'react'
 
 const UserBlogCounts = () => {
-	const counts = useSelector(state => {
-		const blogs = state.blogs
-		const statistic = lodash.countBy(blogs, 'author.name')
-		return Object.entries(statistic)
-	})
+	const [users, setUsers] = useState([])
+
+	useEffect(() => {
+		userService.getAll()
+			.then(setUsers)
+			.catch(console.log)
+	}, [])
+
+	if (!users || users.length === 0)
+		return null
+
+	const counts = users.map(user => (
+		<tr key={user.id}>
+			<td>{user.name}</td>
+			<td>{user.blogs.length}</td>
+		</tr>
+	))
 	return (
 		<table>
 			<thead>
@@ -16,12 +28,7 @@ const UserBlogCounts = () => {
 				</tr>
 			</thead>
 			<tbody>
-				{counts.map(([author, blogCount]) =>
-					<tr key={author}>
-						<td>{author}</td>
-						<td>{blogCount}</td>
-					</tr>
-				)}
+				{ counts }
 			</tbody>
 		</table>
 	)
