@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteBlogById, incrementLike } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
 
-const Blog = ({ blog, showDeleteButton, token }) => {
+const Blog = ({ blog, token }) => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
 	const [showDetails, setShowDetails] = useState(false)
 
 	const toggleDetailsView = () => setShowDetails(!showDetails)
+
+	const showDeleteButton = user && user.username === blog.author.username
 
 	const like = () => {
 		if (!user)
