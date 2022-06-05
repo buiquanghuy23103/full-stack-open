@@ -1,17 +1,16 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import BlogForm from './components/BlogForm'
 import BlogList from './components/BlogList'
 import LoginForm from './components/LoginForm'
 import NotificationMessage from './components/NotificationMessage'
-import { createBlog, deleteBlogById, fetchBlogs, incrementLike } from './reducers/blogReducer'
+import { deleteBlogById, fetchBlogs, incrementLike } from './reducers/blogReducer'
 import { notify } from './reducers/notificationReducer'
 import loginService from './services/login'
 
 const App = () => {
 	const dispatch = useDispatch()
 	const [user, setUser] = useState(null)
-	const toggableRef = useRef(null)
 
 	const getCachedUserCredentials = () => {
 		const credentials = window.localStorage.getItem('user')
@@ -30,12 +29,6 @@ const App = () => {
 		dispatch(fetchBlogs())
 		getCachedUserCredentials()
 	}, [])
-
-	const addNewBlog = async (newBlog) => {
-		dispatch(createBlog(user.token, newBlog))
-		toggableRef.current.toggleVisible()
-		dispatch(notify(`A new blog ${newBlog.title} by ${user.name} added`))
-	}
 
 	const login = async (credentials) => {
 		try {
@@ -82,11 +75,7 @@ const App = () => {
 			<NotificationMessage />
 			{user && userInfo()}
 			{user && (
-				<BlogForm
-					addNewBlog={addNewBlog}
-					author={user.name}
-					ref={toggableRef}
-				/>
+				<BlogForm author={user.name} token={user.token} />
 			)}
 			{!user && <LoginForm login={login} />}
 			<BlogList

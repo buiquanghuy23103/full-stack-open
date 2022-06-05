@@ -1,10 +1,22 @@
-import { forwardRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Toggable from './Toggable'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { notify } from '../reducers/notificationReducer'
 
-const BlogForm = forwardRef(({ addNewBlog, author }, ref) => {
+const BlogForm = ({ author, token }) => {
+	const dispatch = useDispatch()
 	const [title, setTitle] = useState('')
 	const [url, setUrl] = useState('')
+	const toggableRef = useRef(null)
+
+	const addNewBlog = async (newBlog) => {
+		dispatch(createBlog(token, newBlog))
+		toggableRef.current.toggleVisible()
+		dispatch(notify(`A new blog ${newBlog.title} by ${author} added`))
+	}
+
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 		addNewBlog({ title, url })
@@ -12,7 +24,7 @@ const BlogForm = forwardRef(({ addNewBlog, author }, ref) => {
 		setUrl('')
 	}
 	return (
-		<Toggable openButtonLabel="create" closeButtonLabel="cancel" ref={ref}>
+		<Toggable openButtonLabel="create" closeButtonLabel="cancel" ref={toggableRef}>
 			<h2>Create a new blog</h2>
 			<form onSubmit={handleSubmit}>
 				<div>
@@ -40,12 +52,11 @@ const BlogForm = forwardRef(({ addNewBlog, author }, ref) => {
 			</form>
 		</Toggable>
 	)
-})
+}
 
 BlogForm.displayName = 'BlogForm'
 
 BlogForm.propTypes = {
-	addNewBlog: PropTypes.func.isRequired,
 	author: PropTypes.string.isRequired,
 }
 
