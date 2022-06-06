@@ -8,6 +8,7 @@ import Users from './pages/Users'
 import { fetchBlogs } from './reducers/blogReducer'
 import { userActions } from './reducers/userReducer'
 import UserInfo from './components/UserInfo'
+import BlogDetail from './pages/BlogDetail'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -30,7 +31,8 @@ const App = () => {
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/users' element={<Users />} />
-				<Route path='/users/:id' element={<User/>} />
+				<Route path='/users/:id' element={<User />} />
+				<Route path='/blogs/:id' element={<BlogDetail />}/>
 			</Routes>
 		</div>
 	)
