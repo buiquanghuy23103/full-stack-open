@@ -43,6 +43,7 @@ const BlogDetail = () => {
 
 	const addComment = event => {
 		event.preventDefault()
+		comment.reset()
 		blogService.addComment(blog.id, comment.value)
 	}
 
