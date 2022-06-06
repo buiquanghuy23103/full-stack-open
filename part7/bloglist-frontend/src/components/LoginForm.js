@@ -1,15 +1,15 @@
-import { useState } from 'react'
 import Toggable from './Toggable'
 import loginService from '../services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../reducers/userReducer'
 import { notify } from '../reducers/notificationReducer'
+import useField from '../hooks/useField'
 
 const LoginForm = () => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
+	const username = useField('username', 'text')
+	const password = useField('password', 'password')
 
 	if (user) return null
 
@@ -26,9 +26,9 @@ const LoginForm = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		setUsername('')
-		setPassword('')
-		login({ username, password })
+		username.reset()
+		password.reset()
+		login({ username: username.value, password: password.value })
 	}
 
 	return (
@@ -38,20 +38,14 @@ const LoginForm = () => {
 					username
 					<input
 						id="username"
-						type="text"
-						value={username}
-						name="username"
-						onChange={(e) => setUsername(e.target.value)}
+						{ ...username.inputProps }
 					/>
 				</div>
 				<div>
 					password
 					<input
 						id="password"
-						type="password"
-						name="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
+						{ ...password.inputProps }
 					/>
 				</div>
 				<button id="login-button" type="submit">

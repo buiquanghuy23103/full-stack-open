@@ -1,14 +1,15 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import Toggable from './Toggable'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
+import useField from '../hooks/useField'
 
 const BlogForm = () => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
-	const [title, setTitle] = useState('')
-	const [url, setUrl] = useState('')
+	const title = useField('title', 'text')
+	const url = useField('url', 'text')
 	const toggableRef = useRef(null)
 
 	if (!user) return null
@@ -22,9 +23,9 @@ const BlogForm = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
-		addNewBlog({ title, url })
-		setTitle('')
-		setUrl('')
+		addNewBlog({ title: title.value, url: url.value })
+		title.reset()
+		url.reset()
 	}
 	return (
 		<Toggable openButtonLabel="create" closeButtonLabel="cancel" ref={toggableRef}>
@@ -34,8 +35,7 @@ const BlogForm = () => {
 					title
 					<input
 						id="blog-title"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
+						{ ...title.inputProps }
 						placeholder="title of the blog"
 					/>
 				</div>
@@ -43,8 +43,7 @@ const BlogForm = () => {
 					url
 					<input
 						id="blog-url"
-						value={url}
-						onChange={(e) => setUrl(e.target.value)}
+						{ ...url.inputProps }
 						placeholder="url of the blog"
 					/>
 				</div>
