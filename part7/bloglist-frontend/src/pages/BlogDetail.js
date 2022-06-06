@@ -65,6 +65,13 @@ const BlogDetail = () => {
 				<input { ...comment.inputProps } />
 				<button type='submit'>submit</button>
 			</form>
+			<ul>
+				{blog.comments.map((comment, index) => (
+					<li key={`${comment}-${index}`}>
+						{ comment }
+					</li>
+				)) }
+			</ul>
 			<button
 				id="blog-delete-button"
 				onClick={deleteBlog}
