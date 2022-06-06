@@ -11,12 +11,12 @@ const UserInfo = () => {
 		window.localStorage.removeItem('user')
 	}
 	return (
-		<>
-			<p>{name} logged in</p>
+		<div style={{ display: 'inline-block' }}>
+			{name} logged in
 			<button id="logout-button" onClick={logout}>
 				logout
 			</button>
-		</>
+		</div>
 	)
 }
 

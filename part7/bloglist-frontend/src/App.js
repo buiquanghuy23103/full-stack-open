@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'
 import NotificationMessage from './components/NotificationMessage'
 import Home from './pages/Home'
 import User from './pages/User'
@@ -25,8 +25,12 @@ const App = () => {
 
 	return (
 		<div>
+			<div>
+				<Link to='/'>blogs  </Link>
+				<Link to='/users'>users  </Link>
+				<UserInfo />
+			</div>
 			<h2>blogs</h2>
-			<UserInfo />
 			<NotificationMessage />
 			<Routes>
 				<Route path='/' element={<Home />} />
