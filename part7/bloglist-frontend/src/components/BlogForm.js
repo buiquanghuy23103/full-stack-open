@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
 import useField from '../hooks/useField'
+import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
 
 const BlogForm = () => {
 	const dispatch = useDispatch()
@@ -30,28 +32,28 @@ const BlogForm = () => {
 	return (
 		<Toggable openButtonLabel="create" closeButtonLabel="cancel" ref={toggableRef}>
 			<h2>Create a new blog</h2>
-			<form onSubmit={handleSubmit}>
-				<div>
-					title
-					<input
+			<Form onSubmit={handleSubmit}>
+				<Form.Group>
+					<Form.Label>Title</Form.Label>
+					<Form.Control
 						id="blog-title"
 						{ ...title.inputProps }
 						placeholder="title of the blog"
 					/>
-				</div>
-				<div>
-					url
-					<input
+				</Form.Group>
+				<Form.Group>
+					<Form.Label>Url</Form.Label>
+					<Form.Control
 						id="blog-url"
 						{ ...url.inputProps }
 						placeholder="url of the blog"
 					/>
-				</div>
-				<div>author: {name}</div>
-				<button id="blog-save-button" type="submit">
+				</Form.Group>
+				<div>Author: {name}</div>
+				<Button id="blog-save-button" type="submit">
 					save
-				</button>
-			</form>
+				</Button>
+			</Form>
 		</Toggable>
 	)
 }
