@@ -7,6 +7,7 @@ import User from './pages/User'
 import Users from './pages/Users'
 import { fetchBlogs } from './reducers/blogReducer'
 import { userActions } from './reducers/userReducer'
+import UserInfo from '../components/UserInfo'
 
 const App = () => {
 	const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const App = () => {
 	return (
 		<div>
 			<h2>blogs</h2>
+			<UserInfo />
 			<NotificationMessage />
 			<Routes>
 				<Route path='/' element={<Home />} />
