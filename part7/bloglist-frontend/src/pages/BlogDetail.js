@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
+import useField from '../hooks/useField'
 import { deleteBlogById, incrementLike } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
+import blogService from '../services/blogs'
 
 const BlogDetail = () => {
 	const params = useParams()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
+	const comment = useField('comment', 'text')
 	const blogs = useSelector(state => state.blogs)
 	const user = useSelector(state => state.user)
 	const blogId = params.id
@@ -38,6 +41,11 @@ const BlogDetail = () => {
 		}
 	}
 
+	const addComment = event => {
+		event.preventDefault()
+		blogService.addComment(blog.id, comment.value)
+	}
+
 	const deleteButtonStyle = {
 		display: showDeleteButton ? '' : 'none',
 	}
@@ -52,6 +60,11 @@ const BlogDetail = () => {
 					like
 				</button>
 			</div>
+			<form onSubmit={addComment}>
+				comment:
+				<input { ...comment.inputProps } />
+				<button type='submit'>submit</button>
+			</form>
 			<button
 				id="blog-delete-button"
 				onClick={deleteBlog}
