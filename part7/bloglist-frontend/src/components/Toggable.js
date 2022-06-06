@@ -1,5 +1,6 @@
 import { forwardRef, useImperativeHandle, useState } from 'react'
 import PropTypes from 'prop-types'
+import Button from 'react-bootstrap/Button'
 
 const Toggable = forwardRef(
 	({ children, openButtonLabel, closeButtonLabel }, ref) => {
@@ -15,11 +16,18 @@ const Toggable = forwardRef(
 			return (
 				<div>
 					{children}
-					<button onClick={toggleVisible}>{closeButtonLabel}</button>
+					<Button
+						variant='secondary'
+						onClick={toggleVisible}>
+						{closeButtonLabel}
+					</Button>
 				</div>
 			)
 
-		return <button onClick={toggleVisible}>{openButtonLabel}</button>
+		return <Button
+			onClick={toggleVisible}>
+			{openButtonLabel}
+		</Button>
 	}
 )
 
