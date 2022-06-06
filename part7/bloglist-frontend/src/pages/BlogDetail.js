@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import useField from '../hooks/useField'
-import { deleteBlogById, incrementLike } from '../reducers/blogReducer'
+import { addComment, deleteBlogById, incrementLike } from '../reducers/blogReducer'
 import { notify } from '../reducers/notificationReducer'
-import blogService from '../services/blogs'
 
 const BlogDetail = () => {
 	const params = useParams()
@@ -41,10 +40,10 @@ const BlogDetail = () => {
 		}
 	}
 
-	const addComment = event => {
+	const submitComment = event => {
 		event.preventDefault()
 		comment.reset()
-		blogService.addComment(blog.id, comment.value)
+		dispatch(addComment(blog.id, comment.value))
 	}
 
 	const deleteButtonStyle = {
@@ -61,7 +60,7 @@ const BlogDetail = () => {
 					like
 				</button>
 			</div>
-			<form onSubmit={addComment}>
+			<form onSubmit={submitComment}>
 				comment:
 				<input { ...comment.inputProps } />
 				<button type='submit'>submit</button>
