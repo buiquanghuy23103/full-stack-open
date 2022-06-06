@@ -24,7 +24,7 @@ const App = () => {
 	}, [])
 
 	return (
-		<div>
+		<div className='container'>
 			<div>
 				<Link to='/'>blogs  </Link>
 				<Link to='/users'>users  </Link>
