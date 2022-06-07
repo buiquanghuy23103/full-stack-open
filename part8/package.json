@@ -1,0 +1,11 @@
+{
+  "name": "part8",
+  "version": "1.0.0",
+  "description": "GraphQL backend for Full Stack Open course 2022 part 8",
+  "main": "backend.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
