@@ -111,7 +111,7 @@ const typeDefs = gql`
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
 	}
-
+	
 	type Mutation {
 		addBook(
 			title: String!
@@ -119,6 +119,7 @@ const typeDefs = gql`
 			author: String!
 			genres: [String!]!
 		): Book
+		editAuthor(name: String, setBornTo: Int): Author
 	}
 `
 
@@ -141,7 +142,6 @@ const resolvers = {
 				name: a[0],
 				bookCount: a[1]
 			}))
-			console.log(authors)
 			return authors
 		}
 	},
@@ -150,6 +150,19 @@ const resolvers = {
 			const newBook = { ...args, id: uniqueId() }
 			books = books.concat(newBook)
 			return newBook
+		},
+		editAuthor: (root, args) => {
+			const result = lodash.countBy(books, 'author')
+			const arr = Object.entries(result)
+			const authors = arr.map(a => ({
+				name: a[0],
+				bookCount: a[1]
+			}))
+			const authorQuery = args.name
+			const foundAuthor = authors.find(a => a.name === authorQuery)
+			if (!foundAuthor) return null
+			const updatedAuthor = { ...foundAuthor, born: args.setBornTo }
+			return updatedAuthor
 		}
 	}
 }
