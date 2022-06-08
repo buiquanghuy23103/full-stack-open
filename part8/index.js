@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server')
+const { uniqueId } = require('lodash')
 const lodash = require('lodash')
 
 let authors = [
@@ -101,6 +102,7 @@ const typeDefs = gql`
 	type Author {
 		name: String!
 		bookCount: Int!
+		born: Int
 	}
 
 	type Query {
@@ -108,7 +110,16 @@ const typeDefs = gql`
 		authorCount: Int!
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
-  }
+	}
+
+	type Mutation {
+		addBook(
+			title: String!
+			published: Int!
+			author: String!
+			genres: [String!]!
+		): Book
+	}
 `
 
 const resolvers = {
@@ -133,7 +144,14 @@ const resolvers = {
 			console.log(authors)
 			return authors
 		}
-  }
+	},
+	Mutation: {
+		addBook: (root, args) => {
+			const newBook = { ...args, id: uniqueId() }
+			books = books.concat(newBook)
+			return newBook
+		}
+	}
 }
 
 const server = new ApolloServer({
