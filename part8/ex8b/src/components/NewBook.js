@@ -3,7 +3,7 @@ import { useState } from 'react'
 import queries from '../queries'
 
 const NewBook = (props) => {
-	const [addBook, { data, loading, error }] = useMutation(queries.ADD_BOOK, {
+	const [ addBook ] = useMutation(queries.ADD_BOOK, {
 		refetchQueries: [{ query: queries.ALL_BOOKS }]
 	})
   const [title, setTitle] = useState('')
@@ -16,8 +16,6 @@ const NewBook = (props) => {
     return null
   }
 	
-	console.log('error', error)
-
   const submit = async (event) => {
     event.preventDefault()
 
