@@ -20,8 +20,28 @@ const ALL_BOOKS = gql`
 	}
 `
 
+const ADD_BOOK = gql`
+	mutation AddBook(
+		$title: String!
+		$published: Int!
+		$author: String!
+		$genres: [String!]!
+	){
+		addBook(
+			title: $title
+			author: $author
+			published: $published
+			genres: $genres
+		) {
+			title
+			author
+			published
+		}
+	}
+`
+
 const queries = {
-	ALL_AUTHORS, ALL_BOOKS
+	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK
 }
 
 export default queries
