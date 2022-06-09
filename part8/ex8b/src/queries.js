@@ -40,8 +40,23 @@ const ADD_BOOK = gql`
 	}
 `
 
+const UPDATE_BIRTH_YEAR = gql`
+	mutation UpdateBirthYear(
+		$author: String!
+		$born: Int!
+	) {
+		editAuthor(
+			name: $author
+			setBornTo: $born
+		) {
+			name
+			born
+		}
+	}
+`
+
 const queries = {
-	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK
+	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR
 }
 
 export default queries
