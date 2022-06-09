@@ -3,6 +3,7 @@ const { ApolloServer, gql } = require('apollo-server')
 const { uniqueId } = require('lodash')
 const lodash = require('lodash')
 const mongoose = require('mongoose')
+const Author = require('./models/Author')
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
@@ -110,7 +111,6 @@ const typeDefs = gql`
 
 	type Author {
 		name: String!
-		bookCount: Int!
 		born: Int
 	}
 
@@ -128,6 +128,10 @@ const typeDefs = gql`
 			author: String!
 			genres: [String!]!
 		): Book
+		addAuthor(
+			name: String!
+			born: Int
+		): Author
 		editAuthor(name: String, setBornTo: Int): Author
 	}
 `
@@ -157,6 +161,9 @@ const resolvers = {
 			const newBook = { ...args, id: uniqueId() }
 			books = books.concat(newBook)
 			return newBook
+		},
+		addAuthor: (root, args) => {
+			return Author.create(args)
 		},
 		editAuthor: (root, args) => {
 			const authorQuery = args.name
