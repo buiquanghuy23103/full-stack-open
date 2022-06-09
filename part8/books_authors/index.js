@@ -150,16 +150,12 @@ const resolvers = {
 			return newBook
 		},
 		editAuthor: (root, args) => {
-			const result = lodash.countBy(books, 'author')
-			const arr = Object.entries(result)
-			const authors = arr.map(a => ({
-				name: a[0],
-				bookCount: a[1]
-			}))
 			const authorQuery = args.name
 			const foundAuthor = authors.find(a => a.name === authorQuery)
 			if (!foundAuthor) return null
 			const updatedAuthor = { ...foundAuthor, born: args.setBornTo }
+			authors = authors.map(a =>
+				a.id === updatedAuthor.id ? updatedAuthor : a)
 			return updatedAuthor
 		}
 	}
