@@ -136,13 +136,11 @@ const resolvers = {
 			})
 		},
 		allAuthors: () => {
-			const result = lodash.countBy(books, 'author')
-			const arr = Object.entries(result)
-			const authors = arr.map(a => ({
-				name: a[0],
-				bookCount: a[1]
-			}))
-			return authors
+			return authors.map(author => {
+				const ownBooks = books.filter(b => b.author === author.name)
+				const bookCount = ownBooks.length
+				return { ...author, bookCount }
+			})
 		}
 	},
 	Mutation: {
