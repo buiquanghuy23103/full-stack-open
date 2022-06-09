@@ -156,17 +156,15 @@ const resolvers = {
 			const author = await Author.find({ name: args.author })
 			return Book.create({ ...args, author: author.id })
 		},
-		addAuthor: (root, args) => {
+		addAuthor: async (root, args) => {
 			return Author.create(args)
 		},
-		editAuthor: (root, args) => {
+		editAuthor: async (root, args) => {
 			const authorQuery = args.name
-			const foundAuthor = authors.find(a => a.name === authorQuery)
-			if (!foundAuthor) return null
-			const updatedAuthor = { ...foundAuthor, born: args.setBornTo }
-			authors = authors.map(a =>
-				a.id === updatedAuthor.id ? updatedAuthor : a)
-			return updatedAuthor
+			return Author.findOneAndUpdate(
+				{ name: authorQuery },
+				{ born: args.setBornTo }
+			)
 		}
 	}
 }
