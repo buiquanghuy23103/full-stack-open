@@ -4,6 +4,7 @@ const { uniqueId } = require('lodash')
 const lodash = require('lodash')
 const mongoose = require('mongoose')
 const Author = require('./models/Author')
+const Book = require('./models/Book')
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
@@ -157,10 +158,9 @@ const resolvers = {
 		}
 	},
 	Mutation: {
-		addBook: (root, args) => {
-			const newBook = { ...args, id: uniqueId() }
-			books = books.concat(newBook)
-			return newBook
+		addBook: async (root, args) => {
+			const author = await Author.find({ name: args.author })
+			return Book.create({ ...args, author: author.id })
 		},
 		addAuthor: (root, args) => {
 			return Author.create(args)
