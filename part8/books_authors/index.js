@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { ApolloServer, gql } = require('apollo-server')
 const { uniqueId } = require('lodash')
 const lodash = require('lodash')
