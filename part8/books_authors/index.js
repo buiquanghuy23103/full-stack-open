@@ -141,12 +141,12 @@ const resolvers = {
 	Query: {
 		bookCount: async () => Book.collection.countDocuments(),
 		authorCount: async () => Author.collection.countDocuments(),
-		allBooks: (root, args) => {
-			const authorQuery = args.author
-			const genreQuery = args.genre
-			return books.filter(b => {
-				return (!authorQuery || b.author === authorQuery)
-					&& (!genreQuery || b.genres.includes(genreQuery))
+		allBooks: async (root, args) => {
+			const { author, genre } = args
+			const foundAuthor = await Author.find({ name: author })
+			return Book.find({
+				author: foundAuthor.id,
+				genre: { $in: [genre] }
 			})
 		},
 		allAuthors: () => {
