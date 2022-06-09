@@ -1,10 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client"
+import { useState } from "react"
+import Select from 'react-select';
 import queries from "../queries"
 import useField from "../useField"
 
 const Authors = (props) => {
-	const authorName = useField('authorName', 'text')
 	const birthYear = useField('birthYear', 'text')
+	const [ selectedOption, setSelectedOption ] = useState(null)
 	const result = useQuery(queries.ALL_AUTHORS)
 	const [ updateBirth ] = useMutation(
 		queries.UPDATE_BIRTH_YEAR,
@@ -22,17 +24,20 @@ const Authors = (props) => {
 	if (result.loading) return <p>Loading...</p>
 
 	const authors = result.data.allAuthors
+	const selectOptions = authors.map(author => ({
+		value: author.name,
+		label: author.name
+	}))
 
-	
 	const handleSubmit = event => {
 		event.preventDefault()
 		updateBirth({
 			variables: {
-				author: authorName.value,
+				author: selectedOption.value,
 				born: Number(birthYear.value)
 			}
 		})
-		authorName.reset()
+		setSelectedOption(null)
 		birthYear.reset()
 	}
 
@@ -55,10 +60,13 @@ const Authors = (props) => {
           ))}
         </tbody>
 		</table>
-		<h3>Set birth year</h3>
+		  <h3>Set birth year</h3>
+		  <Select
+			  value={selectedOption}
+			  onChange={setSelectedOption}
+			  options={selectOptions}
+		  />
 		<form onSubmit={handleSubmit}>
-			name
-			  <input {...authorName.inputProps} />
 			  born
 			  <input {...birthYear.inputProps} />
 			  <button type="submit">update author</button>
