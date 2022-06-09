@@ -149,13 +149,7 @@ const resolvers = {
 				genre: { $in: [genre] }
 			})
 		},
-		allAuthors: () => {
-			return authors.map(author => {
-				const ownBooks = books.filter(b => b.author === author.name)
-				const bookCount = ownBooks.length
-				return { ...author, bookCount }
-			})
-		}
+		allAuthors: async () => Author.find({})
 	},
 	Mutation: {
 		addBook: async (root, args) => {
