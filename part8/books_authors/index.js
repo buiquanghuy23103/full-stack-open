@@ -58,16 +58,14 @@ const resolvers = {
 				throw new UserInputError('author not found', {
 					invalidArgs: args.author
 				})
-			try {
-				return Book.find({
-					author: foundAuthor.id,
-					genre: { $in: [genre] }
-				})
-			} catch (error) {
+			return Book.find({
+				author: foundAuthor.id,
+				genre: { $in: [genre] }
+			}).catch(error => {
 				throw new UserInputError(error.message, {
 					invalidArgs: args
 				})
-			}
+			})
 		},
 		allAuthors: async () => Author.find({})
 	},
@@ -78,22 +76,20 @@ const resolvers = {
 				throw new UserInputError('invalid author', {
 					invalidArgs: [args.author]
 				})
-			try {
-				return Book.create({ ...args, author: author.id })
-			} catch (error) {
-				throw new UserInputError(error.message, {
-					invalidArgs: args
+			return Book.create({ ...args, author: author.id })
+				.catch(error => {
+					throw new UserInputError(error.message, {
+						invalidArgs: args
+					})
 				})
-			}
 		},
 		addAuthor: async (root, args) => {
-			try {
-				return Author.create(args)
-			} catch (error) {
-				throw new UserInputError(error.message, {
-					invalidArgs: args
+			return Author.create(args)
+				.catch(error => {
+					throw new UserInputError(error.message, {
+						invalidArgs: args
+					})
 				})
-			}
 		},
 		editAuthor: async (root, args) => {
 			const { name } = args
