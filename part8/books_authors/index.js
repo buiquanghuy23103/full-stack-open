@@ -73,8 +73,8 @@ const resolvers = {
 	},
 	Mutation: {
 		addBook: async (root, args) => {
-			const author = await Author.find({ name: args.author })
-			if (author.length === 0)
+			const author = await Author.findOne({ name: args.author })
+			if (!author)
 				throw new UserInputError('invalid author', {
 					invalidArgs: [args.author]
 				})
