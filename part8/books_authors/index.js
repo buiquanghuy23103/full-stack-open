@@ -1,9 +1,12 @@
 require('dotenv').config()
-const { ApolloServer, gql, UserInputError } = require('apollo-server')
+const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
 const mongoose = require('mongoose')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
 const User = require('./models/User')
+const jwt = require('jsonwebtoken')
+
+const JWT_SECRET = 'not so secret'
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
@@ -24,6 +27,10 @@ const typeDefs = gql`
 	type Author {
 		name: String!
 		born: Int
+	}
+
+	type Token {
+		value: String!
 	}
 
 	type User {
@@ -55,6 +62,10 @@ const typeDefs = gql`
 			username: String!
 			favouriteGenre: String!
 		): User
+		login(
+			username: String!
+			password: String!
+		): Token
 	}
 `
 
@@ -129,6 +140,18 @@ const resolvers = {
 						invalidArgs: args
 					})
 				})
+		},
+		login: async (root, args) => {
+			const user = await User.findOne({ username: args.username })
+			if (!user || args.password !== 'secret')
+				throw new AuthenticationError('wrong credentials')
+			const userForToken = {
+				username: user.username,
+				id: user._id
+			}
+			return {
+				value: jwt.sign(userForToken, JWT_SECRET)
+			}
 		}
 	}
 }
