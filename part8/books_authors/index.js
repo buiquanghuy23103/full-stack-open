@@ -103,7 +103,6 @@ const resolvers = {
 					{ born: args.setBornTo },
 					{ new: true }
 				)
-				console.log('newAuthor', newAuthor)
 				if (!newAuthor)
 					throw new UserInputError('author not found', {
 						invalidArgs: args.author
