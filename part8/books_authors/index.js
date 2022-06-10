@@ -64,7 +64,6 @@ const resolvers = {
 	Mutation: {
 		addBook: async (root, args) => {
 			const author = await Author.find({ name: args.author })
-			console.log('author', author)
 			if (author.length === 0)
 				throw new UserInputError('invalid author', {
 					invalidArgs: [args.author]
@@ -78,14 +77,33 @@ const resolvers = {
 			}
 		},
 		addAuthor: async (root, args) => {
-			return Author.create(args)
+			try {
+				return Author.create(args)
+			} catch (error) {
+				throw new UserInputError(error.message, {
+					invalidArgs: args
+				})
+			}
 		},
 		editAuthor: async (root, args) => {
-			const authorQuery = args.name
-			return Author.findOneAndUpdate(
-				{ name: authorQuery },
-				{ born: args.setBornTo }
-			)
+			const { name } = args
+			try {
+				const newAuthor = await Author.findOneAndUpdate(
+					{ name },
+					{ born: args.setBornTo },
+					{ new: true }
+				)
+				console.log('newAuthor', newAuthor)
+				if (!newAuthor)
+					throw new UserInputError('author not found', {
+						invalidArgs: args.author
+					})
+				return newAuthor
+			} catch (error) {
+				throw new UserInputError(error.message, {
+					invalidArgs: args
+				})	
+			}
 		}
 	}
 }
