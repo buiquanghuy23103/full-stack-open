@@ -3,6 +3,7 @@ const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const mongoose = require('mongoose')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
+const User = require('./models/User')
 
 mongoose.connect(process.env.MONGO_URI, {
 	useNewUrlParser: true,
@@ -25,6 +26,12 @@ const typeDefs = gql`
 		born: Int
 	}
 
+	type User {
+		username: String!
+		favouriteGenre: String!
+		id: ID!
+	}
+
 	type Query {
 		bookCount: Int!
 		authorCount: Int!
@@ -44,6 +51,10 @@ const typeDefs = gql`
 			born: Int
 		): Author
 		editAuthor(name: String, setBornTo: Int): Author
+		createUser(
+			username: String!
+			favouriteGenre: String!
+		): User
 	}
 `
 
@@ -109,6 +120,15 @@ const resolvers = {
 					invalidArgs: args
 				})	
 			}
+		},
+		createUser: async (root, args) => {
+			const user = new User(args)
+			return user.save()
+				.catch(error => {
+					throw new UserInputError(error.message, {
+						invalidArgs: args
+					})
+				})
 		}
 	}
 }
