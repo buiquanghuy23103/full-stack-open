@@ -27,6 +27,7 @@ const typeDefs = gql`
 	type Author {
 		name: String!
 		born: Int
+		bookCount: Int!
 	}
 
 	type Token {
@@ -76,6 +77,12 @@ const typeDefs = gql`
 const resolvers = {
 	Book: {
 		author: async root => Author.findById(root.author._id.toString())
+	},
+	Author: {
+		bookCount: async root => {
+			const books = await Book.find({ author: root._id })
+			return books.length
+		}
 	},
 	Query: {
 		bookCount: async () => Book.collection.countDocuments(),
