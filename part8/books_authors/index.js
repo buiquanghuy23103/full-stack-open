@@ -74,6 +74,11 @@ const typeDefs = gql`
 `
 
 const resolvers = {
+	Book: {
+		author: async root => {
+			return await Author.findById(root.author._id.toString())
+		}
+	},
 	Query: {
 		bookCount: async () => Book.collection.countDocuments(),
 		authorCount: async () => Author.collection.countDocuments(),
