@@ -21,6 +21,7 @@ const Login = ({ show }) => {
 					password
 					<input {...passwordField.inputProps}  />
 				</div>
+				<button type="submit">login</button>
 			</form>
 		</>
 	)
