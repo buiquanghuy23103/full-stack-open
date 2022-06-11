@@ -109,7 +109,6 @@ const resolvers = {
 				})
 		},
 		deleteBook: async (root, args) => {
-			console.log('args', args)
 			return Book.findOneAndDelete({ title: args.title })
 		},
 		addAuthor: async (root, args) => {
