@@ -1,18 +1,29 @@
+import { useMutation } from "@apollo/client"
+import queries from "../queries"
 import useField from "../useField"
 
-const Login = ({ show }) => {
+const Login = ({ show, handleSuccessLogin }) => {
 	const usernameField = useField('username', 'text')
 	const passwordField = useField('password', 'password')
+	const [login, { data }] = useMutation(queries.LOGIN)
 
-	const login = event => {
+	const handleSubmit = async event => {
 		event.preventDefault()
+		await login({
+			variables: {
+				username: usernameField.value,
+				password: passwordField.value
+			}
+		})
+		localStorage.setItem('userToken', data.login.value)
+		handleSuccessLogin()
 	}
 
 	if (!show) return null
 	return (
 		<>
 			<h1>LOGIN</h1>
-			<form onSubmit={login}>
+			<form onSubmit={handleSubmit}>
 				<div>
 					username
 					<input {...usernameField.inputProps}  />
