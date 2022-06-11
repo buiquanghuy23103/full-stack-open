@@ -77,12 +77,8 @@ const resolvers = {
 		allBooks: async (root, args) => {
 			const { author, genre } = args
 			const foundAuthor = await Author.findOne({ name: author })
-			if (!foundAuthor)
-				throw new UserInputError('author not found', {
-					invalidArgs: args.author
-				})
 			return Book.find({
-				author: foundAuthor.id,
+				author: foundAuthor ? foundAuthor.id : null,
 				genre: { $in: [genre] }
 			}).catch(error => {
 				throw new UserInputError(error.message, {
