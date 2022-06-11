@@ -11,6 +11,11 @@ const App = () => {
 		setLoggedIn(true)
 		setPage('authors')
 	}
+	const logout = () => {
+		setLoggedIn(false)
+		localStorage.clear()
+		setPage('authors')
+	}
 
   return (
     <div>
@@ -25,7 +30,7 @@ const App = () => {
 			onClick={() => setPage('login')}>login</button>
 		<button
 			style={{ display: loggedIn ? '' : 'none' }}
-			onClick={() => setPage('login')}>logout</button>
+			onClick={logout}>logout</button>
       </div>
 
       <Authors show={page === 'authors'} />
