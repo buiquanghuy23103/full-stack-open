@@ -78,12 +78,7 @@ const resolvers = {
 		bookCount: async () => Book.collection.countDocuments(),
 		authorCount: async () => Author.collection.countDocuments(),
 		allBooks: async (root, args) => {
-			const { author, genre } = args
-			const foundAuthor = await Author.findOne({ name: author })
-			return Book.find({
-				author: foundAuthor ? foundAuthor.id : null,
-				genre: { $in: [genre] }
-			}).catch(error => {
+			return Book.find().catch(error => {
 				throw new UserInputError(error.message, {
 					invalidArgs: args
 				})
