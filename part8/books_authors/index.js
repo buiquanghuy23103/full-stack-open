@@ -44,6 +44,7 @@ const typeDefs = gql`
 		authorCount: Int!
 		allBooks(author: String, genre: String): [Book!]!
 		allAuthors: [Author!]!
+		me: User
 	}
 	
 	type Mutation {
@@ -89,7 +90,8 @@ const resolvers = {
 				})
 			})
 		},
-		allAuthors: async () => Author.find({})
+		allAuthors: async () => Author.find({}),
+		me: (root, args, context) => context.user
 	},
 	Mutation: {
 		addBook: async (root, args) => {
@@ -157,8 +159,18 @@ const resolvers = {
 }
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
+	typeDefs,
+	resolvers,
+	context: async ({ req }) => {
+		const auth = req ? req.headers.authorization : null
+		if (auth && auth.toLowerCase().startsWith('bearer '))
+		{
+			const token = auth.substring(7)
+			const decodedToken = jwt.verify(token, JWT_SECRET)
+			const user = await User.findById(decodedToken.id)
+			return { user }
+		}
+	}
 })
 
 server.listen().then(({ url }) => {
