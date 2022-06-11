@@ -59,8 +59,22 @@ const UPDATE_BIRTH_YEAR = gql`
 	}
 `
 
+const LOGIN = gql`
+	mutation Login(
+		$username: String!
+		$password: String!
+	) {
+		login(
+			username: $username
+			password: $password
+		) {
+			value
+		}
+	}
+`
+
 const queries = {
-	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR
+	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR, LOGIN
 }
 
 export default queries
