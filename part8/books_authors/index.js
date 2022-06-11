@@ -94,7 +94,9 @@ const resolvers = {
 		me: (root, args, context) => context.user
 	},
 	Mutation: {
-		addBook: async (root, args) => {
+		addBook: async (root, args, context) => {
+			if (!context.user)
+				throw new AuthenticationError('invalid token')
 			const author = await Author.findOne({ name: args.author })
 			if (!author)
 				throw new UserInputError('invalid author', {
@@ -115,7 +117,9 @@ const resolvers = {
 					})
 				})
 		},
-		editAuthor: async (root, args) => {
+		editAuthor: async (root, args, context) => {
+			if (!context.user)
+				throw new AuthenticationError('invalid token')
 			const { name } = args
 			try {
 				const newAuthor = await Author.findOneAndUpdate(
