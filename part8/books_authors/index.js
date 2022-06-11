@@ -67,6 +67,9 @@ const typeDefs = gql`
 			username: String!
 			password: String!
 		): Token
+		deleteBook(
+			title: String!
+		): Book
 	}
 `
 
@@ -104,6 +107,10 @@ const resolvers = {
 						invalidArgs: args
 					})
 				})
+		},
+		deleteBook: async (root, args) => {
+			console.log('args', args)
+			return Book.findOneAndDelete({ title: args.title })
 		},
 		addAuthor: async (root, args) => {
 			return Author.create(args)
