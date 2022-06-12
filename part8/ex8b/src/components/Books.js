@@ -43,6 +43,7 @@ const Books = (props) => {
 		  {uniqueGenreArray.map(a => (
 			  <button key={a} onClick={() => setGenre(a)}>{ a }</button>
 		  ))}
+		  <button onClick={() => setGenre(null)}>clear filter</button>
     </div>
   )
 }
