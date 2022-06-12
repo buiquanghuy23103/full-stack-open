@@ -9,8 +9,6 @@ const Books = (props) => {
 	
 	if (result.loading) return <p>Loading...</p>
 
-	console.log('result.data', result.data)
-
   const books = result.data.allBooks
 
   return (
