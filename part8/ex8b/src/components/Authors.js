@@ -7,7 +7,7 @@ import useField from "../useField"
 const Authors = (props) => {
 	const birthYear = useField('birthYear', 'text')
 	const [ selectedOption, setSelectedOption ] = useState(null)
-	const result = useQuery(queries.ALL_AUTHORS)
+	const authorQuery = useQuery(queries.ALL_AUTHORS)
 	const [ updateBirth ] = useMutation(
 		queries.UPDATE_BIRTH_YEAR,
 		{
@@ -21,9 +21,9 @@ const Authors = (props) => {
   if (!props.show) {
     return null
   }
-	if (result.loading) return <p>Loading...</p>
+	if (authorQuery.loading) return <p>Loading...</p>
 
-	const authors = result.data.allAuthors
+	const authors = authorQuery.data.allAuthors
 	const selectOptions = authors.map(author => ({
 		value: author.name,
 		label: author.name
