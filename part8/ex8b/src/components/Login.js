@@ -5,7 +5,7 @@ import useField from "../useField"
 const Login = ({ show, handleSuccessLogin }) => {
 	const usernameField = useField('username', 'text')
 	const passwordField = useField('password', 'password')
-	const [login, { data }] = useMutation(queries.LOGIN)
+	const [login] = useMutation(queries.LOGIN)
 
 	const handleSubmit = async event => {
 		event.preventDefault()
