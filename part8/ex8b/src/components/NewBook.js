@@ -1,13 +1,15 @@
-import { useMutation } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 import { useState } from 'react'
+import Select from 'react-select';
 import queries from '../queries'
 
 const NewBook = (props) => {
 	const [ addBook ] = useMutation(queries.ADD_BOOK, {
 		refetchQueries: [{ query: queries.ALL_BOOKS }]
 	})
+	const authorQuery = useQuery(queries.ALL_AUTHORS)
+	const [ selectedAuthor, setSelectedAuthor ] = useState(null)
   const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
   const [published, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
@@ -15,6 +17,11 @@ const NewBook = (props) => {
   if (!props.show) {
     return null
   }
+	const authors = authorQuery.data.allAuthors
+	const authorOptions = authors.map(author => ({
+		value: author.name,
+		label: author.name
+	}))
 	
   const submit = async (event) => {
     event.preventDefault()
@@ -22,7 +29,7 @@ const NewBook = (props) => {
 	  await addBook({
 		  variables: {
 			  title,
-			  author,
+			  author: selectedAuthor.value,
 			  published: Number(published),
 			  genres
 		  }
@@ -30,7 +37,7 @@ const NewBook = (props) => {
 
     setTitle('')
     setPublished('')
-    setAuthor('')
+    setSelectedAuthor(null)
     setGenres([])
     setGenre('')
   }
@@ -52,10 +59,11 @@ const NewBook = (props) => {
         </div>
         <div>
           author
-          <input
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
-          />
+				  <Select
+					  options={authorOptions}
+					  defaultValue={selectedAuthor}
+					  onChange={setSelectedAuthor}
+				  />
         </div>
         <div>
           published
