@@ -77,8 +77,17 @@ const LOGIN = gql`
 	}
 `
 
+const CURRENT_USER = gql`
+	query CurrentUser {
+		me {
+			username
+			favouriteGenre
+		}
+	}
+`
+
 const queries = {
-	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR, LOGIN
+	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR, LOGIN, CURRENT_USER
 }
 
 export default queries
