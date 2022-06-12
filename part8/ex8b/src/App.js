@@ -7,7 +7,8 @@ import NewBook from './components/NewBook'
 const App = () => {
 	const [page, setPage] = useState('authors')
 	const [loggedIn, setLoggedIn] = useState(false)
-	const handleSuccessLogin = () => {
+	const handleSuccessLogin = res => {
+		localStorage.setItem('userToken', res.data.login.value)
 		setLoggedIn(true)
 		setPage('authors')
 	}

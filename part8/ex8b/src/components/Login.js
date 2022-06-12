@@ -9,14 +9,12 @@ const Login = ({ show, handleSuccessLogin }) => {
 
 	const handleSubmit = async event => {
 		event.preventDefault()
-		await login({
+		login({
 			variables: {
 				username: usernameField.value,
 				password: passwordField.value
 			}
-		})
-		localStorage.setItem('userToken', data.login.value)
-		handleSuccessLogin()
+		}).then(handleSuccessLogin)
 	}
 
 	if (!show) return null
