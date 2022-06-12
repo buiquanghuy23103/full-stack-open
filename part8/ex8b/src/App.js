@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
@@ -7,6 +7,12 @@ import NewBook from './components/NewBook'
 const App = () => {
 	const [page, setPage] = useState('authors')
 	const [loggedIn, setLoggedIn] = useState(false)
+
+	useEffect(() => {
+		const token = localStorage.getItem('userToken')
+		setLoggedIn(!!token)
+	}, [])
+
 	const handleSuccessLogin = res => {
 		localStorage.setItem('userToken', res.data.login.value)
 		setLoggedIn(true)
