@@ -2,6 +2,7 @@ const Author = require('./models/Author')
 const Book = require('./models/Book')
 const User = require('./models/User')
 const { PubSub } = require('graphql-subscriptions')
+const { UserInputError } = require('apollo-server-core')
 const pubsub = new PubSub()
 
 const BOOK_ADDED = 'BOOK_ADDED'
