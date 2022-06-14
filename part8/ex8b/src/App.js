@@ -1,6 +1,6 @@
 import { useSubscription } from '@apollo/client'
 import { useEffect, useState } from 'react'
-import uniqByName from '../uniqByName'
+import uniqByName from './uniqByName'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import Login from './components/Login'
