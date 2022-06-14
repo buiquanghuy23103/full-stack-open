@@ -54,13 +54,13 @@ const resolvers = {
 						invalidArgs: [args.author]
 					})
 				const book = new Book({ ...args, author: author._id })
+				pubsub.publish(BOOK_ADDED, { bookCreated: book })
 				await book.save()
 			} catch (error) {
 				throw new UserInputError(error.message, {
 						invalidArgs: args
 				})
 			}
-			pubsub.publish(BOOK_ADDED, { bookCreated: book })
 			return book
 		},
 		deleteBook: async (root, args) => {
