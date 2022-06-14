@@ -12,6 +12,15 @@ const BOOK_DETAILS = gql`
 	}
 `
 
+export const SUB_BOOK_ADDED = gql`
+	subscription {
+		bookCreated {
+			...BookDetails
+		}
+	}
+	${BOOK_DETAILS}
+`
+
 const ALL_AUTHORS = gql`
 	query {
 		allAuthors {
