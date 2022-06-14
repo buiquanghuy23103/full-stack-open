@@ -5,15 +5,23 @@ import Books from './components/Books'
 import Login from './components/Login'
 import NewBook from './components/NewBook'
 import Recommend from './components/Recommend'
-import { SUB_BOOK_ADDED } from './queries'
+import queries, { SUB_BOOK_ADDED } from './queries'
 
 const App = () => {
 	const [page, setPage] = useState('authors')
 	const [loggedIn, setLoggedIn] = useState(false)
 
 	useSubscription(SUB_BOOK_ADDED, {
-		onSubscriptionData: ({ subscriptionData }) => {
-			console.log('subscriptionData', subscriptionData)
+		onSubscriptionData: ({ subscriptionData, client }) => {
+			const addedBook = subscriptionData.data.bookCreated
+			client.cache.updateQuery(
+				{ query: queries.ALL_BOOKS },
+				({ allBooks }) => {
+					return {
+						allBooks: allBooks.concat(addedBook)
+					}
+				}
+			)
 		}
 	})
 
