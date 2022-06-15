@@ -11,12 +11,6 @@ const resolvers = {
 	Book: {
 		author: async root => Author.findById(root.author._id.toString())
 	},
-	Author: {
-		bookCount: async root => {
-			const books = await Book.find({ author: root._id })
-			return books.length
-		}
-	},
 	Query: {
 		bookCount: async () => Book.collection.countDocuments(),
 		authorCount: async () => Author.collection.countDocuments(),
@@ -55,6 +49,8 @@ const resolvers = {
 					})
 				const book = new Book({ ...args, author: author._id })
 				await book.save()
+				author.bookCount++
+				await author.save()
 				pubsub.publish(BOOK_ADDED, { bookCreated: book })
 				return book
 			} catch (error) {
