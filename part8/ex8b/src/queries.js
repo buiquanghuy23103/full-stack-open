@@ -1,5 +1,9 @@
 import { gql } from "@apollo/client";
 
+const QUERY_ALL_AUTHORS = 'QueryAllAuthors'
+const QUERY_BOOKS_BY_GENRE = 'QueryBooksByGenre'
+const QUERY_ALL_BOOKS = 'QueryAllBooks'
+
 const BOOK_DETAILS = gql`
 	fragment BookDetails on Book {
 			title
@@ -22,7 +26,7 @@ export const SUB_BOOK_ADDED = gql`
 `
 
 const ALL_AUTHORS = gql`
-	query {
+	query ${QUERY_ALL_AUTHORS}{
 		allAuthors {
 			name
 			born
@@ -31,9 +35,18 @@ const ALL_AUTHORS = gql`
 	}
 `
 
-const ALL_BOOKS = gql`
-	query AllBooks($genre: String){
+const BOOKS_BY_GENRE = gql`
+	query ${QUERY_BOOKS_BY_GENRE}($genre: String){
 		allBooks(genre: $genre) {
+			...BookDetails
+		}
+	}
+	${BOOK_DETAILS}
+`
+
+const ALL_BOOKS = gql`
+	query ${QUERY_ALL_BOOKS} {
+		allBooks {
 			...BookDetails
 		}
 	}
@@ -98,7 +111,8 @@ const CURRENT_USER = gql`
 `
 
 const queries = {
-	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR, LOGIN, CURRENT_USER
+	ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, UPDATE_BIRTH_YEAR, LOGIN, CURRENT_USER,
+	BOOKS_BY_GENRE
 }
 
 export default queries

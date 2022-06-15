@@ -5,7 +5,7 @@ import queries from "../queries"
 const Books = (props) => {
 	const [genre, setGenre] = useState(null)
 	const allBooksQuery = useQuery(queries.ALL_BOOKS)
-	const booksByGenreQuery = useQuery(queries.ALL_BOOKS, {
+	const booksByGenreQuery = useQuery(queries.BOOKS_BY_GENRE, {
 		variables: { genre }
 	})
 

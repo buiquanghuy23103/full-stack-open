@@ -7,7 +7,7 @@ const Recommend = ({ show }) => {
 		? currentUserQuery.data.me.favouriteGenre
 		: null
 	const { data, loading, error } = useQuery(
-		queries.ALL_BOOKS,
+		queries.BOOKS_BY_GENRE,
 		{
 			variables: {
 				genre: favouriteGenre
