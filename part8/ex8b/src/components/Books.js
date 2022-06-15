@@ -4,17 +4,20 @@ import queries from "../queries"
 
 const Books = (props) => {
 	const [genre, setGenre] = useState(null)
-	const result = useQuery(queries.ALL_BOOKS)
+	const allBooksQuery = useQuery(queries.ALL_BOOKS)
+	const booksByGenreQuery = useQuery(queries.ALL_BOOKS, {
+		variables: { genre }
+	})
+
   if (!props.show) {
     return null
   }
 	
-	if (result.loading) return <p>Loading...</p>
+	if (allBooksQuery.loading || booksByGenreQuery.loading)
+		return <p>Loading...</p>
 
-	const books = result.data.allBooks
-	const filteredBooks = !genre
-		? books
-		: books.filter(b => b.genres.includes(genre))
+	const books = allBooksQuery.data.allBooks
+	const filteredBooks = booksByGenreQuery.data.allBooks
 
 	const genres = books.map(b => b.genres).flat()
 	const genreSet = new Set(genres)
