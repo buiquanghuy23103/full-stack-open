@@ -15,6 +15,7 @@ const App = () => {
 	useSubscription(SUB_BOOK_ADDED, {
 		onSubscriptionData: ({ subscriptionData, client }) => {
 			const addedBook = subscriptionData.data.bookCreated
+			window.alert(`Added ${addedBook.title}`)
 			client.cache.updateQuery(
 				{ query: queries.ALL_BOOKS },
 				({ allBooks }) => {
