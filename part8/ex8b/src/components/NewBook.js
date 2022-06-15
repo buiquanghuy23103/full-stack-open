@@ -7,7 +7,10 @@ const NewBook = (props) => {
 	const [addBook] = useMutation(queries.ADD_BOOK, {
 		refetchQueries: [
 			{ query: queries.ALL_AUTHORS }
-		]
+		],
+		onError: error => {
+			console.log(error.graphQLErrors[0].message)
+		}
 	})
 	const authorQuery = useQuery(queries.ALL_AUTHORS)
 	const [ selectedAuthor, setSelectedAuthor ] = useState(null)
