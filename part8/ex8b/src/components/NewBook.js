@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client'
 import { useState } from 'react'
 import Select from 'react-select';
 import queries from '../queries'
+import uniqByName from '../uniqByName';
 
 const NewBook = (props) => {
 	const [addBook] = useMutation(queries.ADD_BOOK, {
@@ -27,7 +28,11 @@ const NewBook = (props) => {
 		value: author.name,
 		label: author.name
 	}))
-	
+
+	const updateCache = (cache, genre) => {
+
+	}
+
   const submit = async (event) => {
     event.preventDefault()
 
@@ -37,7 +42,22 @@ const NewBook = (props) => {
 			  author: selectedAuthor.value,
 			  published: Number(published),
 			  genres
-		  }
+		  },
+		  update: (cache, response) => {
+			  const newBook = response.data.addBook
+			  newBook.genres.forEach(genre => {
+				cache.updateQuery(
+					{
+						query: queries.BOOKS_BY_GENRE,
+						variables: { genre }
+					},
+					({ allBooks }) => ({
+						allBooks: uniqByName(allBooks.concat(newBook))
+					})
+				)
+			  })
+
+		}
 	  })
 
     setTitle('')
