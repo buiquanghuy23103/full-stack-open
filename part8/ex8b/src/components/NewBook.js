@@ -29,10 +29,6 @@ const NewBook = (props) => {
 		label: author.name
 	}))
 
-	const updateCache = (cache, genre) => {
-
-	}
-
   const submit = async (event) => {
     event.preventDefault()
 
