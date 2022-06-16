@@ -9,6 +9,8 @@ interface Result {
 }
 
 const calculateExercises = (exerciseHours: number[], target: number): Result => {
+	console.log('exerciseHours', exerciseHours)
+	console.log('target', target)
 	const periodLength = exerciseHours.length
 	const trainingDays = exerciseHours.filter(a => a !== 0).length
 	const sum = exerciseHours.reduce((a, b) => a + b)
@@ -23,4 +25,6 @@ const calculateExercises = (exerciseHours: number[], target: number): Result => 
 	}
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+const target = Number(process.argv[2])
+const exerciseHours = process.argv.slice(3).map(a => Number(a))
+console.log(calculateExercises(exerciseHours, target))
