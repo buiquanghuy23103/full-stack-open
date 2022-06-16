@@ -1,4 +1,6 @@
 const calculateBmi = (height: number, weight: number) => {
+	console.log('height', height)
+	console.log('weight', weight)
 	const bmi = weight / (height * height / 10000)
 	if (bmi < 16)
 		return 'Underweight (Severe thinness)'
@@ -19,4 +21,6 @@ const calculateBmi = (height: number, weight: number) => {
 	return 'Unknown'
 }
 
-console.log(calculateBmi(180, 74))
+const height = Number(process.argv[2])
+const weight = Number(process.argv[3])
+console.log(calculateBmi(height, weight))
