@@ -1,4 +1,5 @@
-import { isDate, isString } from "./type_guards";
+import { Gender } from "./types";
+import { isDate, isGender, isString } from "./type_guards";
 
 export const parseString = (obj: unknown): string => {
 	if (!obj || !isString(obj))
@@ -9,5 +10,11 @@ export const parseString = (obj: unknown): string => {
 export const parseDate = (obj: unknown): string => {
 	if (!obj || !isString(obj) || !isDate(obj))
 		throw new Error(`Invalid date format: ${obj}`);
+	return obj;
+};
+
+export const parseGender = (obj: unknown): Gender => {
+	if (!obj || !isString(obj) || !isGender(obj))
+		throw new Error('Missing or invalid gender');
 	return obj;
 };
