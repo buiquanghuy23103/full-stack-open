@@ -29,10 +29,14 @@ app.post('/exercise', (
 	req: Request<unknown, unknown, ExerciseRequest>,
 	res: Response
 ) => {
-	const { daily_exercises, target }: ExerciseRequest = req.body;
-	if (!daily_exercises || !target)
-		return res.status(400).send({ error: "parameters missing" });
-	return res.send(calculateExercises(daily_exercises, target));
+	try {
+		const { daily_exercises, target }: ExerciseRequest = req.body;
+		if (!daily_exercises || !target)
+			return res.status(400).send({ error: "parameters missing" });
+		return res.send(calculateExercises(daily_exercises, target));
+	} catch (error: any) {
+		return res.status(400).send({ error: "malformatted parameters" });
+	}
 });
 
 const PORT = 3003;
