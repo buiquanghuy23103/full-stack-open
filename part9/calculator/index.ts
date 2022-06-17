@@ -1,7 +1,9 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import calculateBmi from './bmiCalculator';
+import calculateExercises from './exerciseCalculator';
 
 const app = express();
+app.use(express.json());
 
 app.get('/ping', (_req, res) => {
 	res.send('pong');
@@ -17,6 +19,19 @@ app.get('/bmi', (req, res) => {
 		return res.send({ error: "malformatted parameters" });
 	}
 	return res.send(calculateBmi(height, weight));
+});
+
+interface ExerciseRequest {
+	daily_exercises: number[],
+	target: number
+}
+app.post('/exercise', (
+	req: Request<unknown, unknown, ExerciseRequest>,
+	res: Response
+) => {
+	console.log(req.body);
+	const { daily_exercises, target }: ExerciseRequest = req.body;
+	return res.send(calculateExercises(daily_exercises, target));
 });
 
 const PORT = 3003;
