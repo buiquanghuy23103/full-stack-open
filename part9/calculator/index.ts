@@ -29,8 +29,9 @@ app.post('/exercise', (
 	req: Request<unknown, unknown, ExerciseRequest>,
 	res: Response
 ) => {
-	console.log(req.body);
 	const { daily_exercises, target }: ExerciseRequest = req.body;
+	if (!daily_exercises || !target)
+		return res.status(400).send({ error: "parameters missing" });
 	return res.send(calculateExercises(daily_exercises, target));
 });
 
