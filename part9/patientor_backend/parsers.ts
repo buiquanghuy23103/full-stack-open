@@ -8,6 +8,6 @@ export const parseString = (obj: unknown): string => {
 
 export const parseDate = (obj: unknown): string => {
 	if (!obj || !isString(obj) || !isDate(obj))
-		throw new Error('Invalid date format');
+		throw new Error(`Invalid date format: ${obj}`);
 	return obj;
 };
