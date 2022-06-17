@@ -12,7 +12,7 @@ app.get('/api/ping', (_req, res) => {
 app.use('/api/diagnoses', diagnoseRouter);
 app.use('/api/patients', patientRouter);
 
-const PORT = 3003;
+const PORT = 3001;
 app.listen(PORT, () => {
 	console.log(`Server is running at http://localhost:${PORT}`);
 });
