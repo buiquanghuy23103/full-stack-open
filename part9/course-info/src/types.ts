@@ -24,8 +24,15 @@ interface CourseOptionalPart extends CoursePartBase {
 	description: string;
 }
 
+interface CourseSpecialPart extends CoursePartBase {
+	type: "special";
+	requirements: string[];
+	description: string;
+}
+
 export type CoursePart =
 	CourseNormalPart
 	| CourseProjectPart
 	| CourseSubmissionPart
-	| CourseOptionalPart;
+	| CourseOptionalPart
+	| CourseSpecialPart;
