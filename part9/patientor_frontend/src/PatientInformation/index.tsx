@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import GenderIcon from "../components/GenderIcon";
 import { useStateValue } from "../state";
 import { Patient } from "../types";
 
@@ -13,7 +14,8 @@ const PatientInformation = () => {
 	const { name, gender, ssn, occupation } = foundPatient;
 	return (
 		<>
-			<h2>{name} - {gender}</h2>
+			<h2>{name}</h2>
+			<GenderIcon gender={gender} />
 			<p>ssn: {ssn}</p>
 			<p>occupation: {occupation}</p>
 		</>
