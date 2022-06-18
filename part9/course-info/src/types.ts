@@ -19,4 +19,13 @@ interface CourseSubmissionPart extends CoursePartBase {
 	exerciseSubmissionLink: string;
 }
 
-export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart;
+interface CourseOptionalPart extends CoursePartBase {
+	type: "optional",
+	description: string;
+}
+
+export type CoursePart =
+	CourseNormalPart
+	| CourseProjectPart
+	| CourseSubmissionPart
+	| CourseOptionalPart;
