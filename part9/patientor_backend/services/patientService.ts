@@ -16,6 +16,10 @@ const addPatient = (newPatient: NewPatient): Patient => {
 	return patient;
 };
 
+const getPatientById = (id: string): Patient | undefined => {
+	return getPatients().find(patient => patient.id === id);
+};
+
 const toNewPatient = ({
 	name, dateOfBirth, gender, occupation, ssn
 }: PatientRequestBody): NewPatient => ({
@@ -31,5 +35,6 @@ const toNewPatient = ({
 export default {
 	getPatients,
 	addPatient,
-	toNewPatient
+	toNewPatient,
+	getPatientById
 };
