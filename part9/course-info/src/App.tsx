@@ -1,5 +1,6 @@
 import Content from "./components/Content";
 import Header from "./components/Header";
+import Total from "./components/Total";
 import { CoursePart } from "./types";
 
 const App = () => {
@@ -23,10 +24,7 @@ const App = () => {
 		<div>
 			<Header name={courseName} />
 			<Content courseParts={courseParts} />
-			<p>
-				Number of exercises{" "}
-				{courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
-			</p>
+			<Total courseParts={courseParts} />
 		</div>
 	);
 };
