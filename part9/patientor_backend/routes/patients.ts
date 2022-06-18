@@ -13,6 +13,15 @@ router.get('/', (_req, res) => {
 	return res.send(patients);
 });
 
+router.get('/:id', (req, res) => {
+	const requestId = req.params.id;
+	const foundPatient = patientService.getPatientById(requestId);
+	if (!foundPatient)
+		return res.status(404).end();
+	else
+		return res.status(200).json(foundPatient);
+});
+
 router.post('/', (req, res) => {
 	const newPatient = patientService.toNewPatient(req.body as PatientRequestBody);
 	const patient = patientService.addPatient(newPatient);
