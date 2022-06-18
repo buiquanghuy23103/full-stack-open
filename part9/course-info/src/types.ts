@@ -6,7 +6,6 @@ interface CoursePartBase {
 
 interface CourseNormalPart extends CoursePartBase {
 	type: "normal";
-	description: string;
 }
 interface CourseProjectPart extends CoursePartBase {
 	type: "groupProject";
@@ -15,12 +14,11 @@ interface CourseProjectPart extends CoursePartBase {
 
 interface CourseSubmissionPart extends CoursePartBase {
 	type: "submission";
-	description: string;
 	exerciseSubmissionLink: string;
 }
 
 interface CourseOptionalPart extends CoursePartBase {
-	type: "optional",
+	type: "normal" | "submission",
 	description: string;
 }
 
