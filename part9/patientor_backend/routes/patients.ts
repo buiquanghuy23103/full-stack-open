@@ -6,9 +6,9 @@ const router = express.Router();
 
 router.get('/', (_req, res) => {
 	const patients: Array<PatientWithoutSsn> = patientService.getPatients().map(({
-		id, name, dateOfBirth, gender, occupation
+		id, name, dateOfBirth, gender, occupation, entries
 	}) => ({
-		id, name, dateOfBirth, gender, occupation
+		id, name, dateOfBirth, gender, occupation, entries
 	}));
 	return res.send(patients);
 });
