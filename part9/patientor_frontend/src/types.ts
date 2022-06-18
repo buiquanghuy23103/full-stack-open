@@ -1,3 +1,7 @@
+export const assertNever = (obj: never): never => {
+	throw new Error(`Unhandled member of union: ${JSON.stringify(obj)}`);
+};
+
 export interface Diagnosis {
   code: string;
   name: string;
@@ -6,8 +10,7 @@ export interface Diagnosis {
 
 export enum Gender {
   Male = "male",
-  Female = "female",
-  Other = "other"
+  Female = "female"
 }
 
 export interface Patient {
