@@ -1,15 +1,21 @@
 import { State } from "./state";
 import { Patient } from "../types";
 
-export type Action =
-  | {
-      type: "SET_PATIENT_LIST";
-      payload: Patient[];
-    }
-  | {
-      type: "ADD_PATIENT";
-      payload: Patient;
-    };
+interface ActionBase {
+	type: string;
+}
+
+interface SetPatientAction extends ActionBase {
+	type: "SET_PATIENT_LIST";
+	payload: Patient[];
+}
+
+interface AddPatientAction extends ActionBase {
+	type: "ADD_PATIENT";
+	payload: Patient;
+}
+
+export type Action = SetPatientAction | AddPatientAction;
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.type) {
