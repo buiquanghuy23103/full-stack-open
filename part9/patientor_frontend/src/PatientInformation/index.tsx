@@ -10,8 +10,14 @@ const PatientInformation = () => {
 	});
 	if (!foundPatient)
 		return <h1>Patient not found.</h1>;
-	
-	return <h1>Patient Information {foundPatient.name}</h1>;
+	const { name, gender, ssn, occupation } = foundPatient;
+	return (
+		<>
+			<h2>{name} - {gender}</h2>
+			<p>ssn: {ssn}</p>
+			<p>occupation: {occupation}</p>
+		</>
+	);
 };
 
 export default PatientInformation;
