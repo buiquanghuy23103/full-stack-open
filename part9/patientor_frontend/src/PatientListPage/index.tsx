@@ -11,12 +11,14 @@ import { useStateValue } from "../state";
 import { TableCell } from "@material-ui/core";
 import { TableRow } from "@material-ui/core";
 import { TableBody } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 const PatientListPage = () => {
   const [{ patients }, dispatch] = useStateValue();
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [error, setError] = React.useState<string>();
+	const [error, setError] = React.useState<string>();
+	const navigate = useNavigate();
 
   const openModal = (): void => setModalOpen(true);
 
@@ -43,6 +45,10 @@ const PatientListPage = () => {
       }
     }
   };
+	
+	const goToPatientDetails = (patientId: string) => {
+		navigate(`/patients/${patientId}`);
+	};
 
   return (
     <div className="App">
@@ -63,7 +69,9 @@ const PatientListPage = () => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+				<TableCell onClick={() => goToPatientDetails(patient.id)}>
+					{patient.name}
+				</TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
