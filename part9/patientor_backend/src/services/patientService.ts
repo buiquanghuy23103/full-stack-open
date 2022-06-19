@@ -54,7 +54,7 @@ const toNewEntry = (req: NewEntryRequestBody): NewEntry => {
 			return ({
 				type,
 				date: parseDate(date),
-				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				diagnosisCodes: diagnosisCodes ? parseStringArray(diagnosisCodes) : undefined,
 				specialist: parseString(specialist),
 				description: parseString(description),
 				employerName: parseString(employerName),
@@ -64,7 +64,7 @@ const toNewEntry = (req: NewEntryRequestBody): NewEntry => {
 			return ({
 				type,
 				date: parseDate(date),
-				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				diagnosisCodes: diagnosisCodes ? parseStringArray(diagnosisCodes) : undefined,
 				specialist: parseString(specialist),
 				description: parseString(description),
 				discharge: parseDischarge(discharge)
@@ -73,7 +73,7 @@ const toNewEntry = (req: NewEntryRequestBody): NewEntry => {
 			return ({
 				type,
 				date: parseDate(date),
-				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				diagnosisCodes: diagnosisCodes ? parseStringArray(diagnosisCodes) : undefined,
 				specialist: parseString(specialist),
 				description: parseString(description),
 				healthCheckRating: parseNumber(healthCheckRating)
