@@ -1,10 +1,10 @@
-import patientData from '../data/patients.json';
+import patients from '../data/patients';
 import { NewPatient, Patient, PatientRequestBody } from '../types';
 import { v1 as uuid } from 'uuid';
 import { parseDate, parseGender, parseString } from '../parsers';
 
 const getPatients = () => {
-	return patientData as Array<Patient>;
+	return patients;
 };
 
 const addPatient = (newPatient: NewPatient): Patient => {
@@ -12,7 +12,7 @@ const addPatient = (newPatient: NewPatient): Patient => {
 		...newPatient,
 		id: uuid()
 	};
-	patientData.push(patient);
+	patients.push(patient);
 	return patient;
 };
 
