@@ -1,10 +1,15 @@
 import { assertNever, Entry } from "../types";
+import DiagnosisInfo from "./DiagnosisInfo";
 
 interface Props {
 	entry: Entry
 }
 
 const EntryInfo = ({ entry }: Props) => {
+	const diagnoses = entry.diagnosisCodes
+		? entry.diagnosisCodes.map(code =>
+			<DiagnosisInfo key={code} diagnosisCode={code} />)
+		: null;
 	switch (entry.type) {
 		case 'OccupationalHealthcare':
 			return (
@@ -15,6 +20,7 @@ const EntryInfo = ({ entry }: Props) => {
 						? `start date: ${entry.sickLeave.startDate}
 						end date: ${entry.sickLeave.endDate}`
 						: 'no'}</p>
+					{diagnoses}
 				</>
 			);
 		case 'HealthCheck':
@@ -23,6 +29,7 @@ const EntryInfo = ({ entry }: Props) => {
 					<p>Specialist: {entry.specialist}</p>
 					<p>{entry.date} {entry.description}</p>
 					<p>Health Check rating: {entry.healthCheckRating}</p>
+					{diagnoses}
 				</>
 			);
 		case 'Hospital':
@@ -33,6 +40,7 @@ const EntryInfo = ({ entry }: Props) => {
 					<p>Discharge: {entry.discharge
 						? `${entry.discharge.date} ${entry.discharge.criteria}`
 						: 'not yet'}</p>
+					{diagnoses}
 				</>
 			);
 		default:
