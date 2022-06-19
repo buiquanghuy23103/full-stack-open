@@ -42,7 +42,7 @@ interface OccupationalHealthcareEntry extends BaseEntry {
 }
 interface HospitalEntry extends BaseEntry {
 	type: 'Hospital',
-	discharge: {
+	discharge?: {
 		date: string;
 		criteria: string;
 	}
