@@ -22,3 +22,35 @@ export interface Patient {
   ssn?: string;
   dateOfBirth?: string;
 }
+
+interface BaseEntry {
+	id: string;
+	date: string;
+	type: string;
+	description: string;
+	specialist: string;
+	diagnosisCodes?: Array<Diagnosis['code']>
+}
+interface OccupationalHealthcareEntry extends BaseEntry {
+	type: 'OccupationalHealthcare',
+	employerName: string;
+	sickLeave?: {
+		startDate: string;
+		endDate: string;
+	}
+}
+interface HospitalEntry extends BaseEntry {
+	type: 'Hospital',
+	discharge: {
+		date: string;
+		criteria: string;
+	}
+}
+interface HealthCheckEntry extends BaseEntry {
+	type: 'HealthCheck',
+	healthCheckRating: number;
+}
+export type Entry =
+	OccupationalHealthcareEntry
+	| HospitalEntry
+	| HealthCheckEntry;
