@@ -19,10 +19,7 @@ router.get('/:id', (req, res) => {
 	if (!foundPatient)
 		return res.status(404).end();
 	else
-	{
-		foundPatient.entries = [];
 		return res.status(200).json(foundPatient);
-	}
 });
 
 router.post('/', (req, res) => {
