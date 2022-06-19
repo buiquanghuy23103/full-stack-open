@@ -5,6 +5,11 @@ export const isString = (obj: unknown): obj is string => {
 		|| obj instanceof String;
 };
 
+export const isNumber = (obj: unknown): obj is number => {
+	return typeof obj === 'number'
+		|| obj instanceof Number;
+};
+
 export const isDate = (date: string) => {
 	return Boolean(Date.parse(date));
 };
