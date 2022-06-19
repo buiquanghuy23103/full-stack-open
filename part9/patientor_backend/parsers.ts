@@ -1,5 +1,5 @@
 import { Gender, HospitalEntry, OccupationalHealthcareEntry } from "./types";
-import { isDate, isGender, isNumber, isString } from "./type_guards";
+import { isDate, isGender, isNumber, isSickLeave, isString } from "./type_guards";
 
 export const parseString = (obj: unknown): string => {
 	if (!obj || !isString(obj))
@@ -37,13 +37,11 @@ export const parseStringArray = (obj: unknown): string[] => {
 	return strArr;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseSickLeave = (obj: any)
+export const parseSickLeave = (obj: unknown)
 	: OccupationalHealthcareEntry['sickLeave'] => {
-	return {
-		startDate: parseDate(obj.startDate),
-		endDate: parseDate(obj.endDate)
-	};
+	if (!isSickLeave(obj))
+		throw new Error(`Not a SickLeave object: ${JSON.stringify(obj)}`);
+	return obj;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
