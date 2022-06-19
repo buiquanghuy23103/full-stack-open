@@ -1,4 +1,5 @@
 import express from 'express';
+import { getErrorMessage } from '../error';
 import patientService from '../services/patientService';
 import { NewEntryRequestBody, PatientRequestBody, PatientWithoutSsn } from '../types';
 
@@ -13,8 +14,7 @@ router.get('/', (_req, res) => {
 		}));
 		return res.send(patients);
 	} catch (error) {
-		console.error(error);
-		return res.status(500).json(error);
+		return res.status(500).json({ error: getErrorMessage(error) });
 	}
 });
 
@@ -27,8 +27,7 @@ router.get('/:id', (req, res) => {
 		else
 			return res.status(200).json(foundPatient);
 	} catch (error) {
-		console.error(error);
-		return res.status(500).json(error);
+		return res.status(500).json({ error: getErrorMessage(error) });
 	}
 });
 
@@ -38,8 +37,7 @@ router.post('/', (req, res) => {
 		const patient = patientService.addPatient(newPatient);
 		return res.json(patient);
 	} catch (error) {
-		console.error(error);
-		return res.status(500).json(error);
+		return res.status(500).json({ error: getErrorMessage(error) });
 	}
 });
 
@@ -53,8 +51,7 @@ router.post('/:id/entries', (req, res) => {
 		else
 			return res.status(200).json(entry);
 	} catch (error) {
-		console.error(error);
-		return res.status(500).json(error);
+		return res.status(500).json({ error: getErrorMessage(error) });
 	}
 });
 
