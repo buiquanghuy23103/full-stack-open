@@ -1,5 +1,6 @@
 import { assertNever, Entry } from "../types";
 import DiagnosisInfo from "./DiagnosisInfo";
+import HealthCheckEntryInfo from "./HealthCheckEntryInfo";
 import OccupationalHealthcareEntryInfo from "./OccupationalHealthCareEntryInfo";
 
 interface Props {
@@ -15,14 +16,7 @@ const EntryInfo = ({ entry }: Props) => {
 		case 'OccupationalHealthcare':
 			return (<OccupationalHealthcareEntryInfo entry={entry} />);
 		case 'HealthCheck':
-			return (
-				<>
-					<p>Specialist: {entry.specialist}</p>
-					<p>{entry.date} {entry.description}</p>
-					<p>Health Check rating: {entry.healthCheckRating}</p>
-					{diagnoses}
-				</>
-			);
+			return (<HealthCheckEntryInfo entry={entry} />);
 		case 'Hospital':
 			return (
 				<>
