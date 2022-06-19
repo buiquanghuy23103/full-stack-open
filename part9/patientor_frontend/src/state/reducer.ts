@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { Patient } from "../types";
+import { assertNever, Diagnosis, Patient } from "../types";
 
 interface ActionBase {
 	type: string;
@@ -15,7 +15,12 @@ interface AddPatientAction extends ActionBase {
 	payload: Patient;
 }
 
-export type Action = SetPatientAction | AddPatientAction;
+interface SetDiagnosesAction extends ActionBase {
+	type: 'SET_DIAGNOSES';
+	payload: Diagnosis[];
+}
+
+export type Action = SetPatientAction | AddPatientAction | SetDiagnosesAction;
 
 export const setPatientList = (patients: Patient[]): SetPatientAction => ({
 	type: "SET_PATIENT_LIST",
@@ -25,6 +30,11 @@ export const setPatientList = (patients: Patient[]): SetPatientAction => ({
 export const addPatient = (patient: Patient): AddPatientAction => ({
 	type: "ADD_PATIENT",
 	payload: patient
+});
+
+export const setDiagnoses = (diagnoses: Diagnosis[]): SetDiagnosesAction => ({
+	type: 'SET_DIAGNOSES',
+	payload: diagnoses
 });
 
 export const reducer = (state: State, action: Action): State => {
@@ -47,8 +57,14 @@ export const reducer = (state: State, action: Action): State => {
           ...state.patients,
           [action.payload.id]: action.payload
         }
-      };
-    default:
-      return state;
+	};
+	case 'SET_DIAGNOSES':
+		return {
+			...state,
+			diagnoses: action.payload
+		};
+	default:
+		assertNever(action);
+		return state;
   }
 };
