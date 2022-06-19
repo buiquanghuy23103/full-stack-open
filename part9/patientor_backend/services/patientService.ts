@@ -1,7 +1,7 @@
 import patients from '../data/patients';
-import { NewPatient, Patient, PatientRequestBody } from '../types';
+import { NewPatient, Patient, PatientRequestBody, NewEntryRequestBody, NewEntry } from '../types';
 import { v1 as uuid } from 'uuid';
-import { parseDate, parseGender, parseString } from '../parsers';
+import { parseDate, parseDischarge, parseGender, parseNumber, parseSickLeave, parseString, parseStringArray } from '../parsers';
 
 const getPatients = () => {
 	return patients;
@@ -31,10 +31,49 @@ const toNewPatient = ({
 	entries: []
 });
 
+const toNewEntry = (req: NewEntryRequestBody): NewEntry => {
+	const {
+		type, date, diagnosisCodes, description, specialist, employerName,
+		sickLeave, discharge, healthCheckRating
+	} = req;
+	switch (type) {
+		case 'OccupationalHealthcare':
+			return ({
+				type,
+				date: parseDate(date),
+				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				specialist: parseString(specialist),
+				description: parseString(description),
+				employerName: parseString(employerName),
+				sickLeave: sickLeave ? parseSickLeave(sickLeave): undefined
+			});
+		case 'Hospital':
+			return ({
+				type,
+				date: parseDate(date),
+				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				specialist: parseString(specialist),
+				description: parseString(description),
+				discharge: parseDischarge(discharge)
+			});
+		case 'HealthCheck':
+			return ({
+				type,
+				date: parseDate(date),
+				diagnosisCodes: diagnosisCodes ? parseStringArray(description) : undefined,
+				specialist: parseString(specialist),
+				description: parseString(description),
+				healthCheckRating: parseNumber(healthCheckRating)
+			});
+		default:
+			throw new Error(`Missing or incorrect properties: ${JSON.stringify(req)}`);
+	}
+};
 
 export default {
 	getPatients,
 	addPatient,
 	toNewPatient,
-	getPatientById
+	getPatientById,
+	toNewEntry
 };
