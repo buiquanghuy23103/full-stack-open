@@ -26,7 +26,6 @@ interface HospitalEntry extends BaseEntry {
 		criteria: string;
 	}
 }
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export type Entry = OccupationalHealthcareEntry | HospitalEntry;
 
 export interface Patient {
