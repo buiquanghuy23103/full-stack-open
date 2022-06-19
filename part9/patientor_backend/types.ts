@@ -38,6 +38,18 @@ export type Entry =
 type UnionOmit<T, K extends string | symbol | number> = T extends unknown ? Omit<T, K> : never;
 export type NewEntry = UnionOmit<Entry, 'id'>;
 
+export interface NewEntryRequestBody {
+	date: unknown;
+	type: unknown;
+	description: unknown;
+	specialist: unknown;
+	diagnosisCodes?: unknown;
+	employerName?: unknown;
+	sickLeave?: unknown;
+	discharge?: unknown;
+	healthCheckRating?: unknown;
+}
+
 export interface Patient {
 	id: string;
 	name: string;
