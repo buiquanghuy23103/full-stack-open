@@ -3,11 +3,31 @@ export interface Diagnose {
 	name: string;
 	latin?: string;
 }
-
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Entry {
-	
+interface BaseEntry {
+	id: string;
+	date: string;
+	type: string;
+	description: string;
+	specialist: string;
+	diagnosisCodes?: Array<Diagnose['code']>
 }
+interface OccupationalHealthcareEntry extends BaseEntry {
+	type: 'OccupationalHealthcare',
+	employerName: string;
+	sickLeave: {
+		startDate: string;
+		endDate: string;
+	}
+}
+interface HospitalEntry extends BaseEntry {
+	type: 'Hospital',
+	discharge: {
+		date: string;
+		criteria: string;
+	}
+}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export type Entry = OccupationalHealthcareEntry | HospitalEntry;
 
 export interface Patient {
 	id: string;
