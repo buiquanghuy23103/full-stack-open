@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService';
-import { PatientRequestBody, PatientWithoutSsn } from '../types';
+import { NewEntryRequestBody, PatientRequestBody, PatientWithoutSsn } from '../types';
 
 const router = express.Router();
 
@@ -26,6 +26,16 @@ router.post('/', (req, res) => {
 	const newPatient = patientService.toNewPatient(req.body as PatientRequestBody);
 	const patient = patientService.addPatient(newPatient);
 	return res.json(patient);
+});
+
+router.post('/:id/entries', (req, res) => {
+	const requestId = req.params.id;
+	const newEntry = patientService.toNewEntry(req.body as NewEntryRequestBody);
+	const entry = patientService.addEntry(requestId, newEntry);
+	if (!entry)
+		return res.status(404).end();
+	else
+		return res.status(200).json(entry);
 });
 
 export default router;

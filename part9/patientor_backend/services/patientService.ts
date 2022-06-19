@@ -1,5 +1,5 @@
 import patients from '../data/patients';
-import { NewPatient, Patient, PatientRequestBody, NewEntryRequestBody, NewEntry } from '../types';
+import { NewPatient, Patient, PatientRequestBody, NewEntryRequestBody, NewEntry, Entry } from '../types';
 import { v1 as uuid } from 'uuid';
 import { parseDate, parseDischarge, parseGender, parseNumber, parseSickLeave, parseString, parseStringArray } from '../parsers';
 
@@ -14,6 +14,19 @@ const addPatient = (newPatient: NewPatient): Patient => {
 	};
 	patients.push(patient);
 	return patient;
+};
+
+const addEntry = (patientId: string, newEntry: NewEntry): Entry | undefined => {
+	const entry = {
+		...newEntry,
+		id: uuid()
+	};
+	const patient = getPatientById(patientId);
+	if (!patient) return undefined;
+	if (!patient.entries)
+		patient.entries = [];
+	patient.entries.push(entry);
+	return entry;
 };
 
 const getPatientById = (id: string): Patient | undefined => {
@@ -75,5 +88,6 @@ export default {
 	addPatient,
 	toNewPatient,
 	getPatientById,
-	toNewEntry
+	toNewEntry,
+	addEntry
 };
