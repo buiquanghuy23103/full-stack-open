@@ -26,7 +26,14 @@ interface HospitalEntry extends BaseEntry {
 		criteria: string;
 	}
 }
-export type Entry = OccupationalHealthcareEntry | HospitalEntry;
+interface HealthCheckEntry extends BaseEntry {
+	type: 'HealthCheck',
+	healthCheckRating: number;
+}
+export type Entry =
+	OccupationalHealthcareEntry
+	| HospitalEntry
+	| HealthCheckEntry;
 
 export interface Patient {
 	id: string;
