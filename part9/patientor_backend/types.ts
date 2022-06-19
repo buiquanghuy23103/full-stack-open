@@ -42,7 +42,7 @@ export type PublicPatient = Omit<Patient, 'entries' | 'ssn'>;
 
 export enum Gender {
 	Male = 'male',
-	Femail = 'female',
+	Female = 'female',
 	Unknown = 'unknown'
 }
 
