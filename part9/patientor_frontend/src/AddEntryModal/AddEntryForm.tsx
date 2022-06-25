@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import FormikTextAreaField from "../components/FormikTextAreaField";
 import FormikDiagnosisSelectField from "../components/DiagnosisSelectField";
 import { useStateValue } from "../state";
+import FormikNumberField from "../components/FormikNumberField";
 
 export type EntryFormValues = UnionOmit<Entry, "id">;
 
@@ -58,6 +59,13 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						placeholder="Specialist name"
 						name="specialist"
 						component={FormikTextField}
+					/>
+					<Field
+						name="healthCheckRating"
+						label="Health check rating"
+						min={0}
+						max={10}
+						component={FormikNumberField}
 					/>
 					<FormikDiagnosisSelectField
 						setFieldTouched={setFieldTouched}
