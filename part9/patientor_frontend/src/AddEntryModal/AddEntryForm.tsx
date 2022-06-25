@@ -1,4 +1,4 @@
-import { TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import { Entry, UnionOmit } from "../types";
 
@@ -44,6 +44,13 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						name="date"
 						component={TextField}
 					/>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+					>
+						Add Entry
+					</Button>
 				</Form>
 			)}
 		</Formik>
