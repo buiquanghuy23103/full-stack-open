@@ -23,7 +23,8 @@ const initialValues: EntryFormValues = {
 
 const validator = Yup.object({
 	date: Yup.date().required(),
-	description: Yup.string().max(5).required()
+	description: Yup.string().max(5).required(),
+	specialist: Yup.string().required()
 });
 
 const AddEntryForm = ({ onSubmit }: Props) => {
@@ -47,6 +48,12 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						name="description"
 						minRows={3}
 						component={FormikTextAreaField}
+					/>
+					<Field
+						label="Specialist"
+						placeholder="Specialist name"
+						name="specialist"
+						component={FormikTextField}
 					/>
 					<Button
 						type="submit"
