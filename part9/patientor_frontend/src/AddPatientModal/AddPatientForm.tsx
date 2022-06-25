@@ -2,8 +2,9 @@ import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
-import { TextField, SelectField, GenderOption } from "./FormField";
+import { SelectField, GenderOption } from "./FormField";
 import { Gender, Patient } from "../types";
+import FormikTextField from "../components/CustomTextField";
 
 /*
  * use type Patient, but omit id and entries,
@@ -58,25 +59,25 @@ export const AddPatientForm = ({ onSubmit, onCancel }: Props) => {
               label="Name"
               placeholder="Name"
               name="name"
-              component={TextField}
+			component={FormikTextField}
             />
             <Field
               label="Social Security Number"
               placeholder="SSN"
               name="ssn"
-              component={TextField}
+              component={FormikTextField}
             />
             <Field
               label="Date Of Birth"
               placeholder="YYYY-MM-DD"
               name="dateOfBirth"
-              component={TextField}
+              component={FormikTextField}
             />
             <Field
               label="Occupation"
               placeholder="Occupation"
               name="occupation"
-              component={TextField}
+              component={FormikTextField}
             />
             <SelectField label="Gender" name="gender" options={genderOptions} />
             <Grid>
