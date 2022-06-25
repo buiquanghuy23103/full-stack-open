@@ -22,12 +22,17 @@ const FormikNumberField = ({ field, label, min, max }: NumberProps) => {
         type="number"
         {...field}
         value={value}
-        onChange={(e) => {
-          const value = parseInt(e.target.value);
-          if (value === undefined) return;
-          if (value > max) setValue(max);
-          else if (value <= min) setValue(min);
-          else setValue(Math.floor(value));
+		onChange={(e) => {
+			const value = parseInt(e.target.value);
+			if (value === undefined)
+				return;
+			if (value > max)
+				setValue(max);
+			else if (value <= min)
+				setValue(min);
+			else
+				setValue(Math.floor(value));
+			console.log('value', value);
       }}
       />
       {/* This crashes the app
