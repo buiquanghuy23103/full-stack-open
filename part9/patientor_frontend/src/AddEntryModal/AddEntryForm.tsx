@@ -1,5 +1,6 @@
-import { Button, TextField } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
+import FormikTextField from "../components/CustomTextField";
 import { Entry, UnionOmit } from "../types";
 
 export type EntryFormValues = UnionOmit<Entry, "id">;
@@ -41,7 +42,7 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						label="Date"
 						placeholder="2000-12-01"
 						name="date"
-						component={TextField}
+						component={FormikTextField}
 					/>
 					<Button
 						type="submit"
