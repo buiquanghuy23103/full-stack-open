@@ -1,10 +1,9 @@
 import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
-
-import { SelectField, GenderOption } from "./FormField";
 import { Gender, Patient } from "../types";
 import FormikTextField from "../components/CustomTextField";
+import FormikSelectField, { GenderOption } from "../components/FormikSelectField";
 
 /*
  * use type Patient, but omit id and entries,
@@ -79,7 +78,10 @@ export const AddPatientForm = ({ onSubmit, onCancel }: Props) => {
               name="occupation"
               component={FormikTextField}
             />
-            <SelectField label="Gender" name="gender" options={genderOptions} />
+			<FormikSelectField
+				label="Gender"
+				name="gender"
+				options={genderOptions} />
             <Grid>
               <Grid item>
                 <Button

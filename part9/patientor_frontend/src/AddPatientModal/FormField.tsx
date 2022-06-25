@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ErrorMessage, Field, FieldProps, FormikProps } from "formik";
+import { ErrorMessage, FieldProps, FormikProps } from "formik";
 import {
   Select,
   FormControl,
@@ -7,43 +7,9 @@ import {
   TextField as TextFieldMUI,
   Typography,
 } from "@material-ui/core";
-import { Diagnosis, Gender } from "../types";
+import { Diagnosis } from "../types";
 import { InputLabel } from "@material-ui/core";
 import Input from '@material-ui/core/Input';
-
-// structure of a single option
-export type GenderOption = {
-  value: Gender;
-  label: string;
-};
-
-// props for select field component
-type SelectFieldProps = {
-  name: string;
-  label: string;
-  options: GenderOption[];
-};
-
-const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />;
-
-export const SelectField = ({ name, label, options }: SelectFieldProps) => (
-  <>
-    <InputLabel>{label}</InputLabel>
-    <Field
-      fullWidth
-      style={{ marginBottom: "0.5em" }}
-      label={label}
-      component={FormikSelect}
-      name={name}
-    >
-      {options.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label || option.value}
-        </MenuItem>
-      ))}
-    </Field>
-  </>
-);
 
 /*
   for exercises 9.24.-
