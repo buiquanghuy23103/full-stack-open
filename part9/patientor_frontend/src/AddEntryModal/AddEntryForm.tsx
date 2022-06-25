@@ -10,7 +10,7 @@ interface Props {
 }
 
 const initialValues: EntryFormValues = {
-	date: "2000-02-02",
+	date: "",
 	type: "HealthCheck",
 	description: "",
 	specialist: "",
@@ -23,10 +23,9 @@ const validate = (values: EntryFormValues) => {
 	const errors: { [field: string]: string } = {};
 	if (!values.date)
 		errors.date = requiredError;
-	if (!values.description)
-		errors.description = requiredError;
-	if (!values.specialist)
-		errors.specialist = requiredError;
+	console.log('values', values);
+	console.log('errors', errors);
+	
 	return errors;
 };
 
