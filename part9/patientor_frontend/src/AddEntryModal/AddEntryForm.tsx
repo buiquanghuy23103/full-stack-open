@@ -1,6 +1,6 @@
 import { Button } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
-import FormikTextField from "../components/CustomTextField";
+import FormikTextField from "../components/FormikTextField";
 import { Entry, UnionOmit } from "../types";
 import * as Yup from "yup";
 

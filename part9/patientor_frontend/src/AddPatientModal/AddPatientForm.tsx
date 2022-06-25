@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 import { Gender, Patient } from "../types";
-import FormikTextField from "../components/CustomTextField";
+import FormikTextField from "../components/FormikTextField";
 import FormikSelectField, { GenderOption } from "../components/FormikSelectField";
 
 /*
