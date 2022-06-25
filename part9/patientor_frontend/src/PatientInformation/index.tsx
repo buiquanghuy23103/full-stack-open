@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddEntryModal from "../AddEntryModal";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 import GenderIcon from "../components/GenderIcon";
 import { useStateValue } from "../state";
 import { Patient } from "../types";
@@ -22,6 +23,11 @@ const PatientInformation = () => {
 	const openModal = (): void => setModalOpen(true);
 	const closeModal = (): void => setModalOpen(false);
 
+	const addEntry = (entryFormValues: EntryFormValues) => {
+		console.log('entryFormValues', entryFormValues);
+		closeModal();
+	};
+
 	return (
 		<>
 			<h2>{name}</h2>
@@ -34,7 +40,11 @@ const PatientInformation = () => {
 				onClick={openModal}>
 				Add Entry
 			</Button>
-			<AddEntryModal modalOpen={modalOpen} onClose={closeModal} />
+			<AddEntryModal
+				modalOpen={modalOpen}
+				onClose={closeModal}
+				onSubmit={addEntry}
+			/>
 			<h3>Entries</h3>
 			{(entries && entries.length !== 0)
 				? entries.map(entry => (<EntryInfo key={entry.id} entry={entry} />))
