@@ -3,6 +3,7 @@ import { Field, Form, Formik } from "formik";
 import FormikTextField from "../components/FormikTextField";
 import { Entry, UnionOmit } from "../types";
 import * as Yup from "yup";
+import FormikTextAreaField from "../components/FormikTextAreaField";
 
 export type EntryFormValues = UnionOmit<Entry, "id">;
 
@@ -21,7 +22,8 @@ const initialValues: EntryFormValues = {
 };
 
 const validator = Yup.object({
-	date: Yup.date().required()
+	date: Yup.date().required(),
+	description: Yup.string().max(5).required()
 });
 
 const AddEntryForm = ({ onSubmit }: Props) => {
@@ -38,6 +40,13 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						placeholder="2000-12-01"
 						name="date"
 						component={FormikTextField}
+					/>
+					<Field
+						label="Description"
+						placeholder="No more than 500 characters"
+						name="description"
+						minRows={3}
+						component={FormikTextAreaField}
 					/>
 					<Button
 						type="submit"
