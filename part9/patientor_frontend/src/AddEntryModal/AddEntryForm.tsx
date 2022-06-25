@@ -2,6 +2,7 @@ import { Button } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import FormikTextField from "../components/CustomTextField";
 import { Entry, UnionOmit } from "../types";
+import * as Yup from "yup";
 
 export type EntryFormValues = UnionOmit<Entry, "id">;
 
@@ -19,23 +20,17 @@ const initialValues: EntryFormValues = {
 	healthCheckRating: 0
 };
 
-const validate = (values: EntryFormValues) => {
-	const requiredError = "Field is required";
-	const errors: { [field: string]: string } = {};
-	if (!values.date)
-		errors.date = requiredError;
-	console.log('values', values);
-	console.log('errors', errors);
-	
-	return errors;
-};
+const validator = Yup.object({
+	date: Yup.date().required()
+});
 
 const AddEntryForm = ({ onSubmit }: Props) => {
 	return (
 		<Formik
 			onSubmit={onSubmit}
 			initialValues={initialValues}
-			validate={validate}>
+			validationSchema={validator}
+			>
 			{() => (
 				<Form>
 					<Field
