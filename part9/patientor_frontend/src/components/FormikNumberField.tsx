@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { ErrorMessage, FieldProps } from "formik";
+import { FieldProps } from "formik";
 import {
   TextField,
-  Typography,
 } from "@material-ui/core";
 
 interface NumberProps extends FieldProps {
@@ -12,7 +11,7 @@ interface NumberProps extends FieldProps {
 }
 
 const FormikNumberField = ({ field, label, min, max }: NumberProps) => {
-  const [value, setValue] = useState<number>();
+  const [value, setValue] = useState<number>(0);
 
   return (
     <div style={{ marginBottom: "1em" }}>
@@ -31,9 +30,10 @@ const FormikNumberField = ({ field, label, min, max }: NumberProps) => {
           else setValue(Math.floor(value));
       }}
       />
-      <Typography variant="subtitle2" style={{ color: "red" }}>
+      {/* This crashes the app
+	  <Typography variant="subtitle2" style={{ color: "red" }}>
         <ErrorMessage name={field.name} />
-      </Typography>
+      </Typography> */}
     </div>
   );
 };
