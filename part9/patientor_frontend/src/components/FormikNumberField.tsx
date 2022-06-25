@@ -1,25 +1,22 @@
 import React, { useState } from "react";
 import { ErrorMessage, FieldProps } from "formik";
 import {
-  TextField as TextFieldMUI,
+  TextField,
   Typography,
 } from "@material-ui/core";
 
-/*
-  for exercises 9.24.-
-*/
 interface NumberProps extends FieldProps {
   label: string;
   min: number;
   max: number;
 }
 
-export const NumberField = ({ field, label, min, max }: NumberProps) => {
+const FormikNumberField = ({ field, label, min, max }: NumberProps) => {
   const [value, setValue] = useState<number>();
 
   return (
     <div style={{ marginBottom: "1em" }}>
-      <TextFieldMUI
+      <TextField
         fullWidth
         label={label}
         placeholder={String(min)}
@@ -40,3 +37,5 @@ export const NumberField = ({ field, label, min, max }: NumberProps) => {
     </div>
   );
 };
+
+export default FormikNumberField;
