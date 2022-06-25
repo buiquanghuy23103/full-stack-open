@@ -1,4 +1,4 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@material-ui/core";
+import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
 import AddEntryForm from "./AddEntryForm";
 
 interface Props {
@@ -15,10 +15,6 @@ const AddEntryModal = ({ modalOpen, onClose }: Props) => {
 					onSubmit={onClose}
 					onCancel={onClose} />
 			</DialogContent>
-			<DialogActions>
-				<Button onClick={onClose}>Cancel</Button>
-				<Button onClick={onClose}>Add Entry</Button>
-			</DialogActions>
 		</Dialog>
 	);
 };
