@@ -67,6 +67,7 @@ const AddEntryForm = ({ onSubmit }: Props) => {
 						component={FormikTextField}
 					/>
 					<FormikDiagnosisSelectField
+						name="diagnosisCodes"
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						diagnoses={diagnoses}

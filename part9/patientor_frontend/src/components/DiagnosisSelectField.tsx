@@ -3,21 +3,24 @@ import { ErrorMessage, FormikProps } from "formik";
 import { useState } from "react";
 import { Diagnosis } from "../types";
 
+interface Props {
+	diagnoses: Diagnosis[];
+	setFieldValue: FormikProps<{ diagnosisCodes: string[] }>["setFieldValue"];
+	setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
+	name: string;
+}
+
 const FormikDiagnosisSelectField = ({
 	diagnoses,
 	setFieldValue,
 	setFieldTouched,
-}: {
-	diagnoses: Diagnosis[];
-	setFieldValue: FormikProps<{ diagnosisCodes: string[] }>["setFieldValue"];
-	setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>["setFieldTouched"];
-}) => {
+	name
+}: Props) => {
 	const [selectedDiagnoses, setDiagnoses] = useState<string[]>([]);
-	const field = "diagnosisCodes";
 	const onChange = (data: string[]) => {
 		setDiagnoses([...data]);
-		setFieldTouched(field, true);
-		setFieldValue(field, [...data]);
+		setFieldTouched(name, true);
+		setFieldValue(name, [...data]);
 	};
 
 	const stateOptions = diagnoses.map((diagnosis) => ({
@@ -40,7 +43,7 @@ const FormikDiagnosisSelectField = ({
 					</MenuItem>
 				))}
 			</Select>
-			<ErrorMessage name={field} />
+			<ErrorMessage name={name} />
 		</FormControl>
 	);
 };
