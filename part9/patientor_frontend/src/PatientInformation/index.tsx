@@ -1,31 +1,42 @@
 import { Button } from "@material-ui/core";
+import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddEntryModal from "../AddEntryModal";
 import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
 import GenderIcon from "../components/GenderIcon";
-import { useStateValue } from "../state";
-import { Patient } from "../types";
+import { apiBaseUrl } from "../constants";
+import { addEntry, useStateValue } from "../state";
+import { Entry, Patient } from "../types";
 import EntryInfo from "./EntryInfo";
 
 const PatientInformation = () => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const { id } = useParams<{ id: string }>();
-	const [{ patients }] = useStateValue();
+	const [{ patients }, dispatch] = useStateValue();
 
 	const foundPatient = Object.values(patients).find((patient: Patient) => {
 		return patient.id === id;
 	});
-	if (!foundPatient)
+	if (!id || !foundPatient)
 		return <h1>Patient not found.</h1>;
 	const { name, gender, ssn, occupation, entries } = foundPatient;
 
 	const openModal = (): void => setModalOpen(true);
 	const closeModal = (): void => setModalOpen(false);
 
-	const addEntry = (entryFormValues: EntryFormValues) => {
+	const submitNewEntry = async (entryFormValues: EntryFormValues) => {
 		console.log('entryFormValues', entryFormValues);
-		closeModal();
+		try {
+			const { data: newEntry } = await axios.post<Entry>(
+				`${apiBaseUrl}/patients/${id}/entries`,
+				entryFormValues
+			);
+			dispatch(addEntry(id, newEntry));
+			closeModal();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	return (
@@ -43,7 +54,7 @@ const PatientInformation = () => {
 			<AddEntryModal
 				modalOpen={modalOpen}
 				onClose={closeModal}
-				onSubmit={addEntry}
+				onSubmit={submitNewEntry}
 			/>
 			<h3>Entries</h3>
 			{(entries && entries.length !== 0)
