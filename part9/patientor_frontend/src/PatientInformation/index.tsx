@@ -3,7 +3,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import AddEntryModal from "../AddEntryModal";
-import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
+import { HealthCheckEntryFormValues } from "../AddEntryModal/AddHealthCheckEntryForm";
 import GenderIcon from "../components/GenderIcon";
 import { apiBaseUrl } from "../constants";
 import { addEntry, useStateValue } from "../state";
@@ -25,7 +25,7 @@ const PatientInformation = () => {
 	const openModal = (): void => setModalOpen(true);
 	const closeModal = (): void => setModalOpen(false);
 
-	const submitNewEntry = async (entryFormValues: EntryFormValues) => {
+	const submitNewEntry = async (entryFormValues: HealthCheckEntryFormValues) => {
 		console.log('entryFormValues', entryFormValues);
 		try {
 			const { data: newEntry } = await axios.post<Entry>(

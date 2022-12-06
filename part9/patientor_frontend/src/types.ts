@@ -9,9 +9,9 @@ export interface Diagnosis {
 }
 
 export enum Gender {
-  Male = "male",
+	Male = "male",
 	Female = "female",
-  Other = "other"
+	Other = "other"
 }
 
 export interface Patient {
@@ -49,7 +49,7 @@ export interface HospitalEntry extends BaseEntry {
 }
 export interface HealthCheckEntry extends BaseEntry {
 	type: 'HealthCheck',
-	healthCheckRating: number;
+	healthCheckRating: string;
 }
 export type Entry =
 	OccupationalHealthcareEntry

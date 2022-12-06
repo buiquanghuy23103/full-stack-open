@@ -1,7 +1,7 @@
 import patients from '../data/patients';
 import { NewPatient, Patient, PatientRequestBody, NewEntryRequestBody, NewEntry, Entry } from '../types';
 import { v1 as uuid } from 'uuid';
-import { parseDate, parseDischarge, parseGender, parseNumber, parseSickLeave, parseString, parseStringArray } from '../parsers';
+import { parseDate, parseDischarge, parseGender, parseSickLeave, parseString, parseStringArray } from '../parsers';
 
 const getPatients = () => {
 	return patients;
@@ -76,7 +76,7 @@ const toNewEntry = (req: NewEntryRequestBody): NewEntry => {
 				diagnosisCodes: diagnosisCodes ? parseStringArray(diagnosisCodes) : undefined,
 				specialist: parseString(specialist),
 				description: parseString(description),
-				healthCheckRating: parseNumber(healthCheckRating)
+				healthCheckRating: parseString(healthCheckRating)
 			});
 		default:
 			throw new Error(`Missing or incorrect properties: ${JSON.stringify(req)}`);

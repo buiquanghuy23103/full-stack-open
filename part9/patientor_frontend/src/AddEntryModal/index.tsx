@@ -1,10 +1,10 @@
 import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import AddEntryForm, { EntryFormValues } from "./AddEntryForm";
+import AddHealthCheckEntryForm, { HealthCheckEntryFormValues } from "./AddHealthCheckEntryForm";
 
 interface Props {
 	modalOpen: boolean;
 	onClose: () => void;
-	onSubmit: (values: EntryFormValues) => void;
+	onSubmit: (values: HealthCheckEntryFormValues) => void;
 }
 
 const AddEntryModal = ({ modalOpen, onClose, onSubmit }: Props) => {
@@ -12,7 +12,7 @@ const AddEntryModal = ({ modalOpen, onClose, onSubmit }: Props) => {
 		<Dialog open={modalOpen} onClose={onClose}>
 			<DialogTitle>Add Entry</DialogTitle>
 			<DialogContent>
-				<AddEntryForm
+				<AddHealthCheckEntryForm
 					onSubmit={onSubmit}
 					onCancel={onClose} />
 			</DialogContent>

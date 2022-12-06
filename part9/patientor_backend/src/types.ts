@@ -28,7 +28,7 @@ export interface HospitalEntry extends BaseEntry {
 }
 interface HealthCheckEntry extends BaseEntry {
 	type: 'HealthCheck',
-	healthCheckRating: number;
+	healthCheckRating: string;
 }
 export type Entry =
 	OccupationalHealthcareEntry
