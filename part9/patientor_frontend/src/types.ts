@@ -24,10 +24,12 @@ export interface Patient {
 	entries?: Entry[]
 }
 
+export type EntryType = 'OccupationalHealthcare' | 'Hospital' | 'HealthCheck';
+
 interface BaseEntry {
 	id: string;
 	date: string;
-	type: string;
+	type: EntryType;
 	description: string;
 	specialist: string;
 	diagnosisCodes?: Array<Diagnosis['code']>

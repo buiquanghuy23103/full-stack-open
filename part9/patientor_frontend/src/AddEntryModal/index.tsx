@@ -1,20 +1,40 @@
 import { Dialog, DialogContent, DialogTitle } from "@material-ui/core";
-import AddHealthCheckEntryForm, { HealthCheckEntryFormValues } from "./AddHealthCheckEntryForm";
+import { GeneralEntryFormValues } from "../PatientInformation";
+import { EntryType } from "../types";
+import AddHealthCheckEntryForm from "./AddHealthCheckEntryForm";
+import AddHospitalEntryForm from "./AddHospitalEntryForm";
 
 interface Props {
 	modalOpen: boolean;
 	onClose: () => void;
-	onSubmit: (values: HealthCheckEntryFormValues) => void;
+	onSubmit: (values: GeneralEntryFormValues) => void;
+	type: EntryType | null
 }
 
-const AddEntryModal = ({ modalOpen, onClose, onSubmit }: Props) => {
+const AddEntryModal = ({ modalOpen, onClose, onSubmit, type }: Props) => {
+	if (type == null) return null;
+
+	const formBasedOnEntryType = () => {
+		switch (type) {
+			case 'HealthCheck':
+				return <AddHealthCheckEntryForm
+					onSubmit={onSubmit}
+				/>;
+			case 'Hospital':
+				return <AddHospitalEntryForm
+					onSubmit={onSubmit}
+				/>;
+				break;
+			default:
+				break;
+		}
+	};
+
 	return (
 		<Dialog open={modalOpen} onClose={onClose}>
 			<DialogTitle>Add Entry</DialogTitle>
 			<DialogContent>
-				<AddHealthCheckEntryForm
-					onSubmit={onSubmit}
-					onCancel={onClose} />
+				{ formBasedOnEntryType() }
 			</DialogContent>
 		</Dialog>
 	);

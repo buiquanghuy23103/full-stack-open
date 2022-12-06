@@ -1,25 +1,28 @@
 import { Button } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
 import FormikTextField from "../components/FormikTextField";
-import { HealthCheckEntry, UnionOmit } from "../types";
+import { HospitalEntry, UnionOmit } from "../types";
 import * as Yup from "yup";
 import FormikTextAreaField from "../components/FormikTextAreaField";
 import FormikDiagnosisSelectField from "../components/DiagnosisSelectField";
 import { useStateValue } from "../state";
 
-export type HealthCheckEntryFormValues = UnionOmit<HealthCheckEntry, "id">;
+export type HospitalEntryFormValues = UnionOmit<HospitalEntry, "id">;
 
 interface Props {
-	onSubmit: (values: HealthCheckEntryFormValues) => void;
+	onSubmit: (values: HospitalEntryFormValues) => void;
 }
 
-const initialValues: HealthCheckEntryFormValues = {
+const initialValues: HospitalEntryFormValues = {
 	date: "",
-	type: "HealthCheck",
+	type: "Hospital",
 	description: "",
 	specialist: "",
 	diagnosisCodes: [],
-	healthCheckRating: "0"
+	discharge: {
+		date: (new Date()).toISOString().substring(0, 10),
+		criteria: "Test criteria"
+	}
 };
 
 const validator = Yup.object({
@@ -27,10 +30,10 @@ const validator = Yup.object({
 	description: Yup.string().max(500).required(),
 	specialist: Yup.string().required(),
 	diagnosisCodes: Yup.array().min(1),
-	healthCheckRating: Yup.number().min(0).max(10)
+	dischargeDate: Yup.date()
 });
 
-const AddHealthCheckEntryForm = ({ onSubmit }: Props) => {
+const AddHospitalEntryForm = ({ onSubmit }: Props) => {
 	const [{diagnoses}] = useStateValue();
 	return (
 		<Formik
@@ -60,9 +63,9 @@ const AddHealthCheckEntryForm = ({ onSubmit }: Props) => {
 						component={FormikTextField}
 					/>
 					<Field
-						name="healthCheckRating"
-						label="Health check rating"
-						type="number"
+						name="discharge.date"
+						label="Discharge date"
+						type="date"
 						component={FormikTextField}
 					/>
 					<FormikDiagnosisSelectField
@@ -84,4 +87,4 @@ const AddHealthCheckEntryForm = ({ onSubmit }: Props) => {
 	);
 };
 
-export default AddHealthCheckEntryForm;
+export default AddHospitalEntryForm;
