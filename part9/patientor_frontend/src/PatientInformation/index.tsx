@@ -5,13 +5,17 @@ import { useParams } from "react-router-dom";
 import AddEntryModal from "../AddEntryModal";
 import { HealthCheckEntryFormValues } from "../AddEntryModal/AddHealthCheckEntryForm";
 import { HospitalEntryFormValues } from "../AddEntryModal/AddHospitalEntryForm";
+import { OccupationalHealthcareEntryFormValues } from "../AddEntryModal/OccupationalHealthcareEntryForm";
 import GenderIcon from "../components/GenderIcon";
 import { apiBaseUrl } from "../constants";
 import { addEntry, useStateValue } from "../state";
 import { Entry, EntryType, Patient } from "../types";
 import EntryInfo from "./EntryInfo";
 
-export type GeneralEntryFormValues = HealthCheckEntryFormValues | HospitalEntryFormValues;
+export type GeneralEntryFormValues =
+	HealthCheckEntryFormValues
+	| HospitalEntryFormValues
+	| OccupationalHealthcareEntryFormValues;
 
 const PatientInformation = () => {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -63,6 +67,12 @@ const PatientInformation = () => {
 				color="primary"
 				onClick={ openModal('Hospital') }>
 				Add hospital entry
+			</Button>
+			<Button
+				variant="contained"
+				color="primary"
+				onClick={ openModal('OccupationalHealthcare') }>
+				Add occupational health care entry
 			</Button>
 			<AddEntryModal
 				modalOpen={modalOpen}
