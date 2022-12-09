@@ -6,6 +6,7 @@ import * as Yup from "yup";
 import FormikTextAreaField from "../components/FormikTextAreaField";
 import FormikDiagnosisSelectField from "../components/DiagnosisSelectField";
 import { useStateValue } from "../state";
+import { todayString } from "../utils";
 
 export type HospitalEntryFormValues = UnionOmit<HospitalEntry, "id">;
 
@@ -20,7 +21,7 @@ const initialValues: HospitalEntryFormValues = {
 	specialist: "",
 	diagnosisCodes: [],
 	discharge: {
-		date: (new Date()).toISOString().substring(0, 10),
+		date: todayString(),
 		criteria: "Test criteria"
 	}
 };
@@ -30,7 +31,10 @@ const validator = Yup.object({
 	description: Yup.string().max(500).required(),
 	specialist: Yup.string().required(),
 	diagnosisCodes: Yup.array().min(1),
-	dischargeDate: Yup.date()
+	discharge: Yup.object({
+		date: Yup.date(),
+		criteria: Yup.string().max(20)
+	})
 });
 
 const AddHospitalEntryForm = ({ onSubmit }: Props) => {
@@ -66,6 +70,12 @@ const AddHospitalEntryForm = ({ onSubmit }: Props) => {
 						name="discharge.date"
 						label="Discharge date"
 						type="date"
+						component={FormikTextField}
+					/>
+					<Field
+						name="discharge.criteria"
+						label="Criteria"
+						type="text"
 						component={FormikTextField}
 					/>
 					<FormikDiagnosisSelectField
